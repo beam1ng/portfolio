@@ -1,0 +1,7 @@
+# EF Core migrations are tool-generated. Exempt them from style/quality analyzers
+# so generated code does not fail the warnings-as-errors build.
+[*.cs]
+generated_code = true
+dotnet_analyzer_diagnostic.severity = none
+dotnet_diagnostic.IDE0161.severity = none
+dotnet_diagnostic.CA1861.severity = none

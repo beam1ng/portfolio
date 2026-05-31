@@ -1,0 +1,13 @@
+{
+  "name": "@portfolio/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Framework-agnostic design tokens (CSS custom properties) shared across all frontend stacks.",
+  "type": "module",
+  "exports": {
+    "./tokens.css": "./src/tokens.css"
+  },
+  "files": [
+    "src"
+  ]
+}

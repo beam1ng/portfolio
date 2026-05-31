@@ -1,0 +1,62 @@
+# ---- .NET ----
+bin/
+obj/
+*.user
+*.suo
+.vs/
+artifacts/
+[Tt]est[Rr]esult*/
+*.coverage
+*.coverage.*
+coverage*.json
+coverage*.xml
+coverage*.info
+TestResults/
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+.vite/
+.turbo/
+*.tsbuildinfo
+
+# Emitted TS artifacts must never sit next to sources (tsc runs --noEmit).
+# Safety net; vite-env.d.ts is the only hand-authored declaration.
+frontend/apps/*/src/**/*.js
+frontend/apps/*/src/**/*.d.ts
+frontend/apps/*/vite.config.js
+frontend/apps/*/vite.config.d.ts
+!frontend/apps/*/src/vite-env.d.ts
+.eslintcache
+coverage/
+playwright-report/
+test-results/
+.pnpm-store/
+
+# ---- Env & secrets ----
+.env
+.env.*
+!.env.example
+*.pfx
+appsettings.*.Local.json
+# Local dev config holds a connection string/password — keep it untracked.
+# Commit appsettings.Development.example.json as the template instead.
+appsettings.Development.json
+secrets.json
+
+# ---- Docker ----
+.docker-data/
+mssql-data/
+
+# ---- IDE / OS ----
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---- Azure / IaC ----
+*.azure.local.*
+.bicep/

@@ -1,0 +1,210 @@
+/* ---- Hero (home) ---- */
+.hero {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: clamp(3rem, 2rem + 6vw, 7rem);
+}
+
+.hero__headline {
+  max-width: 18ch;
+}
+
+.hero__lead {
+  margin-top: var(--space-4);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---- Section header with index ---- */
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ---- Project grid ---- */
+.project-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+/* ---- Filter chips ---- */
+.filter-row {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.chip {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out-expo);
+}
+
+.chip:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.chip[aria-pressed='true'] {
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ---- Skills ---- */
+.skill-groups {
+  display: grid;
+  gap: var(--space-12);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+}
+
+.skill-group__title {
+  margin-bottom: var(--space-6);
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ---- Project detail ---- */
+.detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.detail__back:hover {
+  color: var(--color-text);
+}
+
+.detail__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.detail__media {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+  background: var(--color-surface-raised);
+}
+
+.detail__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail__body {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (max-width: 48rem) {
+  .detail__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail__description {
+  white-space: pre-line;
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+}
+
+.detail__aside {
+  position: sticky;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.detail__aside h2 {
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+}
+
+/* ---- Contact ---- */
+.contact {
+  display: grid;
+  gap: var(--space-8);
+  max-width: 40rem;
+}
+
+.contact__links {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.contact__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) var(--ease-out-expo),
+    background var(--duration-fast) var(--ease-out-expo);
+}
+
+.contact__link:hover {
+  border-color: var(--color-text-muted);
+  background: var(--color-surface-raised);
+}
+
+/* ---- Not found ---- */
+.notfound {
+  display: grid;
+  place-items: center;
+  gap: var(--space-6);
+  text-align: center;
+  padding-block: var(--space-section);
+}

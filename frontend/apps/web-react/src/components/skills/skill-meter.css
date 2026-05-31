@@ -1,0 +1,48 @@
+.skill-meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.skill-meter__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.skill-meter__name {
+  font-weight: 540;
+}
+
+.skill-meter__level {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.skill-meter__track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.skill-meter__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    color-mix(in oklch, var(--color-accent) 60%, var(--color-text))
+  );
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-meter__fill {
+    transition: none;
+  }
+}

@@ -1,0 +1,19 @@
+namespace Portfolio.Api.Endpoints;
+
+/// <summary>
+/// Aggregates all public read endpoints under the versioned <c>/api/v1</c> group.
+/// </summary>
+public static class PortfolioEndpoints
+{
+    public static IEndpointRouteBuilder MapPortfolioApi(this IEndpointRouteBuilder app)
+    {
+        var v1 = app.MapGroup("/api/v1").WithTags("Portfolio");
+
+        v1.MapProfileEndpoints();
+        v1.MapProjectEndpoints();
+        v1.MapSkillEndpoints();
+        v1.MapTechnologyEndpoints();
+
+        return app;
+    }
+}

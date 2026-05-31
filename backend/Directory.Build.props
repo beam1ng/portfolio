@@ -1,0 +1,17 @@
+<Project>
+  <!-- Shared settings applied to every project in the backend solution. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS1591: missing XML doc comment — too noisy during scaffolding.
+         CA1000: static factory members on generic types — intentional for the
+         ApiResponse<T> result envelope. -->
+    <NoWarn>$(NoWarn);CS1591;CA1000;CA1848</NoWarn>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+  </PropertyGroup>
+</Project>

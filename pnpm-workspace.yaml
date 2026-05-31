@@ -1,0 +1,7 @@
+packages:
+  - 'frontend/apps/*'
+  - 'frontend/packages/*'
+
+# Allow only vetted dependency build scripts to run on install.
+onlyBuiltDependencies:
+  - esbuild

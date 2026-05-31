@@ -1,0 +1,10 @@
+{
+  "name": "@portfolio/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared TypeScript configurations for all frontend apps and packages.",
+  "files": [
+    "base.json",
+    "react.json"
+  ]
+}
