@@ -28,18 +28,30 @@ public static class PortfolioSeeder
             LinkedInUrl = "https://www.linkedin.com/in/your-handle",
         });
 
-        var dotnet = new Technology { Name = "ASP.NET Core", Slug = "asp-net-core", Category = "Backend", Proficiency = ProficiencyLevel.Advanced };
-        var csharp = new Technology { Name = "C#", Slug = "csharp", Category = "Languages", Proficiency = ProficiencyLevel.Advanced };
-        var react = new Technology { Name = "React", Slug = "react", Category = "Frontend", Proficiency = ProficiencyLevel.Advanced };
-        var ts = new Technology { Name = "TypeScript", Slug = "typescript", Category = "Languages", Proficiency = ProficiencyLevel.Advanced };
-        var sql = new Technology { Name = "MS SQL Server", Slug = "ms-sql-server", Category = "Database", Proficiency = ProficiencyLevel.Intermediate };
-        var docker = new Technology { Name = "Docker", Slug = "docker", Category = "DevOps", Proficiency = ProficiencyLevel.Intermediate };
-        var python = new Technology { Name = "Python", Slug = "python", Category = "Languages", Proficiency = ProficiencyLevel.Advanced };
+        // Technology logos served from the public devicon CDN (jsDelivr).
+        const string icon = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/";
+
+        var dotnet = new Technology { Name = "ASP.NET Core", Slug = "asp-net-core", Category = "Backend", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "dotnetcore/dotnetcore-original.svg" };
+        var csharp = new Technology { Name = "C#", Slug = "csharp", Category = "Languages", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "csharp/csharp-original.svg" };
+        var react = new Technology { Name = "React", Slug = "react", Category = "Frontend", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "react/react-original.svg" };
+        var ts = new Technology { Name = "TypeScript", Slug = "typescript", Category = "Languages", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "typescript/typescript-original.svg" };
+        var sql = new Technology { Name = "MS SQL Server", Slug = "ms-sql-server", Category = "Database", Proficiency = ProficiencyLevel.Intermediate, IconUrl = icon + "microsoftsqlserver/microsoftsqlserver-plain.svg" };
+        var docker = new Technology { Name = "Docker", Slug = "docker", Category = "DevOps", Proficiency = ProficiencyLevel.Intermediate, IconUrl = icon + "docker/docker-original.svg" };
+        var python = new Technology { Name = "Python", Slug = "python", Category = "Languages", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "python/python-original.svg" };
         var click = new Technology { Name = "Click", Slug = "click", Category = "CLI", Proficiency = ProficiencyLevel.Intermediate };
         var reportlab = new Technology { Name = "ReportLab", Slug = "reportlab", Category = "PDF", Proficiency = ProficiencyLevel.Intermediate };
         var pillow = new Technology { Name = "Pillow", Slug = "pillow", Category = "Imaging", Proficiency = ProficiencyLevel.Intermediate };
         var pycairo = new Technology { Name = "pycairo", Slug = "pycairo", Category = "Graphics", Proficiency = ProficiencyLevel.Intermediate };
-        db.Technologies.AddRange(dotnet, csharp, react, ts, sql, docker, python, click, reportlab, pillow, pycairo);
+        var vue = new Technology { Name = "Vue 3", Slug = "vue", Category = "Frontend", Proficiency = ProficiencyLevel.Advanced, IconUrl = icon + "vuejs/vuejs-original.svg" };
+        var bun = new Technology { Name = "Bun", Slug = "bun", Category = "Runtime", Proficiency = ProficiencyLevel.Intermediate, IconUrl = icon + "bun/bun-original.svg" };
+        var elysia = new Technology { Name = "Elysia", Slug = "elysia", Category = "Backend", Proficiency = ProficiencyLevel.Intermediate };
+        var redis = new Technology { Name = "Redis", Slug = "redis", Category = "Database", Proficiency = ProficiencyLevel.Intermediate, IconUrl = icon + "redis/redis-original.svg" };
+        var bullmq = new Technology { Name = "BullMQ", Slug = "bullmq", Category = "Jobs", Proficiency = ProficiencyLevel.Intermediate };
+        var unity = new Technology { Name = "Unity", Slug = "unity", Category = "Game Engine", Proficiency = ProficiencyLevel.Intermediate, IconUrl = icon + "unity/unity-original.svg" };
+        var hlsl = new Technology { Name = "HLSL / Compute Shaders", Slug = "hlsl", Category = "Graphics", Proficiency = ProficiencyLevel.Intermediate };
+        db.Technologies.AddRange(
+            dotnet, csharp, react, ts, sql, docker, python, click, reportlab, pillow, pycairo,
+            vue, bun, elysia, redis, bullmq, unity, hlsl);
 
         db.Projects.Add(new Project
         {
@@ -90,6 +102,90 @@ public static class PortfolioSeeder
             ],
         });
 
+        db.Projects.Add(new Project
+        {
+            Title = "CS2 Trader Ultimate",
+            Slug = "cs2-trader-ultimate",
+            Summary = "A self-hosted full-stack tool for tracking CS2 skin prices and discovering profitable trade-up contracts.",
+            Description =
+                "A self-hosted web app for trading CS2 (Counter-Strike 2) skins. It tracks market " +
+                "prices across every wear condition and StatTrak variant, charts price history over " +
+                "time, surfaces profitable trade-up contracts filtered by risk, profitability, and " +
+                "rarity, and maps which contracts the owned inventory is eligible for.\n\n" +
+                "The backend is a type-safe Bun + Elysia API; an Eden Treaty client carries end-to-end " +
+                "types straight into the Vue 3 + Vite frontend. Redis — with its JSON, Search, and " +
+                "TimeSeries modules — stores skins, price series, and pre-computed trade-up data, while " +
+                "BullMQ runs background scraping jobs. The whole stack is orchestrated with Docker " +
+                "Compose.\n\n" +
+                "Private repository — source and run instructions are not public.",
+            IsFeatured = true,
+            SortOrder = 2,
+            ProjectTechnologies =
+            [
+                new ProjectTechnology { Technology = vue },
+                new ProjectTechnology { Technology = ts },
+                new ProjectTechnology { Technology = bun },
+                new ProjectTechnology { Technology = elysia },
+                new ProjectTechnology { Technology = redis },
+                new ProjectTechnology { Technology = bullmq },
+                new ProjectTechnology { Technology = docker },
+            ],
+        });
+
+        db.Projects.Add(new Project
+        {
+            Title = "Real-time Room Reverb Simulation",
+            Slug = "realtime-room-reverb",
+            Summary = "A Unity implementation of a research paper on geometry-aware real-time reverb via transport-path precomputation.",
+            Description =
+                "A Unity implementation of the technique from the paper \"Real-time Room Reverb in " +
+                "Large Scenes using Transport Path Precomputation\" by Gregor Mückl and Carsten " +
+                "Dachsbacher (JCGT, 2020).\n\n" +
+                "The method makes reverb geometry-aware: instead of faking room acoustics, it models " +
+                "how sound actually propagates through a scene. The pipeline samples surface points " +
+                "across scene geometry, then precomputes sound-transport paths between them so the " +
+                "acoustic response can be evaluated in real time even in large environments.\n\n" +
+                "Implemented stages so far: surface-point generation across mesh geometry, and " +
+                "transport-path precomputation for sound propagation — driven on the GPU with compute " +
+                "shaders.",
+            IsFeatured = true,
+            SortOrder = 3,
+            RepoUrl = "https://github.com/beam1ng/TransportPathPrecomputation",
+            ImageUrl = "/images/reverb-card.png",
+            StartDate = new DateOnly(2024, 7, 1),
+            ProjectTechnologies =
+            [
+                new ProjectTechnology { Technology = unity },
+                new ProjectTechnology { Technology = csharp },
+                new ProjectTechnology { Technology = hlsl },
+            ],
+        });
+
+        db.Projects.Add(new Project
+        {
+            Title = "Boids 2D — Flocking Simulation",
+            Slug = "boids-2d",
+            Summary = "A Unity flocking simulation of birds/fish from three simple rules, with an interactive control UI.",
+            Description =
+                "A 2D Unity simulation of the flocking behaviour seen in flocks of birds and shoals of " +
+                "fish. The emergent group motion comes from three simple per-agent rules: separation " +
+                "(avoid crowding neighbours), cohesion (steer toward the local group centre), and " +
+                "alignment (match neighbours' heading).\n\n" +
+                "An interactive UI lets you tune how strongly each of the three factors influences " +
+                "movement in real time, and a debug view visualises every boid's vision radius and the " +
+                "individual steering contribution of each factor.",
+            IsFeatured = true,
+            SortOrder = 4,
+            RepoUrl = "https://github.com/beam1ng/Boids2D",
+            ImageUrl = "https://user-images.githubusercontent.com/68951232/179068903-c6ff503b-d35b-43c4-ba52-d5447bc1d920.png",
+            StartDate = new DateOnly(2022, 7, 1),
+            ProjectTechnologies =
+            [
+                new ProjectTechnology { Technology = unity },
+                new ProjectTechnology { Technology = csharp },
+            ],
+        });
+
         var languages = new SkillCategory
         {
             Name = "Languages",
@@ -112,7 +208,8 @@ public static class PortfolioSeeder
             [
                 new Skill { Name = "ASP.NET Core", Level = ProficiencyLevel.Advanced, SortOrder = 0 },
                 new Skill { Name = "React", Level = ProficiencyLevel.Advanced, SortOrder = 1 },
-                new Skill { Name = "Entity Framework Core", Level = ProficiencyLevel.Intermediate, SortOrder = 2 },
+                new Skill { Name = "Vue 3", Level = ProficiencyLevel.Advanced, SortOrder = 2 },
+                new Skill { Name = "Entity Framework Core", Level = ProficiencyLevel.Intermediate, SortOrder = 3 },
             ],
         };
         db.SkillCategories.AddRange(languages, frameworks);

@@ -126,8 +126,16 @@ Frontend uses **pnpm workspaces** so multiple FE apps share packages.
    Query, design tokens, typed `@portfolio/api-client`, public pages (Home/Projects/
    Project detail/Skills/Contact/404) wired to the live API. Typecheck + 11 tests +
    prod build green; verified end-to-end in browser against seeded data.
-4. **Auth + Admin** — Identity + JWT, admin CRUD endpoints, protected admin UI.
-5. **Dockerize end-to-end** — compose api + web + mssql running together.
+4. **Auth + Admin** ✅ — ASP.NET Core Identity + JWT in an httpOnly cookie,
+   seeded admin from config, protected `/api/v1/admin` CRUD (projects/technologies/
+   skills/profile) with FluentValidation + slug-conflict checks, and a guarded
+   `/admin` SPA (login, dashboard, CRUD forms). Vite proxies `/api` so the cookie is
+   same-origin. Build/typecheck/11 tests green; auth + CRUD verified via API and browser.
+5. **Dockerize end-to-end** ✅ — multi-stage Dockerfiles (api: .NET publish on
+   `aspnet:10.0`; web: pnpm build → nginx serving the SPA and reverse-proxying
+   `/api` to the api container). `docker compose up --build` runs mssql + api + web;
+   secrets injected via compose env (never baked into images). Verified: web proxy →
+   api → db, public reads + admin auth (cookie via nginx) all working.
 6. **CI/CD + Azure IaC** — GitHub Actions, Bicep.
 7. **Tests + docs polish** — coverage, ADRs, runbooks.
 

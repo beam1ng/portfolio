@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Domain.Common;
 using Portfolio.Domain.Entities;
+using Portfolio.Infrastructure.Identity;
 
 namespace Portfolio.Infrastructure.Persistence;
 
 /// <summary>
-/// EF Core database context for portfolio content.
+/// EF Core database context for portfolio content and admin identity.
 /// </summary>
-public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : DbContext(options)
+public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options)
+    : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Profile> Profiles => Set<Profile>();
     public DbSet<Project> Projects => Set<Project>();
@@ -16,10 +19,10 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
     public DbSet<SkillCategory> SkillCategories => Set<SkillCategory>();
     public DbSet<Skill> Skills => Set<Skill>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PortfolioDbContext).Assembly);
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(typeof(PortfolioDbContext).Assembly);
     }
 
     /// <summary>Stamps audit timestamps on insert/update.</summary>

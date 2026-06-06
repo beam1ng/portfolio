@@ -45,12 +45,41 @@ The pnpm version is pinned in root `package.json` (`packageManager`).
 
 ## Getting Started
 
+### Quick start (one command)
+
+```bash
+cp .env.example .env        # first time only — sets MSSQL_SA_PASSWORD
+pnpm install                # first time only
+pnpm start                  # DB up + wait healthy, then API + web together
+```
+
+Opens nothing automatically — go to **http://localhost:5173**. `Ctrl+C` stops API
+and web (the DB container is left running; `pnpm stop` stops it).
+`pnpm start` injects the connection string from `.env`, so no
+`appsettings.Development.json` is required for the dev flow.
+
+`pnpm start` runs the API and web natively (fast hot-reload). For a
+production-like run, use the full Docker stack below.
+
+### Full stack (Docker)
+
+```bash
+cp .env.example .env            # first time only
+docker compose up --build       # mssql + api + web, all containerized
+```
+
+Open **http://localhost:5173** (nginx serves the SPA and reverse-proxies `/api`
+to the API container, so everything is one origin). `Ctrl+C` then
+`docker compose down` to stop. The API auto-migrates and seeds on startup.
+
+### Manual (run each piece yourself)
+
 ```bash
 # 1. Environment
 cp .env.example .env        # then edit secrets
 
-# 2. Database (Docker)
-docker compose up -d            # starts portfolio-mssql
+# 2. Database only (Docker)
+docker compose up -d mssql      # just the database
 
 # 3. Backend local config (gitignored — holds your local SA password)
 cp backend/src/Portfolio.Api/appsettings.Development.example.json \
@@ -80,7 +109,16 @@ corepack pnpm -r build          # production build
 ## Build Phases
 
 See [`docs/PLAN.md`](docs/PLAN.md) §11. Done: **Phase 1 Foundation** ✅,
-**Phase 2 Backend core** ✅, **Phase 3 Frontend core** ✅. Next: **Phase 4 — Auth + Admin**.
+**Phase 2 Backend core** ✅, **Phase 3 Frontend core** ✅, **Phase 4 Auth + Admin** ✅,
+**Phase 5 Dockerize end-to-end** ✅. Next: **Phase 6 — CI/CD + Azure IaC**.
+
+### Admin
+
+Sign in at **`/admin`** (redirects to `/admin/login`). The admin user is seeded from
+`ADMIN__EMAIL` / `ADMIN__PASSWORD` in `.env` (and `Admin` in
+`appsettings.Development.json`). Auth is a JWT in an httpOnly cookie; in dev Vite
+proxies `/api` to the backend so the cookie stays same-origin. Admin can CRUD
+projects, technologies, skills, and the profile — changes show on the public site.
 
 ## Conventions
 

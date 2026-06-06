@@ -9,6 +9,8 @@
     "pnpm": ">=11"
   },
   "scripts": {
+    "start": "node scripts/dev.mjs",
+    "stop": "docker compose down",
     "dev": "pnpm --filter web-react dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",

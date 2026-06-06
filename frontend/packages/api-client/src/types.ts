@@ -75,3 +75,58 @@ export interface SkillCategory {
   slug: string;
   skills: readonly Skill[];
 }
+
+// ---- Auth ----
+export interface AuthUser {
+  email: string;
+}
+
+// ---- Admin write payloads (mirror the backend Upsert*Request records) ----
+export interface UpsertProjectRequest {
+  title: string;
+  slug: string;
+  summary: string;
+  description: string;
+  repoUrl: string | null;
+  liveUrl: string | null;
+  imageUrl: string | null;
+  isFeatured: boolean;
+  sortOrder: number;
+  startDate: string | null;
+  endDate: string | null;
+  technologyIds: readonly string[];
+}
+
+export interface UpsertTechnologyRequest {
+  name: string;
+  slug: string;
+  category: string | null;
+  iconUrl: string | null;
+  proficiency: number;
+}
+
+export interface UpsertSkillCategoryRequest {
+  name: string;
+  slug: string;
+  sortOrder: number;
+}
+
+export interface UpsertSkillRequest {
+  skillCategoryId: string;
+  name: string;
+  level: number;
+  sortOrder: number;
+}
+
+export interface UpsertProfileRequest {
+  fullName: string;
+  headline: string;
+  bio: string;
+  location: string | null;
+  avatarUrl: string | null;
+  resumeUrl: string | null;
+  email: string | null;
+  gitHubUrl: string | null;
+  linkedInUrl: string | null;
+  websiteUrl: string | null;
+}

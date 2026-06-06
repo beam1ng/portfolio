@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { ProjectSummary } from '@portfolio/api-client';
+import { TechTag } from './TechTag';
 import './project-card.css';
 
 const MAX_TAGS = 4;
@@ -28,9 +29,7 @@ export function ProjectCard({ project, index }: { project: ProjectSummary; index
         <p className="muted project-card__summary">{project.summary}</p>
         <div className="tag-row project-card__tags">
           {visibleTech.map((tech) => (
-            <span key={tech.id} className="tag">
-              {tech.name}
-            </span>
+            <TechTag key={tech.id} tech={tech} />
           ))}
           {overflow > 0 && <span className="tag">+{overflow}</span>}
         </div>

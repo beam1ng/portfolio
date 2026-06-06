@@ -1,7 +1,13 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Portfolio.Api.Endpoints;
 using Portfolio.Api.Middleware;
 using Portfolio.Infrastructure;
+using Portfolio.Infrastructure.Identity;
 using Portfolio.Infrastructure.Persistence;
 using Portfolio.Infrastructure.Persistence.Seed;
 using Scalar.AspNetCore;
@@ -18,7 +24,42 @@ builder.Services.AddCors(options =>
     options.AddPolicy(CorsPolicy, policy => policy
         .WithOrigins(allowedOrigins)
         .AllowAnyHeader()
-        .AllowAnyMethod()));
+        .AllowAnyMethod()
+        .AllowCredentials())); // cookie-based auth requires credentialed CORS
+
+// ---- Authentication: JWT carried in an httpOnly cookie ----
+var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
+var signingKey = string.IsNullOrWhiteSpace(jwt.SigningKey) ? JwtOptions.DevFallbackKey : jwt.SigningKey;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwt.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwt.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromSeconds(30),
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.TryGetValue(AuthEndpoints.CookieName, out var token))
+                {
+                    context.Token = token;
+                }
+
+                return Task.CompletedTask;
+            },
+        };
+    });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -32,6 +73,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(CorsPolicy);
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" })).WithName("HealthCheck");
 app.MapPortfolioApi();
@@ -40,12 +83,18 @@ await ApplyDatabaseSetupAsync(app);
 
 app.Run();
 
-// Applies pending migrations, and seeds placeholder content in Development.
+// Applies pending migrations, seeds the admin user, and seeds placeholder content in Development.
 static async Task ApplyDatabaseSetupAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
-    var db = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+    var services = scope.ServiceProvider;
+
+    var db = services.GetRequiredService<PortfolioDbContext>();
     await db.Database.MigrateAsync();
+
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var admin = services.GetRequiredService<IOptions<AdminOptions>>().Value;
+    await IdentitySeeder.SeedAdminAsync(userManager, admin);
 
     if (app.Environment.IsDevelopment())
     {

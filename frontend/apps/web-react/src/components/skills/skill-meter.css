@@ -12,7 +12,16 @@
 }
 
 .skill-meter__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
   font-weight: 540;
+}
+
+.skill-meter__icon {
+  width: 1.05em;
+  height: 1.05em;
+  object-fit: contain;
 }
 
 .skill-meter__level {

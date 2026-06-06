@@ -1,0 +1,21 @@
+# Keep build context small and free of host/build artifacts & secrets.
+**/node_modules
+**/bin
+**/obj
+**/dist
+**/.vite
+**/.tmp
+.git
+.github
+.vs
+.idea
+.vscode
+**/.env
+**/.env.*
+!**/.env.example
+**/appsettings.Development.json
+*.md
+docs
+infra/azure
+.playwright-mcp
+**/*.tsbuildinfo

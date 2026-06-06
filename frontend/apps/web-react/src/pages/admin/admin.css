@@ -1,0 +1,244 @@
+/* ---- Admin shell ---- */
+.admin {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  min-height: 100dvh;
+  background: var(--color-surface);
+}
+
+@media (max-width: 48rem) {
+  .admin {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+}
+
+.admin__brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.admin__navlink {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.admin__navlink:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.admin__navlink[aria-current='page'] {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.admin__spacer {
+  margin-top: auto;
+}
+
+.admin__main {
+  padding: var(--space-8);
+  max-width: 60rem;
+}
+
+.admin__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.admin__userline {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ---- Table ---- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.admin-table th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.row-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+/* ---- Forms ---- */
+.admin-form {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 42rem;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field > label {
+  font-size: var(--text-sm);
+  font-weight: 560;
+}
+
+.field input[type='text'],
+.field input[type='url'],
+.field input[type='email'],
+.field input[type='password'],
+.field input[type='number'],
+.field input[type='date'],
+.field textarea,
+.field select {
+  width: 100%;
+  padding: var(--space-3);
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.field--row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+@media (max-width: 36rem) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.form-error {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, red 12%, var(--color-surface));
+  border: 1px solid color-mix(in oklch, red 40%, var(--color-border));
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+
+.btn--danger {
+  background: transparent;
+  border: 1px solid color-mix(in oklch, red 45%, var(--color-border));
+  color: color-mix(in oklch, red 70%, var(--color-text));
+}
+
+.btn--danger:hover {
+  background: color-mix(in oklch, red 12%, var(--color-surface));
+}
+
+.btn--sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8rem;
+}
+
+/* ---- Login ---- */
+.login {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+}
+
+.login__card {
+  width: 100%;
+  max-width: 24rem;
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-8);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-section {
+  margin-bottom: var(--space-12);
+}
+
+.admin-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}

@@ -58,12 +58,14 @@ public static class PortfolioMappings
             .Select(pt => pt.Technology.ToDto())
             .ToList());
 
+    public static SkillDto ToDto(this Skill skill) => new(skill.Id, skill.Name, (int)skill.Level);
+
     public static SkillCategoryDto ToDto(this SkillCategory category) => new(
         category.Id,
         category.Name,
         category.Slug,
         category.Skills
             .OrderBy(s => s.SortOrder)
-            .Select(s => new SkillDto(s.Id, s.Name, (int)s.Level))
+            .Select(s => s.ToDto())
             .ToList());
 }

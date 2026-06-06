@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { TechTag } from '../components/projects/TechTag';
 import { useProject } from '../api/queries';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { formatDateRange } from '../lib/format';
@@ -76,9 +77,7 @@ export function ProjectDetailPage() {
           <h2>Built with</h2>
           <div className="tag-row">
             {project.technologies.map((tech) => (
-              <span key={tech.id} className="tag">
-                {tech.name}
-              </span>
+              <TechTag key={tech.id} tech={tech} />
             ))}
           </div>
         </aside>

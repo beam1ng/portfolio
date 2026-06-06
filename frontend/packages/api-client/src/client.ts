@@ -1,10 +1,17 @@
 import type {
   ApiResponse,
+  AuthUser,
   Profile,
   ProjectDetail,
   ProjectSummary,
+  Skill,
   SkillCategory,
   Technology,
+  UpsertProfileRequest,
+  UpsertProjectRequest,
+  UpsertSkillCategoryRequest,
+  UpsertSkillRequest,
+  UpsertTechnologyRequest,
 } from './types.js';
 
 /** Thrown when the API returns a non-2xx status or an unsuccessful envelope. */
@@ -18,12 +25,43 @@ export class ApiError extends Error {
   }
 }
 
+export interface AdminClient {
+  listProjects(signal?: AbortSignal): Promise<readonly ProjectSummary[]>;
+  getProject(id: string, signal?: AbortSignal): Promise<ProjectDetail>;
+  createProject(body: UpsertProjectRequest): Promise<ProjectDetail>;
+  updateProject(id: string, body: UpsertProjectRequest): Promise<ProjectDetail>;
+  deleteProject(id: string): Promise<boolean>;
+
+  listTechnologies(signal?: AbortSignal): Promise<readonly Technology[]>;
+  createTechnology(body: UpsertTechnologyRequest): Promise<Technology>;
+  updateTechnology(id: string, body: UpsertTechnologyRequest): Promise<Technology>;
+  deleteTechnology(id: string): Promise<boolean>;
+
+  listSkills(signal?: AbortSignal): Promise<readonly SkillCategory[]>;
+  createSkillCategory(body: UpsertSkillCategoryRequest): Promise<SkillCategory>;
+  updateSkillCategory(id: string, body: UpsertSkillCategoryRequest): Promise<SkillCategory>;
+  deleteSkillCategory(id: string): Promise<boolean>;
+  createSkill(body: UpsertSkillRequest): Promise<Skill>;
+  updateSkill(id: string, body: UpsertSkillRequest): Promise<Skill>;
+  deleteSkill(id: string): Promise<boolean>;
+
+  updateProfile(body: UpsertProfileRequest): Promise<Profile>;
+}
+
+export interface AuthClient {
+  login(email: string, password: string): Promise<AuthUser>;
+  logout(): Promise<boolean>;
+  me(signal?: AbortSignal): Promise<AuthUser>;
+}
+
 export interface PortfolioClient {
   getProfile(signal?: AbortSignal): Promise<Profile>;
   listProjects(featured: boolean, signal?: AbortSignal): Promise<readonly ProjectSummary[]>;
   getProject(slug: string, signal?: AbortSignal): Promise<ProjectDetail>;
   listSkills(signal?: AbortSignal): Promise<readonly SkillCategory[]>;
   listTechnologies(signal?: AbortSignal): Promise<readonly Technology[]>;
+  readonly auth: AuthClient;
+  readonly admin: AdminClient;
 }
 
 /** Removes a single trailing slash so `${base}/path` never doubles up. */
@@ -31,26 +69,33 @@ function normalizeBaseUrl(baseUrl: string): string {
   return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 }
 
-async function request<T>(url: string, signal?: AbortSignal): Promise<T> {
+interface RequestOptions {
+  method?: string;
+  body?: unknown;
+  signal?: AbortSignal;
+}
+
+async function request<T>(url: string, options: RequestOptions = {}): Promise<T> {
+  const { method = 'GET', body, signal } = options;
   let response: Response;
   try {
     response = await fetch(url, {
-      method: 'GET',
-      headers: { Accept: 'application/json' },
+      method,
+      headers: body === undefined
+        ? { Accept: 'application/json' }
+        : { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: body === undefined ? undefined : JSON.stringify(body),
+      credentials: 'include', // send/receive the httpOnly auth cookie
       signal,
     });
   } catch (cause) {
-    throw new ApiError(
-      `Network request to ${url} failed: ${(cause as Error).message}`,
-      0,
-    );
+    throw new ApiError(`Network request to ${url} failed: ${(cause as Error).message}`, 0);
   }
 
   let envelope: ApiResponse<T> | null = null;
   try {
     envelope = (await response.json()) as ApiResponse<T>;
   } catch {
-    // Non-JSON body (e.g. an unexpected proxy error page).
     envelope = null;
   }
 
@@ -66,24 +111,49 @@ async function request<T>(url: string, signal?: AbortSignal): Promise<T> {
   return envelope.data;
 }
 
-/**
- * Builds a typed client bound to a base URL such as
- * `http://localhost:5050/api/v1`.
- */
+/** Builds a typed client bound to a base URL such as `/api/v1`. */
 export function createPortfolioClient(baseUrl: string): PortfolioClient {
   const base = normalizeBaseUrl(baseUrl);
 
+  const auth: AuthClient = {
+    login: (email, password) =>
+      request<AuthUser>(`${base}/auth/login`, { method: 'POST', body: { email, password } }),
+    logout: () => request<boolean>(`${base}/auth/logout`, { method: 'POST' }),
+    me: (signal) => request<AuthUser>(`${base}/auth/me`, { signal }),
+  };
+
+  const admin: AdminClient = {
+    listProjects: (signal) => request<readonly ProjectSummary[]>(`${base}/admin/projects`, { signal }),
+    getProject: (id, signal) => request<ProjectDetail>(`${base}/admin/projects/${id}`, { signal }),
+    createProject: (body) => request<ProjectDetail>(`${base}/admin/projects`, { method: 'POST', body }),
+    updateProject: (id, body) => request<ProjectDetail>(`${base}/admin/projects/${id}`, { method: 'PUT', body }),
+    deleteProject: (id) => request<boolean>(`${base}/admin/projects/${id}`, { method: 'DELETE' }),
+
+    listTechnologies: (signal) => request<readonly Technology[]>(`${base}/admin/technologies`, { signal }),
+    createTechnology: (body) => request<Technology>(`${base}/admin/technologies`, { method: 'POST', body }),
+    updateTechnology: (id, body) => request<Technology>(`${base}/admin/technologies/${id}`, { method: 'PUT', body }),
+    deleteTechnology: (id) => request<boolean>(`${base}/admin/technologies/${id}`, { method: 'DELETE' }),
+
+    listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/admin/skills`, { signal }),
+    createSkillCategory: (body) => request<SkillCategory>(`${base}/admin/skill-categories`, { method: 'POST', body }),
+    updateSkillCategory: (id, body) => request<SkillCategory>(`${base}/admin/skill-categories/${id}`, { method: 'PUT', body }),
+    deleteSkillCategory: (id) => request<boolean>(`${base}/admin/skill-categories/${id}`, { method: 'DELETE' }),
+    createSkill: (body) => request<Skill>(`${base}/admin/skills`, { method: 'POST', body }),
+    updateSkill: (id, body) => request<Skill>(`${base}/admin/skills/${id}`, { method: 'PUT', body }),
+    deleteSkill: (id) => request<boolean>(`${base}/admin/skills/${id}`, { method: 'DELETE' }),
+
+    updateProfile: (body) => request<Profile>(`${base}/admin/profile`, { method: 'PUT', body }),
+  };
+
   return {
-    getProfile: (signal) => request<Profile>(`${base}/profile`, signal),
+    getProfile: (signal) => request<Profile>(`${base}/profile`, { signal }),
     listProjects: (featured, signal) =>
-      request<readonly ProjectSummary[]>(
-        `${base}/projects${featured ? '?featured=true' : ''}`,
-        signal,
-      ),
+      request<readonly ProjectSummary[]>(`${base}/projects${featured ? '?featured=true' : ''}`, { signal }),
     getProject: (slug, signal) =>
-      request<ProjectDetail>(`${base}/projects/${encodeURIComponent(slug)}`, signal),
-    listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/skills`, signal),
-    listTechnologies: (signal) =>
-      request<readonly Technology[]>(`${base}/technologies`, signal),
+      request<ProjectDetail>(`${base}/projects/${encodeURIComponent(slug)}`, { signal }),
+    listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/skills`, { signal }),
+    listTechnologies: (signal) => request<readonly Technology[]>(`${base}/technologies`, { signal }),
+    auth,
+    admin,
   };
 }
