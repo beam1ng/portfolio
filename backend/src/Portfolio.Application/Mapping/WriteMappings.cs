@@ -39,9 +39,13 @@ public static class WriteMappings
         target.EndDate = request.EndDate;
 
         target.ProjectTechnologies.Clear();
-        foreach (var technologyId in request.TechnologyIds.Distinct())
+        foreach (var tech in request.Technologies.DistinctBy(t => t.TechnologyId))
         {
-            target.ProjectTechnologies.Add(new ProjectTechnology { TechnologyId = technologyId });
+            target.ProjectTechnologies.Add(new ProjectTechnology
+            {
+                TechnologyId = tech.TechnologyId,
+                Note = string.IsNullOrWhiteSpace(tech.Note) ? null : tech.Note.Trim(),
+            });
         }
     }
 

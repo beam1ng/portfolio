@@ -23,6 +23,10 @@ COPY frontend/ frontend/
 RUN pnpm --filter web-react build
 
 FROM nginx:1.27-alpine AS runtime
-COPY infra/docker/nginx.conf /etc/nginx/conf.d/default.conf
+# nginx renders templates with envsubst at start; filter so only API_UPSTREAM
+# is substituted (nginx's own $host/$remote_addr etc. are preserved).
+COPY infra/docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/frontend/apps/web-react/dist /usr/share/nginx/html
+ENV API_UPSTREAM=api:8080
+ENV NGINX_ENVSUBST_FILTER=API_UPSTREAM
 EXPOSE 80

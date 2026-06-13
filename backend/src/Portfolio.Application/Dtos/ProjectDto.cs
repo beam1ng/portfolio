@@ -1,5 +1,18 @@
 namespace Portfolio.Application.Dtos;
 
+/// <summary>
+/// A technology as used by a specific project: the technology fields plus an
+/// optional per-project usage note.
+/// </summary>
+public sealed record ProjectTechnologyDto(
+    Guid Id,
+    string Name,
+    string Slug,
+    string? Category,
+    string? IconUrl,
+    int Proficiency,
+    string? Note);
+
 /// <summary>Condensed project shape for lists and cards.</summary>
 public sealed record ProjectSummaryDto(
     Guid Id,
@@ -10,7 +23,7 @@ public sealed record ProjectSummaryDto(
     string? LiveUrl,
     string? RepoUrl,
     bool IsFeatured,
-    IReadOnlyList<TechnologyDto> Technologies);
+    IReadOnlyList<ProjectTechnologyDto> Technologies);
 
 /// <summary>Full project shape for the detail view.</summary>
 public sealed record ProjectDetailDto(
@@ -25,4 +38,4 @@ public sealed record ProjectDetailDto(
     bool IsFeatured,
     DateOnly? StartDate,
     DateOnly? EndDate,
-    IReadOnlyList<TechnologyDto> Technologies);
+    IReadOnlyList<ProjectTechnologyDto> Technologies);

@@ -29,6 +29,15 @@ public static class PortfolioMappings
         technology.IconUrl,
         (int)technology.Proficiency);
 
+    public static ProjectTechnologyDto ToDto(this ProjectTechnology projectTechnology) => new(
+        projectTechnology.Technology.Id,
+        projectTechnology.Technology.Name,
+        projectTechnology.Technology.Slug,
+        projectTechnology.Technology.Category,
+        projectTechnology.Technology.IconUrl,
+        (int)projectTechnology.Technology.Proficiency,
+        projectTechnology.Note);
+
     public static ProjectSummaryDto ToSummaryDto(this Project project) => new(
         project.Id,
         project.Title,
@@ -39,7 +48,7 @@ public static class PortfolioMappings
         project.RepoUrl,
         project.IsFeatured,
         project.ProjectTechnologies
-            .Select(pt => pt.Technology.ToDto())
+            .Select(pt => pt.ToDto())
             .ToList());
 
     public static ProjectDetailDto ToDetailDto(this Project project) => new(
@@ -55,7 +64,7 @@ public static class PortfolioMappings
         project.StartDate,
         project.EndDate,
         project.ProjectTechnologies
-            .Select(pt => pt.Technology.ToDto())
+            .Select(pt => pt.ToDto())
             .ToList());
 
     public static SkillDto ToDto(this Skill skill) => new(skill.Id, skill.Name, (int)skill.Level);

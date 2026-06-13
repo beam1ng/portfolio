@@ -35,6 +35,11 @@ export interface Technology {
   proficiency: number;
 }
 
+/** A technology as used by a specific project, with an optional usage note. */
+export interface ProjectTechnology extends Technology {
+  note: string | null;
+}
+
 export interface ProjectSummary {
   id: string;
   title: string;
@@ -44,7 +49,7 @@ export interface ProjectSummary {
   liveUrl: string | null;
   repoUrl: string | null;
   isFeatured: boolean;
-  technologies: readonly Technology[];
+  technologies: readonly ProjectTechnology[];
 }
 
 export interface ProjectDetail {
@@ -59,7 +64,7 @@ export interface ProjectDetail {
   isFeatured: boolean;
   startDate: string | null;
   endDate: string | null;
-  technologies: readonly Technology[];
+  technologies: readonly ProjectTechnology[];
 }
 
 export interface Skill {
@@ -82,6 +87,11 @@ export interface AuthUser {
 }
 
 // ---- Admin write payloads (mirror the backend Upsert*Request records) ----
+export interface UpsertProjectTechnology {
+  technologyId: string;
+  note: string | null;
+}
+
 export interface UpsertProjectRequest {
   title: string;
   slug: string;
@@ -94,7 +104,7 @@ export interface UpsertProjectRequest {
   sortOrder: number;
   startDate: string | null;
   endDate: string | null;
-  technologyIds: readonly string[];
+  technologies: readonly UpsertProjectTechnology[];
 }
 
 export interface UpsertTechnologyRequest {

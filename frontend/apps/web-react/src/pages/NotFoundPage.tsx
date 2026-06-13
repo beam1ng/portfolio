@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useDocumentTitle } from '../lib/useDocumentTitle';
 import './pages.css';
 
 export function NotFoundPage() {
+  useDocumentTitle('Page not found');
   return (
     <section className="container notfound">
       <span className="eyebrow">404</span>

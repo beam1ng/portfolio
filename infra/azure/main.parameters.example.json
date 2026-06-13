@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": { "value": "portfolio" },
+    "apiImage": { "value": "ghcr.io/beam1ng/portfolio-api:0.1.0" },
+    "webImage": { "value": "ghcr.io/beam1ng/portfolio-web:0.1.0" },
+    "aspnetEnvironment": { "value": "Production" },
+    "sqlAdminLogin": { "value": "portfolioadmin" },
+    "adminEmail": { "value": "admin@example.com" }
+  }
+}

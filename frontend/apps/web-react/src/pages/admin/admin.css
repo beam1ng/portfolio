@@ -181,6 +181,35 @@
   font-size: var(--text-sm);
 }
 
+.tech-notes {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.tech-notes__row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tech-notes__name {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.tech-notes__row input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .form-actions {
   display: flex;
   gap: var(--space-3);

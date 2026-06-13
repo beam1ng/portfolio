@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 import { useProfile, useProjects } from '../api/queries';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ErrorState, LoadingState } from '../components/ui/States';
+import { useDocumentTitle } from '../lib/useDocumentTitle';
 import './pages.css';
 
 export function HomePage() {
   const profileQuery = useProfile();
   const featuredQuery = useProjects(true);
+  useDocumentTitle(null);
 
   if (profileQuery.isPending) {
     return <LoadingState label="Loading profile…" />;

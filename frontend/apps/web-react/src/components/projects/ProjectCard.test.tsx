@@ -15,8 +15,8 @@ function makeProject(overrides: Partial<ProjectSummary> = {}): ProjectSummary {
     repoUrl: null,
     isFeatured: false,
     technologies: [
-      { id: 't1', name: 'React', slug: 'react', category: null, iconUrl: null, proficiency: 5 },
-      { id: 't2', name: 'C#', slug: 'csharp', category: null, iconUrl: null, proficiency: 5 },
+      { id: 't1', name: 'React', slug: 'react', category: null, iconUrl: null, proficiency: 5, note: null },
+      { id: 't2', name: 'C#', slug: 'csharp', category: null, iconUrl: null, proficiency: 5, note: null },
     ],
     ...overrides,
   };
@@ -66,6 +66,7 @@ describe('ProjectCard', () => {
         category: null,
         iconUrl: null,
         proficiency: 3,
+        note: null,
       })),
     });
     renderCard(many);

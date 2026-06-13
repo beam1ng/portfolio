@@ -1,5 +1,6 @@
 import { useProfile } from '../api/queries';
 import { ErrorState, LoadingState } from '../components/ui/States';
+import { useDocumentTitle } from '../lib/useDocumentTitle';
 import './pages.css';
 
 interface ContactLink {
@@ -36,6 +37,7 @@ function strip(url: string): string {
 
 export function ContactPage() {
   const query = useProfile();
+  useDocumentTitle('Contact');
 
   if (query.isPending) {
     return <LoadingState label="Loading…" />;

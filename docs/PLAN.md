@@ -136,7 +136,12 @@ Frontend uses **pnpm workspaces** so multiple FE apps share packages.
    `/api` to the api container). `docker compose up --build` runs mssql + api + web;
    secrets injected via compose env (never baked into images). Verified: web proxy →
    api → db, public reads + admin auth (cookie via nginx) all working.
-6. **CI/CD + Azure IaC** — GitHub Actions, Bicep.
+6. **CI/CD + Azure IaC** — CI ✅ (GitHub Actions: backend build+test, frontend
+   typecheck+test+build, docker image build). CD ✅ (Release workflow pushes images
+   to GHCR on `v*` tag — free). Azure Bicep (Container Apps + serverless SQL +
+   Log Analytics) authored in `infra/azure/` but **unvalidated / not deployed**
+   (needs a paid subscription). Web image made deploy-portable: nginx upstream is
+   env-driven (`API_UPSTREAM`) via envsubst.
 7. **Tests + docs polish** — coverage, ADRs, runbooks.
 
 ## 12. Open Items

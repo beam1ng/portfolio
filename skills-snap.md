@@ -1,0 +1,81 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - text: jakub.dev
+      - navigation "Primary" [ref=e9]:
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "Projects" [ref=e11] [cursor=pointer]:
+          - /url: /projects
+        - link "Skills" [ref=e12] [cursor=pointer]:
+          - /url: /skills
+        - link "Contact" [ref=e13] [cursor=pointer]:
+          - /url: /contact
+        - button "Switch to dark theme" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15]: ☾
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: What I work with
+        - heading "Skills" [level=1] [ref=e21]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "Languages" [level=2] [ref=e30]
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - generic [ref=e33]:
+                - generic [ref=e34]: C#
+                - generic [ref=e35]: Advanced
+              - meter "C#" [ref=e36]
+            - listitem [ref=e38]:
+              - generic [ref=e39]:
+                - generic [ref=e40]: TypeScript
+                - generic [ref=e41]: Advanced
+              - meter "TypeScript" [ref=e42]
+            - listitem [ref=e44]:
+              - generic [ref=e45]:
+                - generic [ref=e46]: Python
+                - generic [ref=e47]: Advanced
+              - meter "Python" [ref=e48]
+            - listitem [ref=e50]:
+              - generic [ref=e51]:
+                - generic [ref=e52]: SQL
+                - generic [ref=e53]: Intermediate
+              - meter "SQL" [ref=e54]
+        - generic [ref=e56]:
+          - heading "Frameworks" [level=2] [ref=e57]
+          - list [ref=e58]:
+            - listitem [ref=e59]:
+              - generic [ref=e60]:
+                - generic [ref=e61]: ASP.NET Core
+                - generic [ref=e62]: Advanced
+              - meter "ASP.NET Core" [ref=e63]
+            - listitem [ref=e65]:
+              - generic [ref=e66]:
+                - generic [ref=e67]: React
+                - generic [ref=e68]: Advanced
+              - meter "React" [ref=e69]
+            - listitem [ref=e71]:
+              - generic [ref=e72]:
+                - generic [ref=e73]: Vue 3
+                - generic [ref=e74]: Advanced
+              - meter "Vue 3" [ref=e75]
+            - listitem [ref=e77]:
+              - generic [ref=e78]:
+                - generic [ref=e79]: Entity Framework Core
+                - generic [ref=e80]: Intermediate
+              - meter "Entity Framework Core" [ref=e81]
+  - contentinfo [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: © 2026 Jakub Augustyniak
+      - generic [ref=e83]:
+        - link "GitHub" [ref=e84] [cursor=pointer]:
+          - /url: https://github.com/your-handle
+        - link "LinkedIn" [ref=e85] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/your-handle
+        - link "Email" [ref=e86] [cursor=pointer]:
+          - /url: mailto:you@example.com

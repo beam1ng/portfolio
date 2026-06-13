@@ -10,4 +10,7 @@ public class ProjectTechnology
 
     public Guid TechnologyId { get; set; }
     public Technology Technology { get; set; } = null!;
+
+    /// <summary>Optional short note describing how this technology was used in the project.</summary>
+    public string? Note { get; set; }
 }

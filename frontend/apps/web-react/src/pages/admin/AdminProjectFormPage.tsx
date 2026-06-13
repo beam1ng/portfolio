@@ -18,12 +18,15 @@ interface ProjectForm {
   startDate: string;
   endDate: string;
   technologyIds: string[];
+  /** Per-technology usage note, keyed by technology id. */
+  techNotes: Record<string, string>;
 }
 
 const EMPTY: ProjectForm = {
   title: '', slug: '', summary: '', description: '',
   repoUrl: '', liveUrl: '', imageUrl: '',
-  isFeatured: false, sortOrder: 0, startDate: '', endDate: '', technologyIds: [],
+  isFeatured: false, sortOrder: 0, startDate: '', endDate: '',
+  technologyIds: [], techNotes: {},
 };
 
 function toRequest(form: ProjectForm): UpsertProjectRequest {
@@ -40,7 +43,10 @@ function toRequest(form: ProjectForm): UpsertProjectRequest {
     sortOrder: Number(form.sortOrder) || 0,
     startDate: trim(form.startDate),
     endDate: trim(form.endDate),
-    technologyIds: form.technologyIds,
+    technologies: form.technologyIds.map((technologyId) => ({
+      technologyId,
+      note: trim(form.techNotes[technologyId] ?? ''),
+    })),
   };
 }
 
@@ -64,6 +70,7 @@ export function AdminProjectFormPage() {
         isFeatured: p.isFeatured, sortOrder: 0,
         startDate: p.startDate ?? '', endDate: p.endDate ?? '',
         technologyIds: p.technologies.map((t) => t.id),
+        techNotes: Object.fromEntries(p.technologies.map((t) => [t.id, t.note ?? ''])),
       });
     }
   }, [isNew, existing.data]);
@@ -177,6 +184,35 @@ export function AdminProjectFormPage() {
             ))}
           </div>
         </div>
+
+        {form.technologyIds.length > 0 && (
+          <div className="field">
+            <label>Usage notes <span className="muted">(optional — how each technology was used)</span></label>
+            <div className="tech-notes">
+              {form.technologyIds.map((techId) => {
+                const tech = technologies.data?.find((t) => t.id === techId);
+                if (!tech) return null;
+                return (
+                  <div key={techId} className="tech-notes__row">
+                    <span className="tech-notes__name">{tech.name}</span>
+                    <input
+                      type="text"
+                      maxLength={500}
+                      placeholder="e.g. Background jobs and scheduling"
+                      value={form.techNotes[techId] ?? ''}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          techNotes: { ...prev.techNotes, [techId]: e.target.value },
+                        }))
+                      }
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="form-actions">
           <button type="submit" className="btn btn--primary" disabled={mutation.isPending}>

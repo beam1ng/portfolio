@@ -64,11 +64,11 @@ public static class PortfolioSeeder
             StartDate = new DateOnly(2026, 5, 1),
             ProjectTechnologies =
             [
-                new ProjectTechnology { Technology = dotnet },
-                new ProjectTechnology { Technology = react },
-                new ProjectTechnology { Technology = ts },
-                new ProjectTechnology { Technology = sql },
-                new ProjectTechnology { Technology = docker },
+                new ProjectTechnology { Technology = dotnet, Note = "Clean-architecture REST API with minimal endpoints, Identity and JWT cookie auth." },
+                new ProjectTechnology { Technology = react, Note = "Public site and admin panel, built on React Router and TanStack Query." },
+                new ProjectTechnology { Technology = ts, Note = "Typed end-to-end via a shared api-client workspace package." },
+                new ProjectTechnology { Technology = sql, Note = "EF Core with migrations; GUIDv7 keys and audit timestamps." },
+                new ProjectTechnology { Technology = docker, Note = "Compose stack: SQL Server, API, and an nginx-served SPA." },
             ],
         });
 
@@ -90,15 +90,15 @@ public static class PortfolioSeeder
                 "TrueType fonts (freetype-py), QR codes, and on-the-fly translation (deep-translator). " +
                 "Covered by a pytest suite.\n\n" +
                 "Private repository — source and run instructions are not public.",
-            IsFeatured = true,
+            IsFeatured = false,
             SortOrder = 1,
             ProjectTechnologies =
             [
-                new ProjectTechnology { Technology = python },
-                new ProjectTechnology { Technology = click },
-                new ProjectTechnology { Technology = reportlab },
-                new ProjectTechnology { Technology = pillow },
-                new ProjectTechnology { Technology = pycairo },
+                new ProjectTechnology { Technology = python, Note = "Two-phase pipeline: API data generation, then template-driven rendering." },
+                new ProjectTechnology { Technology = click, Note = "Interactive fcpdf CLI — new / generate / render / preview commands." },
+                new ProjectTechnology { Technology = reportlab, Note = "Print-ready PDF layout and output." },
+                new ProjectTechnology { Technology = pillow, Note = "Card image processing." },
+                new ProjectTechnology { Technology = pycairo, Note = "Cairo rendering backend (rlPyCairo) for crisp vector output." },
             ],
         });
 
@@ -122,13 +122,13 @@ public static class PortfolioSeeder
             SortOrder = 2,
             ProjectTechnologies =
             [
-                new ProjectTechnology { Technology = vue },
-                new ProjectTechnology { Technology = ts },
-                new ProjectTechnology { Technology = bun },
-                new ProjectTechnology { Technology = elysia },
-                new ProjectTechnology { Technology = redis },
-                new ProjectTechnology { Technology = bullmq },
-                new ProjectTechnology { Technology = docker },
+                new ProjectTechnology { Technology = vue, Note = "SPA frontend using the Composition API and script setup." },
+                new ProjectTechnology { Technology = ts, Note = "End-to-end type safety via an Eden Treaty client generated from the API." },
+                new ProjectTechnology { Technology = bun, Note = "Runtime and package manager across all workspaces." },
+                new ProjectTechnology { Technology = elysia, Note = "Fast, type-safe HTTP API." },
+                new ProjectTechnology { Technology = redis, Note = "JSON, Search and TimeSeries modules store skins, prices, and trade-up data." },
+                new ProjectTechnology { Technology = bullmq, Note = "Background scraping jobs with proxy-pool support." },
+                new ProjectTechnology { Technology = docker, Note = "Compose deployment: Redis, backend, frontend." },
             ],
         });
 
@@ -155,9 +155,9 @@ public static class PortfolioSeeder
             StartDate = new DateOnly(2024, 7, 1),
             ProjectTechnologies =
             [
-                new ProjectTechnology { Technology = unity },
-                new ProjectTechnology { Technology = csharp },
-                new ProjectTechnology { Technology = hlsl },
+                new ProjectTechnology { Technology = unity, Note = "Scene tooling and runtime host for the simulation." },
+                new ProjectTechnology { Technology = csharp, Note = "Surface-point generation and transport-path precomputation stages." },
+                new ProjectTechnology { Technology = hlsl, Note = "GPU compute shaders drive the precomputation." },
             ],
         });
 
@@ -174,15 +174,15 @@ public static class PortfolioSeeder
                 "An interactive UI lets you tune how strongly each of the three factors influences " +
                 "movement in real time, and a debug view visualises every boid's vision radius and the " +
                 "individual steering contribution of each factor.",
-            IsFeatured = true,
+            IsFeatured = false,
             SortOrder = 4,
             RepoUrl = "https://github.com/beam1ng/Boids2D",
             ImageUrl = "https://user-images.githubusercontent.com/68951232/179068903-c6ff503b-d35b-43c4-ba52-d5447bc1d920.png",
             StartDate = new DateOnly(2022, 7, 1),
             ProjectTechnologies =
             [
-                new ProjectTechnology { Technology = unity },
-                new ProjectTechnology { Technology = csharp },
+                new ProjectTechnology { Technology = unity, Note = "2D simulation with a debug view of each boid's vision radius." },
+                new ProjectTechnology { Technology = csharp, Note = "Separation, cohesion and alignment steering with tunable weights." },
             ],
         });
 

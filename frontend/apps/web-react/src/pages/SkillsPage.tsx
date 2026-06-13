@@ -1,10 +1,15 @@
-import { useSkills } from '../api/queries';
+import { useProjects, useSkills } from '../api/queries';
 import { SkillMeter } from '../components/skills/SkillMeter';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
+import { projectsUsingSkill, techSlugForSkill } from '../lib/crossref';
+import { useDocumentTitle } from '../lib/useDocumentTitle';
 import './pages.css';
 
 export function SkillsPage() {
   const query = useSkills();
+  const projectsQuery = useProjects(false);
+  const projects = projectsQuery.data ?? [];
+  useDocumentTitle('Skills');
 
   return (
     <section className="container section">
@@ -29,7 +34,12 @@ export function SkillsPage() {
               <h2 className="section-title skill-group__title">{category.name}</h2>
               <ul className="skill-list">
                 {category.skills.map((skill) => (
-                  <SkillMeter key={skill.id} skill={skill} />
+                  <SkillMeter
+                    key={skill.id}
+                    skill={skill}
+                    usedIn={projectsUsingSkill(projects, skill.name)}
+                    techSlug={techSlugForSkill(projects, skill.name)}
+                  />
                 ))}
               </ul>
             </div>

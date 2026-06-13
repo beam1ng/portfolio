@@ -11,6 +11,8 @@ public sealed class ProjectTechnologyConfiguration : IEntityTypeConfiguration<Pr
         builder.ToTable("ProjectTechnologies");
         builder.HasKey(pt => new { pt.ProjectId, pt.TechnologyId });
 
+        builder.Property(pt => pt.Note).HasMaxLength(500);
+
         builder.HasOne(pt => pt.Project)
             .WithMany(p => p.ProjectTechnologies)
             .HasForeignKey(pt => pt.ProjectId)

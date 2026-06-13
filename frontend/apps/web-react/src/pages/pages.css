@@ -172,6 +172,26 @@
   color: var(--color-text-muted);
 }
 
+.detail__notes {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.detail__note dt {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.detail__note dd {
+  margin: 0.15rem 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
 /* ---- Contact ---- */
 .contact {
   display: grid;

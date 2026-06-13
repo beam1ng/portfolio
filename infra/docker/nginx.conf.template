@@ -1,3 +1,7 @@
+# Rendered at container start by nginx's envsubst entrypoint.
+# Only ${API_UPSTREAM} is substituted (NGINX_ENVSUBST_FILTER), so nginx runtime
+# variables like $host stay intact. Default upstream is the compose service;
+# override API_UPSTREAM in other environments (e.g. an Azure internal FQDN).
 server {
     listen 80;
     server_name _;
@@ -7,7 +11,7 @@ server {
     # Reverse-proxy the API so the SPA and API share one origin
     # (httpOnly auth cookie works without SameSite=None/Secure).
     location /api/ {
-        proxy_pass http://api:8080;
+        proxy_pass http://${API_UPSTREAM};
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -16,8 +20,14 @@ server {
     }
 
     # SPA fallback: serve index.html for client-side routes.
+    # index.html must never be cached, or clients keep loading a stale shell
+    # that references old (deleted) hashed bundles after a deploy.
     location / {
         try_files $uri $uri/ /index.html;
+    }
+
+    location = /index.html {
+        add_header Cache-Control "no-cache, must-revalidate";
     }
 
     # Cache hashed static assets aggressively.
