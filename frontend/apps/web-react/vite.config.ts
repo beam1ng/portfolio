@@ -8,7 +8,9 @@ import react from '@vitejs/plugin-react';
 const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
 const API_TARGET = env?.VITE_API_PROXY_TARGET ?? 'http://localhost:5050';
 
-export default defineConfig({
+// `vite build --mode static` produces the no-API build (reads content.json).
+export default defineConfig(({ mode }) => ({
+  define: mode === 'static' ? { 'import.meta.env.VITE_STATIC': '"true"' } : {},
   plugins: [react()],
   server: {
     port: 5173,
@@ -26,4 +28,4 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     css: false,
   },
-});
+}));

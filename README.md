@@ -106,6 +106,37 @@ corepack pnpm -r test           # vitest
 corepack pnpm -r build          # production build
 ```
 
+## Static hosting (free — Azure Static Web Apps)
+
+A no-API build of the frontend that reads a bundled `content.json` instead of
+calling the live API — so it can run on **Azure Static Web Apps (Free tier)** (or
+any static host) for **$0**, with no database to bill or secure. The full-stack
+(API + SQL) path is unchanged and still available.
+
+Trade-off: no live admin panel in production. You edit content locally and
+re-export.
+
+**Update + build:**
+
+```bash
+pnpm start                 # run the app locally (admin works here)
+# ...edit content at http://localhost:5173/admin...
+pnpm export:content        # writes frontend/apps/web-react/public/content.json
+pnpm build:static          # no-API build → frontend/apps/web-react/dist
+```
+
+`content.json` is committed; the deploy ships exactly what's committed.
+
+**Deploy:** create an Azure Static Web App (Free), then in the repo set the
+`AZURE_STATIC_WEB_APPS_API_TOKEN` secret and the `STATIC_DEPLOY_ENABLED=true`
+variable — the [`Deploy (Azure Static Web Apps)`](.github/workflows/static-web-app.yml)
+workflow builds `--mode static` and publishes on push to `main`. SPA routing,
+headers, and caching come from `public/staticwebapp.config.json`.
+
+How it works: `VITE_STATIC` (set by `vite build --mode static`) swaps the API
+client for one that reads `content.json`; admin routes are a lazy chunk that
+folds out of the static build entirely.
+
 ## Build Phases
 
 See [`docs/PLAN.md`](docs/PLAN.md) §11. Done: **Phase 1 Foundation** ✅,

@@ -13,6 +13,8 @@
     "stop": "docker compose down",
     "dev": "pnpm --filter web-react dev",
     "build": "pnpm -r build",
+    "build:static": "pnpm --filter web-react build:static",
+    "export:content": "node scripts/export-content.mjs",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck"

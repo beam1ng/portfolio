@@ -43,6 +43,32 @@ param adminEmail string
 @description('Seeded admin password.')
 param adminPassword string
 
+// ---- Cost guardrails (safe for very low traffic, e.g. a handful of users/day) ----
+
+@description('Min replicas per app. 0 = scale to zero when idle (cheapest; adds a cold start on the first request).')
+@minValue(0)
+@maxValue(1)
+param minReplicas int = 0
+
+@description('Max replicas per app. A low cap stops a traffic spike or abuse from fanning out and running up cost.')
+@minValue(1)
+@maxValue(3)
+param maxReplicas int = 1
+
+@description('Max concurrent requests per replica before scaling (bounded by maxReplicas).')
+param concurrentRequests int = 40
+
+@description('Log Analytics daily ingestion cap in GB. Hard-stops logging cost; ingestion resumes next day.')
+param logDailyQuotaGb string = '0.5'
+
+@description('SQL serverless auto-pause delay in minutes. Lower pauses the idle DB sooner (compute billing stops while paused).')
+param autoPauseMinutes int = 60
+
+@description('Max database size in GB — caps storage growth and its cost.')
+@minValue(1)
+@maxValue(32)
+param dbMaxSizeGb int = 2
+
 var sqlServerName = '${appName}-sql-${uniqueString(resourceGroup().id)}'
 var databaseName = 'PortfolioDb'
 
@@ -52,6 +78,10 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   properties: {
     sku: { name: 'PerGB2018' }
     retentionInDays: 30
+    // Hard cap on daily log ingestion so logging can never run up a surprise bill.
+    workspaceCapping: {
+      dailyQuotaGb: json(logDailyQuotaGb)
+    }
   }
 }
 
@@ -82,9 +112,12 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
       tier: 'GeneralPurpose'
     }
     properties: {
-      autoPauseDelay: 60
+      autoPauseDelay: autoPauseMinutes
       minCapacity: json('0.5')
+      maxSizeBytes: dbMaxSizeGb * 1073741824
       zoneRedundant: false
+      // Local (not geo-redundant) backups — cheaper and fine for a portfolio.
+      requestedBackupStorageRedundancy: 'Local'
     }
   }
 }
@@ -138,7 +171,16 @@ resource apiApp 'Microsoft.App/containerApps@2024-03-01' = {
           ]
         }
       ]
-      scale: { minReplicas: 1, maxReplicas: 2 }
+      scale: {
+        minReplicas: minReplicas
+        maxReplicas: maxReplicas
+        rules: [
+          {
+            name: 'http-rule'
+            http: { metadata: { concurrentRequests: '${concurrentRequests}' } }
+          }
+        ]
+      }
     }
   }
 }
@@ -167,7 +209,16 @@ resource webApp 'Microsoft.App/containerApps@2024-03-01' = {
           ]
         }
       ]
-      scale: { minReplicas: 1, maxReplicas: 2 }
+      scale: {
+        minReplicas: minReplicas
+        maxReplicas: maxReplicas
+        rules: [
+          {
+            name: 'http-rule'
+            http: { metadata: { concurrentRequests: '${concurrentRequests}' } }
+          }
+        ]
+      }
     }
   }
 }

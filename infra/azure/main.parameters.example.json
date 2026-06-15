@@ -7,6 +7,13 @@
     "webImage": { "value": "ghcr.io/beam1ng/portfolio-web:0.1.0" },
     "aspnetEnvironment": { "value": "Production" },
     "sqlAdminLogin": { "value": "portfolioadmin" },
-    "adminEmail": { "value": "admin@example.com" }
+    "adminEmail": { "value": "admin@example.com" },
+
+    "minReplicas": { "value": 0 },
+    "maxReplicas": { "value": 1 },
+    "concurrentRequests": { "value": 40 },
+    "logDailyQuotaGb": { "value": "0.5" },
+    "autoPauseMinutes": { "value": 60 },
+    "dbMaxSizeGb": { "value": 2 }
   }
 }

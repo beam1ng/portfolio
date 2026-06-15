@@ -1,0 +1,491 @@
+{
+  "profile": {
+    "fullName": "Jakub Augustyniak",
+    "headline": "Full-stack Software Engineer",
+    "bio": "I’m a software developer with over 3 years of commercial experience, currently looking to transition into backend-focused web development.\n\nIn my professional work, I’ve primarily developed in C#, contributing to production-ready projects. My experience includes working with system-level concerns, memory management, and performance optimization - including GPU-based parallel processing in critical areas. This background has given me a strong foundation in writing efficient, scalable code.\n\nAlongside this, I’ve been actively expanding into web technologies. I work with .NET Core, ASP.NET, and have hands-on experience with databases and backend tooling such as Redis, SQL (including MySQL and PostgreSQL). On the frontend side, I’ve worked with Vue.js, Svelte, and modern tooling like Vite, as well as a range of other technologies I’ve explored as part of personal and professional growth.\n\nYou can also find a recommendation on my LinkedIn profile that reflects my broader technical skillset:\nhttps://www.linkedin.com/in/jaugustyniakdev/\n\nI’m interested in joining a team where I can apply my existing experience while continuing to grow as a backend developer, and contribute to building reliable, high-quality systems.",
+    "location": "Poland",
+    "avatarUrl": null,
+    "resumeUrl": null,
+    "email": "you@example.com",
+    "gitHubUrl": "https://github.com/your-handle",
+    "linkedInUrl": "https://www.linkedin.com/in/your-handle",
+    "websiteUrl": null
+  },
+  "projects": [
+    {
+      "id": "019ebd00-9eb2-758c-9c27-e8ea1aba4743",
+      "title": "Portfolio Platform",
+      "slug": "portfolio-platform",
+      "summary": "This site — ASP.NET Core API + React/TS frontend, Dockerized, on Azure.",
+      "description": "Placeholder description. A DB-driven portfolio with an admin panel.",
+      "imageUrl": null,
+      "liveUrl": null,
+      "repoUrl": null,
+      "isFeatured": true,
+      "startDate": "2026-05-01",
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ebd00-9ea6-7edc-8cd0-21e83f6aa5d7",
+          "name": "Docker",
+          "slug": "docker",
+          "category": "DevOps",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+          "proficiency": 3,
+          "note": "Compose stack: SQL Server, API, and an nginx-served SPA."
+        },
+        {
+          "id": "019ebd00-9ea6-7287-a4a5-3740c219c3f2",
+          "name": "MS SQL Server",
+          "slug": "ms-sql-server",
+          "category": "Database",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
+          "proficiency": 3,
+          "note": "EF Core with migrations; GUIDv7 keys and audit timestamps."
+        },
+        {
+          "id": "019ebd00-9ea6-7dda-b8b0-dec24e2ce864",
+          "name": "ASP.NET Core",
+          "slug": "asp-net-core",
+          "category": "Backend",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg",
+          "proficiency": 4,
+          "note": "Clean-architecture REST API with minimal endpoints, Identity and JWT cookie auth."
+        },
+        {
+          "id": "019ebd00-9ea6-716a-a1ab-e518c92be396",
+          "name": "TypeScript",
+          "slug": "typescript",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+          "proficiency": 4,
+          "note": "Typed end-to-end via a shared api-client workspace package."
+        },
+        {
+          "id": "019ebd00-9ea6-7b1c-9a85-f358c73e9726",
+          "name": "React",
+          "slug": "react",
+          "category": "Frontend",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+          "proficiency": 4,
+          "note": "Public site and admin panel, built on React Router and TanStack Query."
+        }
+      ]
+    },
+    {
+      "id": "019ebd00-9ed2-7fc5-98ed-526f65009d5a",
+      "title": "Flashcard Generator",
+      "slug": "flashcard-generator",
+      "summary": "A Python CLI that turns JSON config + live API data into print-ready flashcard PDFs.",
+      "description": "A command-line tool for generating print-ready flashcard PDFs entirely from JSON configuration — no code required to create a new set.\n\nThe architecture cleanly separates two phases. The generate phase fetches data from external APIs, resolves field values, and builds card data structures into an intermediate flashcards-input.json. The render phase then merges that data with layout templates, applies per-card overrides, and renders to PDF via ReportLab and Cairo (pycairo / rlPyCairo).\n\nBuilt as an installable package exposing an `fcpdf` command (Click), with an interactive prompt-driven UX — new / generate / render / preview. Supports custom TrueType fonts (freetype-py), QR codes, and on-the-fly translation (deep-translator). Covered by a pytest suite.\n\nPrivate repository — source and run instructions are not public.",
+      "imageUrl": null,
+      "liveUrl": null,
+      "repoUrl": null,
+      "isFeatured": false,
+      "startDate": null,
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ebd00-9ea6-7c31-92c3-497bb719d832",
+          "name": "Pillow",
+          "slug": "pillow",
+          "category": "Imaging",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Card image processing."
+        },
+        {
+          "id": "019ebd00-9ea6-7923-84bb-51e9c95c6858",
+          "name": "ReportLab",
+          "slug": "reportlab",
+          "category": "PDF",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Print-ready PDF layout and output."
+        },
+        {
+          "id": "019ebd00-9ea6-7d4b-8943-647db97eba25",
+          "name": "pycairo",
+          "slug": "pycairo",
+          "category": "Graphics",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Cairo rendering backend (rlPyCairo) for crisp vector output."
+        },
+        {
+          "id": "019ebd00-9ea6-7080-970f-b60475fa9cc9",
+          "name": "Python",
+          "slug": "python",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+          "proficiency": 4,
+          "note": "Two-phase pipeline: API data generation, then template-driven rendering."
+        },
+        {
+          "id": "019ebd00-9ea6-778d-af16-c108dd9a5b7c",
+          "name": "Click",
+          "slug": "click",
+          "category": "CLI",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Interactive fcpdf CLI — new / generate / render / preview commands."
+        }
+      ]
+    },
+    {
+      "id": "019ebd00-9ed3-78d3-87ad-046475f77e90",
+      "title": "CS2 Trader Ultimate",
+      "slug": "cs2-trader-ultimate",
+      "summary": "A self-hosted full-stack tool for tracking CS2 skin prices and discovering profitable trade-up contracts.",
+      "description": "A self-hosted web app for trading CS2 (Counter-Strike 2) skins. It tracks market prices across every wear condition and StatTrak variant, charts price history over time, surfaces profitable trade-up contracts filtered by risk, profitability, and rarity, and maps which contracts the owned inventory is eligible for.\n\nThe backend is a type-safe Bun + Elysia API; an Eden Treaty client carries end-to-end types straight into the Vue 3 + Vite frontend. Redis — with its JSON, Search, and TimeSeries modules — stores skins, price series, and pre-computed trade-up data, while BullMQ runs background scraping jobs. The whole stack is orchestrated with Docker Compose.\n\nPrivate repository — source and run instructions are not public.",
+      "imageUrl": null,
+      "liveUrl": null,
+      "repoUrl": null,
+      "isFeatured": true,
+      "startDate": null,
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ebd00-9ea6-7edc-8cd0-21e83f6aa5d7",
+          "name": "Docker",
+          "slug": "docker",
+          "category": "DevOps",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+          "proficiency": 3,
+          "note": "Compose deployment: Redis, backend, frontend."
+        },
+        {
+          "id": "019ebd00-9ea6-7a08-befa-3526fe2b20a4",
+          "name": "Elysia",
+          "slug": "elysia",
+          "category": "Backend",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Fast, type-safe HTTP API."
+        },
+        {
+          "id": "019ebd00-9ea6-77ea-a058-8575cbfb2cfd",
+          "name": "BullMQ",
+          "slug": "bullmq",
+          "category": "Jobs",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "Background scraping jobs with proxy-pool support."
+        },
+        {
+          "id": "019ebd00-9ea6-76fc-9651-885b3bbc5a59",
+          "name": "Redis",
+          "slug": "redis",
+          "category": "Database",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+          "proficiency": 3,
+          "note": "JSON, Search and TimeSeries modules store skins, prices, and trade-up data."
+        },
+        {
+          "id": "019ebd00-9ea6-7984-9ad3-891f81dda869",
+          "name": "Bun",
+          "slug": "bun",
+          "category": "Runtime",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
+          "proficiency": 3,
+          "note": "Runtime and package manager across all workspaces."
+        },
+        {
+          "id": "019ebd00-9ea6-7a65-928d-c236b85237e7",
+          "name": "Vue 3",
+          "slug": "vue",
+          "category": "Frontend",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg",
+          "proficiency": 4,
+          "note": "SPA frontend using the Composition API and script setup."
+        },
+        {
+          "id": "019ebd00-9ea6-716a-a1ab-e518c92be396",
+          "name": "TypeScript",
+          "slug": "typescript",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+          "proficiency": 4,
+          "note": "End-to-end type safety via an Eden Treaty client generated from the API."
+        }
+      ]
+    },
+    {
+      "id": "019ebd00-9ed4-7286-8538-e76114390e37",
+      "title": "Real-time Room Reverb Simulation",
+      "slug": "realtime-room-reverb",
+      "summary": "A Unity implementation of a research paper on geometry-aware real-time reverb via transport-path precomputation.",
+      "description": "A Unity implementation of the technique from the paper \"Real-time Room Reverb in Large Scenes using Transport Path Precomputation\" by Gregor Mückl and Carsten Dachsbacher (JCGT, 2020).\n\nThe method makes reverb geometry-aware: instead of faking room acoustics, it models how sound actually propagates through a scene. The pipeline samples surface points across scene geometry, then precomputes sound-transport paths between them so the acoustic response can be evaluated in real time even in large environments.\n\nImplemented stages so far: surface-point generation across mesh geometry, and transport-path precomputation for sound propagation — driven on the GPU with compute shaders.",
+      "imageUrl": "/images/reverb-card.png",
+      "liveUrl": null,
+      "repoUrl": "https://github.com/beam1ng/TransportPathPrecomputation",
+      "isFeatured": true,
+      "startDate": "2024-07-01",
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ebd00-9ea6-7311-9568-1e2d12592b0b",
+          "name": "C#",
+          "slug": "csharp",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+          "proficiency": 4,
+          "note": "Surface-point generation and transport-path precomputation stages."
+        },
+        {
+          "id": "019ebd00-9ea6-7d12-9e89-7a0ebac7d65f",
+          "name": "HLSL / Compute Shaders",
+          "slug": "hlsl",
+          "category": "Graphics",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "GPU compute shaders drive the precomputation."
+        },
+        {
+          "id": "019ebd00-9ea6-7b16-91da-df08ef3d34b1",
+          "name": "Unity",
+          "slug": "unity",
+          "category": "Game Engine",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
+          "proficiency": 3,
+          "note": "Scene tooling and runtime host for the simulation."
+        }
+      ]
+    },
+    {
+      "id": "019ebd00-9ed4-79c8-949d-3ff688a571f2",
+      "title": "Boids 2D - Flocking Simulation",
+      "slug": "boids-2d",
+      "summary": "A Unity flocking simulation of birds/fish from three simple rules, with an interactive control UI.",
+      "description": "A 2D Unity simulation of the flocking behaviour seen in flocks of birds and shoals of fish. The emergent group motion comes from three simple per-agent rules: separation (avoid crowding neighbours), cohesion (steer toward the local group centre), and alignment (match neighbours' heading).\n\nAn interactive UI lets you tune how strongly each of the three factors influences movement in real time, and a debug view visualises every boid's vision radius and the individual steering contribution of each factor.",
+      "imageUrl": "https://user-images.githubusercontent.com/68951232/179068903-c6ff503b-d35b-43c4-ba52-d5447bc1d920.png",
+      "liveUrl": null,
+      "repoUrl": "https://github.com/beam1ng/Boids2D",
+      "isFeatured": false,
+      "startDate": "2022-07-01",
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ebd00-9ea6-7311-9568-1e2d12592b0b",
+          "name": "C#",
+          "slug": "csharp",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+          "proficiency": 4,
+          "note": "Separation, cohesion and alignment steering with tunable weights."
+        },
+        {
+          "id": "019ebd00-9ea6-7b16-91da-df08ef3d34b1",
+          "name": "Unity",
+          "slug": "unity",
+          "category": "Game Engine",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
+          "proficiency": 3,
+          "note": "2D simulation with a debug view of each boid's vision radius."
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "019ebd00-9ed4-749e-9d54-75b922239b39",
+      "name": "Languages",
+      "slug": "languages",
+      "skills": [
+        {
+          "id": "019ebd00-9ed4-7175-9317-298906182aa5",
+          "name": "C#",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-73d2-82fb-7cdc58ad968f",
+          "name": "TypeScript",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-772e-8155-325bbb54b87e",
+          "name": "Python",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-7ea7-a291-7b260ba6e806",
+          "name": "SQL",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "019ebd00-9ed4-77af-8ce5-367de029ca4a",
+      "name": "Frameworks",
+      "slug": "frameworks",
+      "skills": [
+        {
+          "id": "019ebd00-9ed4-70f7-a69d-b692da0004da",
+          "name": "ASP.NET Core",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-71f8-a145-34c14b850a8b",
+          "name": "React",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-7d09-b390-4abad27e2e7e",
+          "name": "Vue 3",
+          "level": 4
+        },
+        {
+          "id": "019ebd00-9ed4-7dec-b0d3-2a46e81f9b0c",
+          "name": "Entity Framework Core",
+          "level": 3
+        }
+      ]
+    }
+  ],
+  "technologies": [
+    {
+      "id": "019ebd00-9ea6-7dda-b8b0-dec24e2ce864",
+      "name": "ASP.NET Core",
+      "slug": "asp-net-core",
+      "category": "Backend",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-7a08-befa-3526fe2b20a4",
+      "name": "Elysia",
+      "slug": "elysia",
+      "category": "Backend",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-778d-af16-c108dd9a5b7c",
+      "name": "Click",
+      "slug": "click",
+      "category": "CLI",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7287-a4a5-3740c219c3f2",
+      "name": "MS SQL Server",
+      "slug": "ms-sql-server",
+      "category": "Database",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-76fc-9651-885b3bbc5a59",
+      "name": "Redis",
+      "slug": "redis",
+      "category": "Database",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7edc-8cd0-21e83f6aa5d7",
+      "name": "Docker",
+      "slug": "docker",
+      "category": "DevOps",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7b1c-9a85-f358c73e9726",
+      "name": "React",
+      "slug": "react",
+      "category": "Frontend",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-7a65-928d-c236b85237e7",
+      "name": "Vue 3",
+      "slug": "vue",
+      "category": "Frontend",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-7b16-91da-df08ef3d34b1",
+      "name": "Unity",
+      "slug": "unity",
+      "category": "Game Engine",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7d12-9e89-7a0ebac7d65f",
+      "name": "HLSL / Compute Shaders",
+      "slug": "hlsl",
+      "category": "Graphics",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7d4b-8943-647db97eba25",
+      "name": "pycairo",
+      "slug": "pycairo",
+      "category": "Graphics",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7c31-92c3-497bb719d832",
+      "name": "Pillow",
+      "slug": "pillow",
+      "category": "Imaging",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-77ea-a058-8575cbfb2cfd",
+      "name": "BullMQ",
+      "slug": "bullmq",
+      "category": "Jobs",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7311-9568-1e2d12592b0b",
+      "name": "C#",
+      "slug": "csharp",
+      "category": "Languages",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-7080-970f-b60475fa9cc9",
+      "name": "Python",
+      "slug": "python",
+      "category": "Languages",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-716a-a1ab-e518c92be396",
+      "name": "TypeScript",
+      "slug": "typescript",
+      "category": "Languages",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ebd00-9ea6-7923-84bb-51e9c95c6858",
+      "name": "ReportLab",
+      "slug": "reportlab",
+      "category": "PDF",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
+      "id": "019ebd00-9ea6-7984-9ad3-891f81dda869",
+      "name": "Bun",
+      "slug": "bun",
+      "category": "Runtime",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
+      "proficiency": 3
+    }
+  ]
+}

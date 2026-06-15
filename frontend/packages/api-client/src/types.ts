@@ -81,6 +81,15 @@ export interface SkillCategory {
   skills: readonly Skill[];
 }
 
+// ---- Static hosting ----
+/** The whole portfolio baked into one JSON file for static (no-API) hosting. */
+export interface PortfolioContent {
+  profile: Profile;
+  projects: readonly ProjectDetail[];
+  skills: readonly SkillCategory[];
+  technologies: readonly Technology[];
+}
+
 // ---- Auth ----
 export interface AuthUser {
   email: string;
