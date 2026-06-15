@@ -2,13 +2,13 @@
   "profile": {
     "fullName": "Jakub Augustyniak",
     "headline": "Full-stack Software Engineer",
-    "bio": "I’m a software developer with over 3 years of commercial experience, currently looking to transition into backend-focused web development.\n\nIn my professional work, I’ve primarily developed in C#, contributing to production-ready projects. My experience includes working with system-level concerns, memory management, and performance optimization - including GPU-based parallel processing in critical areas. This background has given me a strong foundation in writing efficient, scalable code.\n\nAlongside this, I’ve been actively expanding into web technologies. I work with .NET Core, ASP.NET, and have hands-on experience with databases and backend tooling such as Redis, SQL (including MySQL and PostgreSQL). On the frontend side, I’ve worked with Vue.js, Svelte, and modern tooling like Vite, as well as a range of other technologies I’ve explored as part of personal and professional growth.\n\nYou can also find a recommendation on my LinkedIn profile that reflects my broader technical skillset:\nhttps://www.linkedin.com/in/jaugustyniakdev/\n\nI’m interested in joining a team where I can apply my existing experience while continuing to grow as a backend developer, and contribute to building reliable, high-quality systems.",
+    "bio": "I’m a software developer with over 3 years of commercial experience, currently looking to transition into backend-focused web development.\n\nIn my professional work, I’ve primarily developed in C#, contributing to production-ready projects. My experience includes working with system-level concerns, memory management, and performance optimization - including GPU-based parallel processing in critical areas. This background has given me a strong foundation in writing efficient, scalable code.\n\nAlongside this, I’ve been actively expanding into web technologies. I work with .NET Core, ASP.NET, and have hands-on experience with databases and backend tooling such as Redis, SQL (including MySQL and PostgreSQL). On the frontend side, I’ve worked with Vue.js, Svelte, and modern tooling like Vite, as well as a range of other technologies I’ve explored as part of personal and professional growth.\n\nYou can also find a recommendation on my LinkedIn profile that reflects my broader technical skillset.\n\nI’m interested in joining a team where I can apply my existing experience while continuing to grow as a backend developer, and contribute to building reliable, high-quality systems.",
     "location": "Poland",
     "avatarUrl": null,
     "resumeUrl": null,
-    "email": "you@example.com",
-    "gitHubUrl": "https://github.com/your-handle",
-    "linkedInUrl": "https://www.linkedin.com/in/your-handle",
+    "email": "jakub.augustyniak1.618@gmail.com",
+    "gitHubUrl": "https://github.com/beam1ng",
+    "linkedInUrl": "https://www.linkedin.com/in/jaugustyniakdev",
     "websiteUrl": null
   },
   "projects": [
