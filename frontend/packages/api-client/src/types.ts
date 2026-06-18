@@ -52,6 +52,12 @@ export interface ProjectSummary {
   technologies: readonly ProjectTechnology[];
 }
 
+/** A gallery screenshot with an optional caption. */
+export interface ProjectImage {
+  imageUrl: string;
+  caption: string | null;
+}
+
 export interface ProjectDetail {
   id: string;
   title: string;
@@ -65,6 +71,7 @@ export interface ProjectDetail {
   startDate: string | null;
   endDate: string | null;
   technologies: readonly ProjectTechnology[];
+  images: readonly ProjectImage[];
 }
 
 export interface Skill {
@@ -95,10 +102,21 @@ export interface AuthUser {
   email: string;
 }
 
+// ---- Uploads ----
+/** Public URL of a file uploaded through the admin API. */
+export interface ImageUploadResult {
+  url: string;
+}
+
 // ---- Admin write payloads (mirror the backend Upsert*Request records) ----
 export interface UpsertProjectTechnology {
   technologyId: string;
   note: string | null;
+}
+
+export interface UpsertProjectImage {
+  imageUrl: string;
+  caption: string | null;
 }
 
 export interface UpsertProjectRequest {
@@ -114,6 +132,7 @@ export interface UpsertProjectRequest {
   startDate: string | null;
   endDate: string | null;
   technologies: readonly UpsertProjectTechnology[];
+  images: readonly UpsertProjectImage[];
 }
 
 export interface UpsertTechnologyRequest {

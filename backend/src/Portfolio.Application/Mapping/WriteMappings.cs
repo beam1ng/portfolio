@@ -38,13 +38,48 @@ public static class WriteMappings
         target.StartDate = request.StartDate;
         target.EndDate = request.EndDate;
 
-        target.ProjectTechnologies.Clear();
-        foreach (var tech in request.Technologies.DistinctBy(t => t.TechnologyId))
+        // Diff the join rows rather than clear-and-re-add: re-adding identical
+        // composite keys makes EF collapse the delete+insert into a phantom
+        // update and throw DbUpdateConcurrencyException.
+        var desiredTech = request.Technologies
+            .Where(t => t.TechnologyId != Guid.Empty)
+            .GroupBy(t => t.TechnologyId)
+            .ToDictionary(
+                g => g.Key,
+                g => string.IsNullOrWhiteSpace(g.First().Note) ? null : g.First().Note!.Trim());
+
+        foreach (var dropped in target.ProjectTechnologies
+            .Where(pt => !desiredTech.ContainsKey(pt.TechnologyId))
+            .ToList())
         {
-            target.ProjectTechnologies.Add(new ProjectTechnology
+            target.ProjectTechnologies.Remove(dropped);
+        }
+
+        foreach (var (technologyId, note) in desiredTech)
+        {
+            var existing = target.ProjectTechnologies.FirstOrDefault(pt => pt.TechnologyId == technologyId);
+            if (existing is null)
             {
-                TechnologyId = tech.TechnologyId,
-                Note = string.IsNullOrWhiteSpace(tech.Note) ? null : tech.Note.Trim(),
+                target.ProjectTechnologies.Add(new ProjectTechnology { TechnologyId = technologyId, Note = note });
+            }
+            else
+            {
+                existing.Note = note;
+            }
+        }
+
+        target.Images.Clear();
+        var imageOrder = 0;
+        foreach (var image in request.Images.Where(i => !string.IsNullOrWhiteSpace(i.ImageUrl)))
+        {
+            target.Images.Add(new ProjectImage
+            {
+                // Default key so EF tracks these as inserts when added to an
+                // already-tracked project (a set key is mis-detected as Modified).
+                Id = Guid.Empty,
+                ImageUrl = image.ImageUrl.Trim(),
+                Caption = string.IsNullOrWhiteSpace(image.Caption) ? null : image.Caption.Trim(),
+                SortOrder = imageOrder++,
             });
         }
     }

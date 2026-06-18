@@ -11,6 +11,9 @@ server {
     # Reverse-proxy the API so the SPA and API share one origin
     # (httpOnly auth cookie works without SameSite=None/Secure).
     location /api/ {
+        # Admin image uploads can be multi-MB; the API downscales them. Default
+        # nginx cap is 1m, which rejects normal photos with 413 before the API.
+        client_max_body_size 25m;
         proxy_pass http://${API_UPSTREAM};
         proxy_http_version 1.1;
         proxy_set_header Host $host;

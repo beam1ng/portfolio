@@ -83,7 +83,11 @@ await ApplyDatabaseSetupAsync(app);
 
 app.Run();
 
-// Applies pending migrations, seeds the admin user, and seeds placeholder content in Development.
+// Applies pending migrations, seeds the admin user, and seeds content.
+// Content source preference (only ever seeds an empty DB):
+//   1. SEED_CONTENT_PATH → import the exported content.json (real content,
+//      survives a volume reset);
+//   2. otherwise, placeholder seed in Development.
 static async Task ApplyDatabaseSetupAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
@@ -96,7 +100,12 @@ static async Task ApplyDatabaseSetupAsync(WebApplication app)
     var admin = services.GetRequiredService<IOptions<AdminOptions>>().Value;
     await IdentitySeeder.SeedAdminAsync(userManager, admin);
 
-    if (app.Environment.IsDevelopment())
+    var seedContentPath = Environment.GetEnvironmentVariable("SEED_CONTENT_PATH");
+    if (!string.IsNullOrWhiteSpace(seedContentPath) && File.Exists(seedContentPath))
+    {
+        await ContentImporter.SeedAsync(db, seedContentPath);
+    }
+    else if (app.Environment.IsDevelopment())
     {
         await PortfolioSeeder.SeedAsync(db);
     }

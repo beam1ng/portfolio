@@ -65,6 +65,10 @@ public static class PortfolioMappings
         project.EndDate,
         project.ProjectTechnologies
             .Select(pt => pt.ToDto())
+            .ToList(),
+        project.Images
+            .OrderBy(i => i.SortOrder)
+            .Select(i => new ProjectImageDto(i.ImageUrl, i.Caption))
             .ToList());
 
     public static SkillDto ToDto(this Skill skill) => new(skill.Id, skill.Name, (int)skill.Level);

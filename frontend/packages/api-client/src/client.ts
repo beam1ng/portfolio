@@ -1,6 +1,7 @@
 import type {
   ApiResponse,
   AuthUser,
+  ImageUploadResult,
   Profile,
   ProjectDetail,
   ProjectSummary,
@@ -46,6 +47,9 @@ export interface AdminClient {
   deleteSkill(id: string): Promise<boolean>;
 
   updateProfile(body: UpsertProfileRequest): Promise<Profile>;
+
+  /** Uploads an image file (multipart) and returns its public URL. */
+  uploadImage(file: File): Promise<ImageUploadResult>;
 }
 
 export interface AuthClient {
@@ -92,6 +96,11 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
     throw new ApiError(`Network request to ${url} failed: ${(cause as Error).message}`, 0);
   }
 
+  return unwrap<T>(response);
+}
+
+/** Parses the standard envelope, throwing {@link ApiError} on any failure. */
+async function unwrap<T>(response: Response): Promise<T> {
   let envelope: ApiResponse<T> | null = null;
   try {
     envelope = (await response.json()) as ApiResponse<T>;
@@ -109,6 +118,23 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
   }
 
   return envelope.data;
+}
+
+/** POSTs multipart form data (e.g. a file). The browser sets the boundary. */
+async function requestForm<T>(url: string, form: FormData): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: form,
+      credentials: 'include',
+    });
+  } catch (cause) {
+    throw new ApiError(`Network request to ${url} failed: ${(cause as Error).message}`, 0);
+  }
+
+  return unwrap<T>(response);
 }
 
 /** Builds a typed client bound to a base URL such as `/api/v1`. */
@@ -143,6 +169,12 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
     deleteSkill: (id) => request<boolean>(`${base}/admin/skills/${id}`, { method: 'DELETE' }),
 
     updateProfile: (body) => request<Profile>(`${base}/admin/profile`, { method: 'PUT', body }),
+
+    uploadImage: (file) => {
+      const form = new FormData();
+      form.append('file', file);
+      return requestForm<ImageUploadResult>(`${base}/admin/uploads/images`, form);
+    },
   };
 
   return {

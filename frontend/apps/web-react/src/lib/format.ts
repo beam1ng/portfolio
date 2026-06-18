@@ -30,3 +30,20 @@ export function formatDateRange(start: string | null, end: string | null): strin
   }
   return `${formatMonthYear(start)} – ${formatMonthYear(end)}`;
 }
+
+/**
+ * Splits a multi-paragraph bio into a short hero lead (first paragraph) and the
+ * remaining paragraphs for an About section. Falls back gracefully for a
+ * single-paragraph bio.
+ */
+export function splitBio(bio: string): { lead: string; rest: readonly string[] } {
+  const paragraphs = bio
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0);
+
+  if (paragraphs.length === 0) {
+    return { lead: '', rest: [] };
+  }
+  return { lead: paragraphs[0] ?? '', rest: paragraphs.slice(1) };
+}

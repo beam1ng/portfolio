@@ -3,6 +3,7 @@ import { useProfile, useProjects } from '../api/queries';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { splitBio } from '../lib/format';
 import './pages.css';
 
 export function HomePage() {
@@ -25,32 +26,64 @@ export function HomePage() {
 
   const profile = profileQuery.data;
   const featured = featuredQuery.data ?? [];
+  const { lead, rest } = splitBio(profile.bio);
 
   return (
     <>
       <section className="container hero">
-        <div className="reveal">
-          <span className="eyebrow">{profile.headline}</span>
-          <h1 className="display hero__headline">{profile.fullName}</h1>
-          <p className="lead hero__lead">{profile.bio}</p>
-          <div className="hero__actions">
-            <Link to="/projects" className="btn btn--primary">
-              View projects
-            </Link>
-            <Link to="/contact" className="btn btn--ghost">
-              Get in touch
-            </Link>
+        <div className={`hero__inner reveal${profile.avatarUrl ? ' hero__inner--avatar' : ''}`}>
+          <div>
+            <span className="eyebrow">{profile.headline}</span>
+            <h1 className="display hero__headline">{profile.fullName}</h1>
+            {lead && <p className="lead hero__lead">{lead}</p>}
+            <div className="hero__actions">
+              <Link to="/projects" className="btn btn--primary">
+                View projects
+              </Link>
+              {profile.resumeUrl && (
+                <a className="btn btn--ghost" href={profile.resumeUrl} target="_blank" rel="noreferrer noopener">
+                  Download CV ↓
+                </a>
+              )}
+              <Link to="/contact" className="btn btn--ghost">
+                Get in touch
+              </Link>
+            </div>
+            <div className="hero__meta" style={{ marginTop: 'var(--space-6)' }}>
+              {profile.location && <span>📍 {profile.location}</span>}
+              {profile.websiteUrl && (
+                <a className="text-link" href={profile.websiteUrl} target="_blank" rel="noreferrer">
+                  {profile.websiteUrl.replace(/^https?:\/\//, '')}
+                </a>
+              )}
+            </div>
           </div>
-          <div className="hero__meta" style={{ marginTop: 'var(--space-6)' }}>
-            {profile.location && <span>📍 {profile.location}</span>}
-            {profile.websiteUrl && (
-              <a className="text-link" href={profile.websiteUrl} target="_blank" rel="noreferrer">
-                {profile.websiteUrl.replace(/^https?:\/\//, '')}
-              </a>
-            )}
-          </div>
+
+          {profile.avatarUrl && (
+            <img
+              className="hero__avatar"
+              src={profile.avatarUrl}
+              alt={profile.fullName}
+              width={220}
+              height={220}
+              loading="eager"
+            />
+          )}
         </div>
       </section>
+
+      {rest.length > 0 && (
+        <section className="container section" id="about" aria-labelledby="about-heading">
+          <div className="section-head">
+            <h2 className="section-title" id="about-heading">About</h2>
+          </div>
+          <div className="prose reveal">
+            {rest.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )}
 
       {featured.length > 0 && (
         <section className="container section">

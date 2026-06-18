@@ -13,6 +13,9 @@ public sealed record ProjectTechnologyDto(
     int Proficiency,
     string? Note);
 
+/// <summary>A gallery screenshot with an optional caption.</summary>
+public sealed record ProjectImageDto(string ImageUrl, string? Caption);
+
 /// <summary>Condensed project shape for lists and cards.</summary>
 public sealed record ProjectSummaryDto(
     Guid Id,
@@ -38,4 +41,5 @@ public sealed record ProjectDetailDto(
     bool IsFeatured,
     DateOnly? StartDate,
     DateOnly? EndDate,
-    IReadOnlyList<ProjectTechnologyDto> Technologies);
+    IReadOnlyList<ProjectTechnologyDto> Technologies,
+    IReadOnlyList<ProjectImageDto> Images);

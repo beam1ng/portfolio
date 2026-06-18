@@ -1,3 +1,4 @@
+using Portfolio.Api.Uploads;
 using Portfolio.Application.Abstractions;
 using Portfolio.Application.Common;
 using Portfolio.Application.Dtos;
@@ -20,8 +21,29 @@ public static class AdminEndpoints
         admin.MapTechnologyAdmin();
         admin.MapSkillAdmin();
         admin.MapProfileAdmin();
+        admin.MapUploadAdmin();
 
         return admin;
+    }
+
+    private static void MapUploadAdmin(this RouteGroupBuilder admin)
+    {
+        // Drag-and-drop gallery uploads. The file lands in the bind-mounted
+        // public/images dir, so it serves immediately and is committed for the
+        // static deploy. Cookie auth (the admin group) gates this; antiforgery
+        // is disabled because the payload is multipart form data.
+        admin.MapPost("/uploads/images", async (IFormFile? file, IConfiguration config, CancellationToken ct) =>
+        {
+            if (file is null)
+            {
+                return BadRequest<UploadResult>("No file was uploaded.");
+            }
+
+            var outcome = await ImageUploadHandler.SaveAsync(file, config, ct);
+            return outcome.Success
+                ? Results.Ok(ApiResponse<UploadResult>.Ok(new UploadResult(outcome.Url!)))
+                : BadRequest<UploadResult>(outcome.Error!);
+        }).DisableAntiforgery();
     }
 
     private static void MapProjectAdmin(this RouteGroupBuilder admin)

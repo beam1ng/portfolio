@@ -32,4 +32,7 @@ public class Project : BaseEntity
     public DateOnly? EndDate { get; set; }
 
     public ICollection<ProjectTechnology> ProjectTechnologies { get; set; } = [];
+
+    /// <summary>Gallery screenshots shown on the project detail page.</summary>
+    public ICollection<ProjectImage> Images { get; set; } = [];
 }

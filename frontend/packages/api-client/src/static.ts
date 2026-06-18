@@ -87,6 +87,7 @@ export function createStaticPortfolioClient(contentUrl: string): PortfolioClient
       updateSkill: notAvailable,
       deleteSkill: notAvailable,
       updateProfile: notAvailable,
+      uploadImage: notAvailable,
     },
   };
 }

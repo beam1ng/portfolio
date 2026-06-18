@@ -74,6 +74,17 @@ export function ContactPage() {
               <span className="text-link">{link.value}</span>
             </a>
           ))}
+          {query.data.resumeUrl && (
+            <a
+              href={query.data.resumeUrl}
+              className="contact__link"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <span className="muted">Résumé</span>
+              <span className="text-link">Download CV ↓</span>
+            </a>
+          )}
         </div>
       </div>
     </section>

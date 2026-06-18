@@ -90,6 +90,17 @@ export function ProjectDetailPage() {
         </div>
       )}
 
+      {(project.images ?? []).length > 0 && (
+        <section className="gallery" aria-label="Screenshots">
+          {(project.images ?? []).map((image, index) => (
+            <figure key={`${image.imageUrl}-${index}`} className="gallery__item">
+              <img src={image.imageUrl} alt={image.caption ?? project.title} loading="lazy" />
+              {image.caption && <figcaption>{image.caption}</figcaption>}
+            </figure>
+          ))}
+        </section>
+      )}
+
       <div className="detail__body">
         <div className="detail__description">{project.description}</div>
         <aside className="detail__aside">

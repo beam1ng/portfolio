@@ -23,6 +23,11 @@ public sealed class UpsertProjectRequestValidator : AbstractValidator<UpsertProj
             tech.RuleFor(t => t.TechnologyId).NotEmpty();
             tech.RuleFor(t => t.Note).MaximumLength(500);
         });
+        RuleForEach(x => x.Images).ChildRules(image =>
+        {
+            image.RuleFor(i => i.ImageUrl).NotEmpty().MaximumLength(2048);
+            image.RuleFor(i => i.Caption).MaximumLength(300);
+        });
         When(x => x.StartDate.HasValue && x.EndDate.HasValue, () =>
             RuleFor(x => x.EndDate!.Value)
                 .GreaterThanOrEqualTo(x => x.StartDate!.Value)

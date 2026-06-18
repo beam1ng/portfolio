@@ -30,6 +30,7 @@ public sealed class ProjectRepository(PortfolioDbContext db) : IProjectRepositor
             .AsNoTracking()
             .Include(p => p.ProjectTechnologies)
             .ThenInclude(pt => pt.Technology)
+            .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Slug == slug, cancellationToken);
 
     public async Task<IReadOnlyList<Project>> ListAllAsync(CancellationToken cancellationToken) =>
@@ -45,6 +46,7 @@ public sealed class ProjectRepository(PortfolioDbContext db) : IProjectRepositor
         db.Projects
             .Include(p => p.ProjectTechnologies)
             .ThenInclude(pt => pt.Technology)
+            .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
     public async Task AddAsync(Project project, CancellationToken cancellationToken) =>
