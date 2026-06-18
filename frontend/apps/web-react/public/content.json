@@ -21,7 +21,7 @@
       "imageUrl": null,
       "liveUrl": null,
       "repoUrl": null,
-      "isFeatured": true,
+      "isFeatured": false,
       "startDate": "2026-05-01",
       "endDate": null,
       "technologies": [
@@ -72,6 +72,62 @@
         }
       ],
       "images": []
+    },
+    {
+      "id": "019ed57f-e11a-7d2d-b48e-6c8e1a15b62d",
+      "title": "Real-time Room Reverb Simulation",
+      "slug": "realtime-room-reverb",
+      "summary": "A Unity implementation of a research paper on geometry-aware real-time reverb via transport-path precomputation.",
+      "description": "A Unity implementation of the technique from the paper \"Real-time Room Reverb in Large Scenes using Transport Path Precomputation\" by Gregor Mückl and Carsten Dachsbacher (JCGT, 2020).\n\nThe method makes reverb geometry-aware: instead of faking room acoustics, it models how sound actually propagates through a scene. The pipeline samples surface points across scene geometry, then precomputes sound-transport paths between them so the acoustic response can be evaluated in real time even in large environments.\n\nImplemented stages so far: surface-point generation across mesh geometry, and transport-path precomputation for sound propagation — driven on the GPU with compute shaders.",
+      "imageUrl": "/images/reverb-card.png",
+      "liveUrl": null,
+      "repoUrl": "https://github.com/beam1ng/TransportPathPrecomputation",
+      "isFeatured": true,
+      "startDate": "2024-07-01",
+      "endDate": null,
+      "technologies": [
+        {
+          "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
+          "name": "C#",
+          "slug": "csharp",
+          "category": "Languages",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+          "proficiency": 4,
+          "note": "Surface-point generation and transport-path precomputation stages."
+        },
+        {
+          "id": "019ed57f-e0dd-789e-98e6-4709c3f4c6ae",
+          "name": "HLSL / Compute Shaders",
+          "slug": "hlsl",
+          "category": "Graphics",
+          "iconUrl": null,
+          "proficiency": 3,
+          "note": "GPU compute shaders drive the precomputation."
+        },
+        {
+          "id": "019ed57f-e0dd-71f3-97a4-c9c18c8368d2",
+          "name": "Unity",
+          "slug": "unity",
+          "category": "Game Engine",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
+          "proficiency": 3,
+          "note": "Scene tooling and runtime host for the simulation."
+        }
+      ],
+      "images": [
+        {
+          "imageUrl": "/images/realtimeroomreverbresearchpaper-f3ccf81b.png",
+          "caption": "Research paper the project is based on."
+        },
+        {
+          "imageUrl": "/images/350188098-4ef7ef82-eee7-40cd-89be-c98ff3-7ddfcc9a.png",
+          "caption": "Surface sample points generation."
+        },
+        {
+          "imageUrl": "/images/350498766-bfa814a1-c519-437d-8671-d85a89-3dd08dab.png",
+          "caption": "An example of a transport path."
+        }
+      ]
     },
     {
       "id": "019ed57f-e11b-71db-9cdb-8f993e755cc1",
@@ -129,7 +185,7 @@
       "imageUrl": null,
       "liveUrl": null,
       "repoUrl": null,
-      "isFeatured": false,
+      "isFeatured": true,
       "startDate": null,
       "endDate": null,
       "technologies": [
@@ -285,49 +341,6 @@
           "caption": null
         }
       ]
-    },
-    {
-      "id": "019ed57f-e11a-7d2d-b48e-6c8e1a15b62d",
-      "title": "Real-time Room Reverb Simulation",
-      "slug": "realtime-room-reverb",
-      "summary": "A Unity implementation of a research paper on geometry-aware real-time reverb via transport-path precomputation.",
-      "description": "A Unity implementation of the technique from the paper \"Real-time Room Reverb in Large Scenes using Transport Path Precomputation\" by Gregor Mückl and Carsten Dachsbacher (JCGT, 2020).\n\nThe method makes reverb geometry-aware: instead of faking room acoustics, it models how sound actually propagates through a scene. The pipeline samples surface points across scene geometry, then precomputes sound-transport paths between them so the acoustic response can be evaluated in real time even in large environments.\n\nImplemented stages so far: surface-point generation across mesh geometry, and transport-path precomputation for sound propagation — driven on the GPU with compute shaders.",
-      "imageUrl": "/images/reverb-card.png",
-      "liveUrl": null,
-      "repoUrl": "https://github.com/beam1ng/TransportPathPrecomputation",
-      "isFeatured": true,
-      "startDate": "2024-07-01",
-      "endDate": null,
-      "technologies": [
-        {
-          "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
-          "name": "C#",
-          "slug": "csharp",
-          "category": "Languages",
-          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
-          "proficiency": 4,
-          "note": "Surface-point generation and transport-path precomputation stages."
-        },
-        {
-          "id": "019ed57f-e0dd-789e-98e6-4709c3f4c6ae",
-          "name": "HLSL / Compute Shaders",
-          "slug": "hlsl",
-          "category": "Graphics",
-          "iconUrl": null,
-          "proficiency": 3,
-          "note": "GPU compute shaders drive the precomputation."
-        },
-        {
-          "id": "019ed57f-e0dd-71f3-97a4-c9c18c8368d2",
-          "name": "Unity",
-          "slug": "unity",
-          "category": "Game Engine",
-          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
-          "proficiency": 3,
-          "note": "Scene tooling and runtime host for the simulation."
-        }
-      ],
-      "images": []
     }
   ],
   "skills": [
