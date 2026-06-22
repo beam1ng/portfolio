@@ -21,6 +21,8 @@ public static class AdminEndpoints
         admin.MapTechnologyAdmin();
         admin.MapSkillAdmin();
         admin.MapProfileAdmin();
+        admin.MapExperienceAdmin();
+        admin.MapEducationAdmin();
         admin.MapUploadAdmin();
 
         return admin;
@@ -40,6 +42,20 @@ public static class AdminEndpoints
             }
 
             var outcome = await ImageUploadHandler.SaveAsync(file, config, ct);
+            return outcome.Success
+                ? Results.Ok(ApiResponse<UploadResult>.Ok(new UploadResult(outcome.Url!)))
+                : BadRequest<UploadResult>(outcome.Error!);
+        }).DisableAntiforgery();
+
+        // Résumé / CV PDF upload — same bind-mounted dir, no image processing.
+        admin.MapPost("/uploads/documents", async (IFormFile? file, IConfiguration config, CancellationToken ct) =>
+        {
+            if (file is null)
+            {
+                return BadRequest<UploadResult>("No file was uploaded.");
+            }
+
+            var outcome = await DocumentUploadHandler.SaveAsync(file, config, ct);
             return outcome.Success
                 ? Results.Ok(ApiResponse<UploadResult>.Ok(new UploadResult(outcome.Url!)))
                 : BadRequest<UploadResult>(outcome.Error!);
@@ -302,6 +318,100 @@ public static class AdminEndpoints
             await repo.SaveChangesAsync(ct);
             return Results.Ok(ApiResponse<ProfileDto>.Ok(existing.ToDto()));
         });
+    }
+
+    private static void MapExperienceAdmin(this RouteGroupBuilder admin)
+    {
+        admin.MapGet("/experience", async (IExperienceRepository repo, CancellationToken ct) =>
+        {
+            var all = await repo.ListAsync(ct);
+            return Results.Ok(ApiResponse<IReadOnlyList<ExperienceDto>>.Ok(all.Select(e => e.ToDto()).ToList()));
+        });
+
+        admin.MapPost("/experience", async (UpsertExperienceRequest request, IExperienceRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertExperienceRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<ExperienceDto>(error);
+            }
+
+            var item = request.ToEntity();
+            await repo.AddAsync(item, ct);
+            await repo.SaveChangesAsync(ct);
+            return Results.Created("/api/v1/experience", ApiResponse<ExperienceDto>.Ok(item.ToDto()));
+        });
+
+        admin.MapPut("/experience/{id:guid}", async (Guid id, UpsertExperienceRequest request, IExperienceRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertExperienceRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<ExperienceDto>(error);
+            }
+
+            var existing = await repo.GetByIdAsync(id, ct);
+            if (existing is null)
+            {
+                return NotFound<ExperienceDto>($"Experience {id} not found.");
+            }
+
+            request.ApplyTo(existing);
+            await repo.SaveChangesAsync(ct);
+            return Results.Ok(ApiResponse<ExperienceDto>.Ok(existing.ToDto()));
+        });
+
+        admin.MapDelete("/experience/{id:guid}", async (Guid id, IExperienceRepository repo, CancellationToken ct) =>
+            await repo.DeleteAsync(id, ct)
+                ? Results.Ok(ApiResponse<bool>.Ok(true))
+                : NotFound<bool>($"Experience {id} not found."));
+    }
+
+    private static void MapEducationAdmin(this RouteGroupBuilder admin)
+    {
+        admin.MapGet("/education", async (IEducationRepository repo, CancellationToken ct) =>
+        {
+            var all = await repo.ListAsync(ct);
+            return Results.Ok(ApiResponse<IReadOnlyList<EducationDto>>.Ok(all.Select(e => e.ToDto()).ToList()));
+        });
+
+        admin.MapPost("/education", async (UpsertEducationRequest request, IEducationRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertEducationRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<EducationDto>(error);
+            }
+
+            var item = request.ToEntity();
+            await repo.AddAsync(item, ct);
+            await repo.SaveChangesAsync(ct);
+            return Results.Created("/api/v1/education", ApiResponse<EducationDto>.Ok(item.ToDto()));
+        });
+
+        admin.MapPut("/education/{id:guid}", async (Guid id, UpsertEducationRequest request, IEducationRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertEducationRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<EducationDto>(error);
+            }
+
+            var existing = await repo.GetByIdAsync(id, ct);
+            if (existing is null)
+            {
+                return NotFound<EducationDto>($"Education {id} not found.");
+            }
+
+            request.ApplyTo(existing);
+            await repo.SaveChangesAsync(ct);
+            return Results.Ok(ApiResponse<EducationDto>.Ok(existing.ToDto()));
+        });
+
+        admin.MapDelete("/education/{id:guid}", async (Guid id, IEducationRepository repo, CancellationToken ct) =>
+            await repo.DeleteAsync(id, ct)
+                ? Results.Ok(ApiResponse<bool>.Ok(true))
+                : NotFound<bool>($"Education {id} not found."));
     }
 
     // ---- envelope helpers ----

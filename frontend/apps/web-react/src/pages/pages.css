@@ -2,7 +2,9 @@
 .hero {
   display: grid;
   gap: var(--space-8);
-  padding-block: clamp(3rem, 2rem + 6vw, 7rem);
+  /* Smaller bottom padding so the hero flows into the first section with one
+     gap, not a doubled hero-bottom + section-top void. */
+  padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) var(--space-2);
 }
 
 .hero__inner--avatar {
@@ -54,6 +56,11 @@
 
 .hero__lead {
   margin-top: var(--space-4);
+}
+
+/* Home "About" teaser: one strong paragraph at lead size, full story on /resume. */
+.about-teaser {
+  max-width: 58ch;
 }
 
 .hero__actions {
@@ -220,9 +227,146 @@
 }
 
 .detail__description {
-  white-space: pre-line;
   color: var(--color-text);
-  line-height: var(--leading-normal);
+  line-height: var(--leading-relaxed, 1.7);
+}
+
+/* ---- Markdown content (case studies, experience summaries) ---- */
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown p {
+  margin: 0 0 var(--space-4);
+}
+
+.markdown h2 {
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+.markdown h3 {
+  font-size: var(--text-base);
+  font-weight: 640;
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.markdown a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+}
+
+.markdown pre {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+}
+
+.markdown pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.markdown blockquote {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+/* ---- Résumé timeline ---- */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-8);
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: var(--space-6);
+}
+
+@media (max-width: 40rem) {
+  .timeline__item {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}
+
+.timeline__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: 0.15rem;
+}
+
+.timeline__dates {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.timeline__loc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.timeline__body {
+  border-left: 1px solid var(--color-border);
+  padding-left: var(--space-6);
+}
+
+@media (max-width: 40rem) {
+  .timeline__body {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+.timeline__role {
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+
+.timeline__org {
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.timeline__summary {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .detail__aside {
@@ -268,23 +412,41 @@
 .contact {
   display: grid;
   gap: var(--space-8);
-  max-width: 40rem;
+}
+
+/* Wide screens: intro left, link cards right, filling the column width
+   instead of stranding the whole right half empty. */
+@media (min-width: 48rem) {
+  .contact {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
 }
 
 .contact__links {
   display: grid;
   gap: var(--space-3);
+  align-content: start;
 }
 
 .contact__link {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-4);
   padding: var(--space-4) var(--space-6);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   transition: border-color var(--duration-fast) var(--ease-out-expo),
     background var(--duration-fast) var(--ease-out-expo);
+}
+
+/* Long URLs wrap instead of colliding with the label on narrow screens. */
+.contact__link .text-link {
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .contact__link:hover {

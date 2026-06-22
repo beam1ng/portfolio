@@ -79,7 +79,10 @@ app.UseAuthorization();
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" })).WithName("HealthCheck");
 app.MapPortfolioApi();
 
-await ApplyDatabaseSetupAsync(app);
+if (!app.Configuration.GetValue<bool>("SkipDatabaseSetup"))
+{
+    await ApplyDatabaseSetupAsync(app);
+}
 
 app.Run();
 

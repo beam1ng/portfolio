@@ -1,7 +1,8 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type DragEvent, type FormEvent } from 'react';
 import { ApiError, type UpsertProfileRequest } from '@portfolio/api-client';
 import { useProfile } from '../../api/queries';
 import { useProfileMutation } from '../../admin/queries';
+import { api } from '../../lib/apiClient';
 import { ErrorState, LoadingState } from '../../components/ui/States';
 import './admin.css';
 
@@ -19,6 +20,13 @@ export function AdminProfilePage() {
   const mutation = useProfileMutation();
   const [form, setForm] = useState<ProfileForm>(EMPTY);
   const [saved, setSaved] = useState(false);
+  const [isAvatarUploading, setIsAvatarUploading] = useState(false);
+  const [isAvatarDragOver, setIsAvatarDragOver] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [isResumeUploading, setIsResumeUploading] = useState(false);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (query.data) {
@@ -37,6 +45,48 @@ export function AdminProfilePage() {
   const set = (key: keyof ProfileForm, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
+  };
+
+  // Upload a single image and set it as the avatar (same endpoint as project covers).
+  const uploadAvatar = async (file: File | undefined) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    setIsAvatarUploading(true);
+    setAvatarError(null);
+    try {
+      const { url } = await api.admin.uploadImage(file);
+      setForm((prev) => ({ ...prev, avatarUrl: url }));
+      setSaved(false);
+    } catch (err) {
+      setAvatarError(err instanceof ApiError ? err.message : 'Upload failed.');
+    } finally {
+      setIsAvatarUploading(false);
+    }
+  };
+
+  const onAvatarDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsAvatarDragOver(false);
+    void uploadAvatar(event.dataTransfer.files?.[0]);
+  };
+
+  // Upload the résumé PDF and set it as the CV link.
+  const uploadResume = async (file: File | undefined) => {
+    if (!file) return;
+    if (file.type !== 'application/pdf') {
+      setResumeError('Please choose a PDF file.');
+      return;
+    }
+    setIsResumeUploading(true);
+    setResumeError(null);
+    try {
+      const { url } = await api.admin.uploadDocument(file);
+      setForm((prev) => ({ ...prev, resumeUrl: url }));
+      setSaved(false);
+    } catch (err) {
+      setResumeError(err instanceof ApiError ? err.message : 'Upload failed.');
+    } finally {
+      setIsResumeUploading(false);
+    }
   };
 
   const onSubmit = (event: FormEvent) => {
@@ -111,10 +161,89 @@ export function AdminProfilePage() {
             <label htmlFor="websiteUrl">Website URL</label>
             <input id="websiteUrl" type="url" value={form.websiteUrl ?? ''} onChange={(e) => set('websiteUrl', e.target.value)} />
           </div>
-          <div className="field">
-            <label htmlFor="avatarUrl">Avatar URL</label>
-            <input id="avatarUrl" type="url" value={form.avatarUrl ?? ''} onChange={(e) => set('avatarUrl', e.target.value)} />
+        </div>
+
+        <div className="field">
+          <label>
+            Avatar <span className="muted">(shown in the home hero; optional)</span>
+          </label>
+          <div className="cover-uploader">
+            {form.avatarUrl
+              ? <img className="cover-uploader__thumb cover-uploader__thumb--round" src={form.avatarUrl} alt="" />
+              : <div className="cover-uploader__thumb cover-uploader__thumb--round cover-uploader__thumb--empty">No avatar</div>}
+            <div className="cover-uploader__body">
+              <div
+                className={`dropzone dropzone--compact${isAvatarDragOver ? ' dropzone--over' : ''}`}
+                onDragOver={(e) => { e.preventDefault(); setIsAvatarDragOver(true); }}
+                onDragLeave={() => setIsAvatarDragOver(false)}
+                onDrop={onAvatarDrop}
+                onClick={() => avatarInputRef.current?.click()}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); avatarInputRef.current?.click(); } }}
+              >
+                <input
+                  ref={avatarInputRef}
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => { void uploadAvatar(e.target.files?.[0]); e.target.value = ''; }}
+                />
+                <span className="dropzone__label">
+                  {isAvatarUploading ? 'Uploading…' : 'Drag a photo here, or click to choose.'}
+                </span>
+              </div>
+              <input
+                type="text"
+                placeholder="…or paste an image URL"
+                value={form.avatarUrl ?? ''}
+                onChange={(e) => set('avatarUrl', e.target.value)}
+              />
+              {form.avatarUrl && (
+                <button type="button" className="btn btn--danger btn--sm" onClick={() => set('avatarUrl', '')}>
+                  Remove avatar
+                </button>
+              )}
+            </div>
           </div>
+          {avatarError && <p className="form-error">{avatarError}</p>}
+        </div>
+
+        <div className="field">
+          <label>
+            Résumé / CV <span className="muted">(PDF; shown as “Download CV”)</span>
+          </label>
+          <div
+            className="dropzone dropzone--compact"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => { e.preventDefault(); void uploadResume(e.dataTransfer.files?.[0]); }}
+            onClick={() => resumeInputRef.current?.click()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); resumeInputRef.current?.click(); } }}
+          >
+            <input
+              ref={resumeInputRef}
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={(e) => { void uploadResume(e.target.files?.[0]); e.target.value = ''; }}
+            />
+            <span className="dropzone__label">
+              {isResumeUploading ? 'Uploading…' : 'Drop a PDF here, or click to choose.'}
+            </span>
+          </div>
+          {form.resumeUrl && (
+            <div className="field--row" style={{ marginTop: 'var(--space-2)' }}>
+              <a className="text-link" href={form.resumeUrl} target="_blank" rel="noreferrer noopener">
+                View current résumé ↗
+              </a>
+              <button type="button" className="btn btn--danger btn--sm" onClick={() => set('resumeUrl', '')}>
+                Remove
+              </button>
+            </div>
+          )}
+          {resumeError && <p className="form-error">{resumeError}</p>}
         </div>
 
         <div className="form-actions">

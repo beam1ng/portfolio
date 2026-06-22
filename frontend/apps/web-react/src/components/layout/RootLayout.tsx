@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SiteHeader } from './SiteHeader';
 import { SiteFooter } from './SiteFooter';
+import { LoadingState } from '../ui/States';
 
 /** App frame: header, routed page content, footer; scrolls to top on navigation. */
 export function RootLayout() {
@@ -18,7 +19,9 @@ export function RootLayout() {
       </a>
       <SiteHeader />
       <main id="main">
-        <Outlet />
+        <Suspense fallback={<LoadingState />}>
+          <Outlet />
+        </Suspense>
       </main>
       <SiteFooter />
     </div>

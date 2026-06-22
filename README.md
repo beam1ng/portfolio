@@ -8,6 +8,7 @@ Personal portfolio — projects, technologies, skills, summary. DB-driven conten
 - **Infra:** Docker, Azure (Container Apps + Azure SQL), Bicep IaC
 
 Full architecture & roadmap: [`docs/PLAN.md`](docs/PLAN.md).
+Testing baseline and next quality targets: [`docs/TESTING.md`](docs/TESTING.md).
 
 ## Repository Layout
 
@@ -106,6 +107,12 @@ corepack pnpm -r test           # vitest
 corepack pnpm -r build          # production build
 ```
 
+### Backend checks
+
+```bash
+dotnet test backend/Portfolio.slnx
+```
+
 ## Static hosting (free — Azure Static Web Apps)
 
 A no-API build of the frontend that reads a bundled `content.json` instead of
@@ -141,7 +148,8 @@ folds out of the static build entirely.
 
 See [`docs/PLAN.md`](docs/PLAN.md) §11. Done: **Phase 1 Foundation** ✅,
 **Phase 2 Backend core** ✅, **Phase 3 Frontend core** ✅, **Phase 4 Auth + Admin** ✅,
-**Phase 5 Dockerize end-to-end** ✅. Next: **Phase 6 — CI/CD + Azure IaC**.
+**Phase 5 Dockerize end-to-end** ✅, **Phase 6 CI/CD + Azure IaC/static deploy**
+✅. Current: **Phase 7 — tests + docs polish**.
 
 ### Admin
 

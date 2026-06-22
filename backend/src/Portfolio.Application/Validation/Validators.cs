@@ -75,3 +75,35 @@ public sealed class UpsertProfileRequestValidator : AbstractValidator<UpsertProf
         RuleFor(x => x.Email).EmailAddress().When(x => !string.IsNullOrWhiteSpace(x.Email));
     }
 }
+
+public sealed class UpsertExperienceRequestValidator : AbstractValidator<UpsertExperienceRequest>
+{
+    public UpsertExperienceRequestValidator()
+    {
+        RuleFor(x => x.Company).NotEmpty().MaximumLength(160);
+        RuleFor(x => x.Role).NotEmpty().MaximumLength(160);
+        RuleFor(x => x.Location).MaximumLength(160);
+        RuleFor(x => x.Summary).MaximumLength(4000);
+        RuleFor(x => x.SortOrder).GreaterThanOrEqualTo(0);
+        When(x => x.EndDate.HasValue, () =>
+            RuleFor(x => x.EndDate!.Value)
+                .GreaterThanOrEqualTo(x => x.StartDate)
+                .WithMessage("End date must be on or after the start date."));
+    }
+}
+
+public sealed class UpsertEducationRequestValidator : AbstractValidator<UpsertEducationRequest>
+{
+    public UpsertEducationRequestValidator()
+    {
+        RuleFor(x => x.School).NotEmpty().MaximumLength(160);
+        RuleFor(x => x.Credential).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Field).MaximumLength(160);
+        RuleFor(x => x.Url).MaximumLength(2048);
+        RuleFor(x => x.SortOrder).GreaterThanOrEqualTo(0);
+        When(x => x.StartDate.HasValue && x.EndDate.HasValue, () =>
+            RuleFor(x => x.EndDate!.Value)
+                .GreaterThanOrEqualTo(x => x.StartDate!.Value)
+                .WithMessage("End date must be on or after the start date."));
+    }
+}

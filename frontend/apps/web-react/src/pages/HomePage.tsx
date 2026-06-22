@@ -72,19 +72,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {rest.length > 0 && (
-        <section className="container section" id="about" aria-labelledby="about-heading">
-          <div className="section-head">
-            <h2 className="section-title" id="about-heading">About</h2>
-          </div>
-          <div className="prose reveal">
-            {rest.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-        </section>
-      )}
-
       {featured.length > 0 && (
         <section className="container section">
           <div className="section-head">
@@ -98,6 +85,18 @@ export function HomePage() {
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
+        </section>
+      )}
+
+      {rest.length > 0 && (
+        <section className="container section" id="about" aria-labelledby="about-heading">
+          <div className="section-head">
+            <h2 className="section-title" id="about-heading">About</h2>
+            <Link to="/resume" className="text-link">
+              Full background →
+            </Link>
+          </div>
+          <p className="lead about-teaser reveal">{rest[0]}</p>
         </section>
       )}
     </>

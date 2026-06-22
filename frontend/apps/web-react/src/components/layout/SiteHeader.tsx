@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
   { to: '/projects', label: 'Projects', end: false },
   { to: '/skills', label: 'Skills', end: false },
+  { to: '/resume', label: 'Résumé', end: false },
   { to: '/contact', label: 'Contact', end: false },
 ] as const;
 

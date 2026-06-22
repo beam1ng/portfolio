@@ -63,6 +63,8 @@ export function createStaticPortfolioClient(contentUrl: string): PortfolioClient
 
     listSkills: async (signal) => (await load(signal)).skills,
     listTechnologies: async (signal) => (await load(signal)).technologies,
+    listExperience: async (signal) => (await load(signal)).experience ?? [],
+    listEducation: async (signal) => (await load(signal)).education ?? [],
 
     auth: {
       login: notAvailable,
@@ -87,7 +89,16 @@ export function createStaticPortfolioClient(contentUrl: string): PortfolioClient
       updateSkill: notAvailable,
       deleteSkill: notAvailable,
       updateProfile: notAvailable,
+      listExperience: notAvailable,
+      createExperience: notAvailable,
+      updateExperience: notAvailable,
+      deleteExperience: notAvailable,
+      listEducation: notAvailable,
+      createEducation: notAvailable,
+      updateEducation: notAvailable,
+      deleteEducation: notAvailable,
       uploadImage: notAvailable,
+      uploadDocument: notAvailable,
     },
   };
 }

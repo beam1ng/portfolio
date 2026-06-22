@@ -4,8 +4,8 @@
     "headline": "Full-stack Software Engineer",
     "bio": "I’m a software developer with over 3 years of commercial experience, currently looking to transition into backend-focused web development.\n\nIn my professional work, I’ve primarily developed in C#, contributing to production-ready projects. My experience includes working with system-level concerns, memory management, and performance optimization - including GPU-based parallel processing in critical areas. This background has given me a strong foundation in writing efficient, scalable code.\n\nAlongside this, I’ve been actively expanding into web technologies. I work with .NET Core, ASP.NET, and have hands-on experience with databases and backend tooling such as Redis, SQL (including MySQL and PostgreSQL). On the frontend side, I’ve worked with Vue.js, Svelte, and modern tooling like Vite, as well as a range of other technologies I’ve explored as part of personal and professional growth.\n\nYou can also find a recommendation on my LinkedIn profile that reflects my broader technical skillset.\n\nI’m interested in joining a team where I can apply my existing experience while continuing to grow as a backend developer, and contribute to building reliable, high-quality systems.",
     "location": "Poland",
-    "avatarUrl": null,
-    "resumeUrl": null,
+    "avatarUrl": "/images/img-avatar-83dc3ee3.jpg",
+    "resumeUrl": "/images/jakub-augustyniak-resume.pdf",
     "email": "jakub.augustyniak1.618@gmail.com",
     "gitHubUrl": "https://github.com/beam1ng",
     "linkedInUrl": "https://www.linkedin.com/in/jaugustyniakdev",
@@ -543,6 +543,30 @@
       "category": "Runtime",
       "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
       "proficiency": 3
+    }
+  ],
+  "experience": [
+    {
+      "id": "019eeefa-fcb3-7af3-ac65-46530bd141fe",
+      "company": "The Knights of U",
+      "role": "C# Developer",
+      "location": null,
+      "startDate": "2022-10-01",
+      "endDate": "2025-10-30",
+      "summary": "C# software engineer focused on performance, stability, and tooling across large production codebases. Owned investigation and resolution of complex runtime, memory, and performance issues across multiple shipped products.\n\n- **Hollow Knight: Silksong** — eliminated stability issues in long-running processes by finding and fixing unmanaged memory leaks, extending stable runtime from ~30 minutes to indefinite.\n- **Internal tooling** — reduced GC pressure and memory fragmentation for smoother execution and fewer runtime stalls in memory-constrained environments.",
+      "sortOrder": 0
+    }
+  ],
+  "education": [
+    {
+      "id": "019eebe9-2b88-78f5-9753-bf60a26eea84",
+      "school": "Poznań University of Technology",
+      "credential": "Bachelor of Arts",
+      "field": "Computer Science",
+      "startDate": "2020-10-01",
+      "endDate": "2024-02-01",
+      "url": null,
+      "sortOrder": 0
     }
   ]
 }

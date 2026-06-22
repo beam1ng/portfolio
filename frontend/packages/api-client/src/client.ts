@@ -1,6 +1,8 @@
 import type {
   ApiResponse,
   AuthUser,
+  EducationItem,
+  ExperienceItem,
   ImageUploadResult,
   Profile,
   ProjectDetail,
@@ -9,6 +11,8 @@ import type {
   SkillCategory,
   Technology,
   UpsertProfileRequest,
+  UpsertEducationRequest,
+  UpsertExperienceRequest,
   UpsertProjectRequest,
   UpsertSkillCategoryRequest,
   UpsertSkillRequest,
@@ -48,8 +52,21 @@ export interface AdminClient {
 
   updateProfile(body: UpsertProfileRequest): Promise<Profile>;
 
+  listExperience(signal?: AbortSignal): Promise<readonly ExperienceItem[]>;
+  createExperience(body: UpsertExperienceRequest): Promise<ExperienceItem>;
+  updateExperience(id: string, body: UpsertExperienceRequest): Promise<ExperienceItem>;
+  deleteExperience(id: string): Promise<boolean>;
+
+  listEducation(signal?: AbortSignal): Promise<readonly EducationItem[]>;
+  createEducation(body: UpsertEducationRequest): Promise<EducationItem>;
+  updateEducation(id: string, body: UpsertEducationRequest): Promise<EducationItem>;
+  deleteEducation(id: string): Promise<boolean>;
+
   /** Uploads an image file (multipart) and returns its public URL. */
   uploadImage(file: File): Promise<ImageUploadResult>;
+
+  /** Uploads a document (PDF, e.g. the résumé) and returns its public URL. */
+  uploadDocument(file: File): Promise<ImageUploadResult>;
 }
 
 export interface AuthClient {
@@ -64,6 +81,8 @@ export interface PortfolioClient {
   getProject(slug: string, signal?: AbortSignal): Promise<ProjectDetail>;
   listSkills(signal?: AbortSignal): Promise<readonly SkillCategory[]>;
   listTechnologies(signal?: AbortSignal): Promise<readonly Technology[]>;
+  listExperience(signal?: AbortSignal): Promise<readonly ExperienceItem[]>;
+  listEducation(signal?: AbortSignal): Promise<readonly EducationItem[]>;
   readonly auth: AuthClient;
   readonly admin: AdminClient;
 }
@@ -170,10 +189,26 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
 
     updateProfile: (body) => request<Profile>(`${base}/admin/profile`, { method: 'PUT', body }),
 
+    listExperience: (signal) => request<readonly ExperienceItem[]>(`${base}/admin/experience`, { signal }),
+    createExperience: (body) => request<ExperienceItem>(`${base}/admin/experience`, { method: 'POST', body }),
+    updateExperience: (id, body) => request<ExperienceItem>(`${base}/admin/experience/${id}`, { method: 'PUT', body }),
+    deleteExperience: (id) => request<boolean>(`${base}/admin/experience/${id}`, { method: 'DELETE' }),
+
+    listEducation: (signal) => request<readonly EducationItem[]>(`${base}/admin/education`, { signal }),
+    createEducation: (body) => request<EducationItem>(`${base}/admin/education`, { method: 'POST', body }),
+    updateEducation: (id, body) => request<EducationItem>(`${base}/admin/education/${id}`, { method: 'PUT', body }),
+    deleteEducation: (id) => request<boolean>(`${base}/admin/education/${id}`, { method: 'DELETE' }),
+
     uploadImage: (file) => {
       const form = new FormData();
       form.append('file', file);
       return requestForm<ImageUploadResult>(`${base}/admin/uploads/images`, form);
+    },
+
+    uploadDocument: (file) => {
+      const form = new FormData();
+      form.append('file', file);
+      return requestForm<ImageUploadResult>(`${base}/admin/uploads/documents`, form);
     },
   };
 
@@ -185,6 +220,8 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
       request<ProjectDetail>(`${base}/projects/${encodeURIComponent(slug)}`, { signal }),
     listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/skills`, { signal }),
     listTechnologies: (signal) => request<readonly Technology[]>(`${base}/technologies`, { signal }),
+    listExperience: (signal) => request<readonly ExperienceItem[]>(`${base}/experience`, { signal }),
+    listEducation: (signal) => request<readonly EducationItem[]>(`${base}/education`, { signal }),
     auth,
     admin,
   };

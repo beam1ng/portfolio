@@ -24,7 +24,7 @@ function makeProject(overrides: Partial<ProjectSummary> = {}): ProjectSummary {
 
 function renderCard(project: ProjectSummary) {
   return render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ProjectCard project={project} index={0} />
     </MemoryRouter>,
   );
@@ -50,7 +50,7 @@ describe('ProjectCard', () => {
     expect(screen.getByText('Featured')).toBeInTheDocument();
 
     rerender(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ProjectCard project={makeProject({ isFeatured: false })} index={0} />
       </MemoryRouter>,
     );

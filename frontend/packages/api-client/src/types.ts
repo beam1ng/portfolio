@@ -88,6 +88,30 @@ export interface SkillCategory {
   skills: readonly Skill[];
 }
 
+/** A work-history entry. */
+export interface ExperienceItem {
+  id: string;
+  company: string;
+  role: string;
+  location: string | null;
+  startDate: string;
+  endDate: string | null;
+  summary: string | null;
+  sortOrder: number;
+}
+
+/** An education or certification entry. */
+export interface EducationItem {
+  id: string;
+  school: string;
+  credential: string;
+  field: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  url: string | null;
+  sortOrder: number;
+}
+
 // ---- Static hosting ----
 /** The whole portfolio baked into one JSON file for static (no-API) hosting. */
 export interface PortfolioContent {
@@ -95,6 +119,8 @@ export interface PortfolioContent {
   projects: readonly ProjectDetail[];
   skills: readonly SkillCategory[];
   technologies: readonly Technology[];
+  experience: readonly ExperienceItem[];
+  education: readonly EducationItem[];
 }
 
 // ---- Auth ----
@@ -167,4 +193,24 @@ export interface UpsertProfileRequest {
   gitHubUrl: string | null;
   linkedInUrl: string | null;
   websiteUrl: string | null;
+}
+
+export interface UpsertExperienceRequest {
+  company: string;
+  role: string;
+  location: string | null;
+  startDate: string;
+  endDate: string | null;
+  summary: string | null;
+  sortOrder: number;
+}
+
+export interface UpsertEducationRequest {
+  school: string;
+  credential: string;
+  field: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  url: string | null;
+  sortOrder: number;
 }

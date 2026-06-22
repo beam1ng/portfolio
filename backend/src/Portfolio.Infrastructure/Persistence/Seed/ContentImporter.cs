@@ -119,6 +119,36 @@ public static class ContentImporter
             db.Projects.Add(entity);
         }
 
+        var experienceOrder = 0;
+        foreach (var experience in content.Experience ?? [])
+        {
+            db.ExperienceItems.Add(new ExperienceItem
+            {
+                Company = experience.Company,
+                Role = experience.Role,
+                Location = experience.Location,
+                StartDate = ParseDate(experience.StartDate) ?? default,
+                EndDate = ParseDate(experience.EndDate),
+                Summary = experience.Summary,
+                SortOrder = experienceOrder++,
+            });
+        }
+
+        var educationOrder = 0;
+        foreach (var education in content.Education ?? [])
+        {
+            db.EducationItems.Add(new EducationItem
+            {
+                School = education.School,
+                Credential = education.Credential,
+                Field = education.Field,
+                StartDate = ParseDate(education.StartDate),
+                EndDate = ParseDate(education.EndDate),
+                Url = education.Url,
+                SortOrder = educationOrder++,
+            });
+        }
+
         db.Technologies.AddRange(technologies.Values);
         await db.SaveChangesAsync(cancellationToken);
     }
@@ -140,7 +170,25 @@ public static class ContentImporter
         ContentProfile? Profile,
         IReadOnlyList<ContentProject>? Projects,
         IReadOnlyList<ContentSkillCategory>? Skills,
-        IReadOnlyList<ContentTechnology>? Technologies);
+        IReadOnlyList<ContentTechnology>? Technologies,
+        IReadOnlyList<ContentExperience>? Experience,
+        IReadOnlyList<ContentEducation>? Education);
+
+    private sealed record ContentExperience(
+        string Company,
+        string Role,
+        string? Location,
+        string? StartDate,
+        string? EndDate,
+        string? Summary);
+
+    private sealed record ContentEducation(
+        string School,
+        string Credential,
+        string? Field,
+        string? StartDate,
+        string? EndDate,
+        string? Url);
 
     private sealed record ContentProfile(
         string FullName,

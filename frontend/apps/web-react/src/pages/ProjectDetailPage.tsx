@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { ApiError } from '@portfolio/api-client';
 import { TechTag } from '../components/projects/TechTag';
+import { Markdown } from '../components/ui/Markdown';
 import { useProject } from '../api/queries';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { formatDateRange } from '../lib/format';
@@ -102,7 +103,7 @@ export function ProjectDetailPage() {
       )}
 
       <div className="detail__body">
-        <div className="detail__description">{project.description}</div>
+        <Markdown className="detail__description">{project.description}</Markdown>
         <aside className="detail__aside">
           <h2>Built with</h2>
           <div className="tag-row">

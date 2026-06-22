@@ -14,6 +14,8 @@ export type {
   ProjectDetail,
   Skill,
   SkillCategory,
+  ExperienceItem,
+  EducationItem,
   UpsertProjectTechnology,
   UpsertProjectImage,
   UpsertProjectRequest,
@@ -21,4 +23,6 @@ export type {
   UpsertSkillCategoryRequest,
   UpsertSkillRequest,
   UpsertProfileRequest,
+  UpsertExperienceRequest,
+  UpsertEducationRequest,
 } from './types.js';

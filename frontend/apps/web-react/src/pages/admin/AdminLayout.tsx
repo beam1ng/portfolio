@@ -7,6 +7,8 @@ const NAV = [
   { to: '/admin/projects', label: 'Projects', end: false },
   { to: '/admin/technologies', label: 'Technologies', end: false },
   { to: '/admin/skills', label: 'Skills', end: false },
+  { to: '/admin/experience', label: 'Experience', end: false },
+  { to: '/admin/education', label: 'Education', end: false },
   { to: '/admin/profile', label: 'Profile', end: false },
 ] as const;
 

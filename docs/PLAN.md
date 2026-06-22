@@ -142,7 +142,12 @@ Frontend uses **pnpm workspaces** so multiple FE apps share packages.
    Log Analytics) authored in `infra/azure/` but **unvalidated / not deployed**
    (needs a paid subscription). Web image made deploy-portable: nginx upstream is
    env-driven (`API_UPSTREAM`) via envsubst.
-7. **Tests + docs polish** — coverage, ADRs, runbooks.
+7. **Tests + docs polish** — coverage, ADRs, runbooks. In progress:
+   backend placeholder tests replaced with validator, mapping, and API endpoint
+   coverage; see [`TESTING.md`](TESTING.md).
+8. **UX/UI + content audit** — visual consistency review, responsive QA,
+   design-token cleanup, and content-depth analysis for richer case studies and
+   additional portfolio content types.
 
 ## 12. Open Items
 

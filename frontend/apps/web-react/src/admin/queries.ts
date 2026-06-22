@@ -1,9 +1,13 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 import type {
+  EducationItem,
+  ExperienceItem,
   ProjectDetail,
   ProjectSummary,
   SkillCategory,
   Technology,
+  UpsertEducationRequest,
+  UpsertExperienceRequest,
   UpsertProfileRequest,
   UpsertProjectRequest,
   UpsertSkillCategoryRequest,
@@ -17,6 +21,8 @@ export const adminKeys = {
   project: (id: string) => ['admin', 'project', id] as const,
   technologies: ['admin', 'technologies'] as const,
   skills: ['admin', 'skills'] as const,
+  experience: ['admin', 'experience'] as const,
+  education: ['admin', 'education'] as const,
 };
 
 // ---- Queries ----
@@ -116,4 +122,46 @@ export function useProfileMutation() {
     mutationFn: (body: UpsertProfileRequest) => api.admin.updateProfile(body),
     onSuccess: invalidate,
   });
+}
+
+export function useAdminExperience(): UseQueryResult<readonly ExperienceItem[]> {
+  return useQuery({ queryKey: adminKeys.experience, queryFn: ({ signal }) => api.admin.listExperience(signal) });
+}
+
+export function useExperienceMutations() {
+  const invalidate = useInvalidateAll();
+  const create = useMutation({
+    mutationFn: (body: UpsertExperienceRequest) => api.admin.createExperience(body),
+    onSuccess: invalidate,
+  });
+  const update = useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpsertExperienceRequest }) => api.admin.updateExperience(id, body),
+    onSuccess: invalidate,
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => api.admin.deleteExperience(id),
+    onSuccess: invalidate,
+  });
+  return { create, update, remove };
+}
+
+export function useAdminEducation(): UseQueryResult<readonly EducationItem[]> {
+  return useQuery({ queryKey: adminKeys.education, queryFn: ({ signal }) => api.admin.listEducation(signal) });
+}
+
+export function useEducationMutations() {
+  const invalidate = useInvalidateAll();
+  const create = useMutation({
+    mutationFn: (body: UpsertEducationRequest) => api.admin.createEducation(body),
+    onSuccess: invalidate,
+  });
+  const update = useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpsertEducationRequest }) => api.admin.updateEducation(id, body),
+    onSuccess: invalidate,
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => api.admin.deleteEducation(id),
+    onSuccess: invalidate,
+  });
+  return { create, update, remove };
 }

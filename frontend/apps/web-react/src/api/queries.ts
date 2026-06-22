@@ -1,5 +1,7 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type {
+  EducationItem,
+  ExperienceItem,
   Profile,
   ProjectDetail,
   ProjectSummary,
@@ -15,6 +17,8 @@ export const queryKeys = {
   project: (slug: string) => ['project', slug] as const,
   skills: ['skills'] as const,
   technologies: ['technologies'] as const,
+  experience: ['experience'] as const,
+  education: ['education'] as const,
 };
 
 export function useProfile(): UseQueryResult<Profile> {
@@ -50,5 +54,19 @@ export function useTechnologies(): UseQueryResult<readonly Technology[]> {
   return useQuery({
     queryKey: queryKeys.technologies,
     queryFn: ({ signal }) => api.listTechnologies(signal),
+  });
+}
+
+export function useExperience(): UseQueryResult<readonly ExperienceItem[]> {
+  return useQuery({
+    queryKey: queryKeys.experience,
+    queryFn: ({ signal }) => api.listExperience(signal),
+  });
+}
+
+export function useEducation(): UseQueryResult<readonly EducationItem[]> {
+  return useQuery({
+    queryKey: queryKeys.education,
+    queryFn: ({ signal }) => api.listEducation(signal),
   });
 }
