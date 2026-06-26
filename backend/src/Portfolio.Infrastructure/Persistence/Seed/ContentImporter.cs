@@ -54,25 +54,6 @@ public static class ContentImporter
         }
 
         var sortOrder = 0;
-        foreach (var category in content.Skills ?? [])
-        {
-            db.SkillCategories.Add(new SkillCategory
-            {
-                Name = category.Name,
-                Slug = category.Slug,
-                SortOrder = sortOrder++,
-                Skills = (category.Skills ?? [])
-                    .Select((s, index) => new Skill
-                    {
-                        Name = s.Name,
-                        Level = (ProficiencyLevel)s.Level,
-                        SortOrder = index,
-                    })
-                    .ToList(),
-            });
-        }
-
-        sortOrder = 0;
         foreach (var project in content.Projects ?? [])
         {
             var entity = new Project
@@ -169,7 +150,6 @@ public static class ContentImporter
     private sealed record ContentFile(
         ContentProfile? Profile,
         IReadOnlyList<ContentProject>? Projects,
-        IReadOnlyList<ContentSkillCategory>? Skills,
         IReadOnlyList<ContentTechnology>? Technologies,
         IReadOnlyList<ContentExperience>? Experience,
         IReadOnlyList<ContentEducation>? Education);
@@ -225,11 +205,4 @@ public static class ContentImporter
         IReadOnlyList<ContentImage>? Images);
 
     private sealed record ContentImage(string ImageUrl, string? Caption);
-
-    private sealed record ContentSkill(string Name, int Level);
-
-    private sealed record ContentSkillCategory(
-        string Name,
-        string Slug,
-        IReadOnlyList<ContentSkill>? Skills);
 }

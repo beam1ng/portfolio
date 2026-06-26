@@ -29,19 +29,37 @@
           "id": "019ed57f-e0dd-7377-8959-1f010b7f833b",
           "name": "MS SQL Server",
           "slug": "ms-sql-server",
-          "category": "Database",
+          "category": "Data",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
           "proficiency": 3,
           "note": "EF Core with migrations; GUIDv7 keys and audit timestamps."
         },
         {
+          "id": "019ef021-9810-7a86-b4d9-3a2fafdf51ba",
+          "name": "Azure",
+          "slug": "azure",
+          "category": "DevOps",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
+          "proficiency": 3,
+          "note": "Static Web Apps deploy for the static build."
+        },
+        {
           "id": "019ed57f-e0dd-7a12-b621-3c01a0e19417",
           "name": "TypeScript",
           "slug": "typescript",
-          "category": "Languages",
+          "category": "Frontend, Backend",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
           "proficiency": 4,
           "note": "Typed end-to-end via a shared api-client workspace package."
+        },
+        {
+          "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
+          "name": "C#",
+          "slug": "csharp",
+          "category": "Backend, Game Dev",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+          "proficiency": 4,
+          "note": "Primary backend language (.NET 10)."
         },
         {
           "id": "019ed57f-e0dd-7349-ad69-7a1f5120780d",
@@ -90,7 +108,7 @@
           "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
           "name": "C#",
           "slug": "csharp",
-          "category": "Languages",
+          "category": "Backend, Game Dev",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
           "proficiency": 4,
           "note": "Surface-point generation and transport-path precomputation stages."
@@ -99,7 +117,7 @@
           "id": "019ed57f-e0dd-789e-98e6-4709c3f4c6ae",
           "name": "HLSL / Compute Shaders",
           "slug": "hlsl",
-          "category": "Graphics",
+          "category": "Game Dev, Graphics",
           "iconUrl": null,
           "proficiency": 3,
           "note": "GPU compute shaders drive the precomputation."
@@ -108,7 +126,7 @@
           "id": "019ed57f-e0dd-71f3-97a4-c9c18c8368d2",
           "name": "Unity",
           "slug": "unity",
-          "category": "Game Engine",
+          "category": "Game Dev",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
           "proficiency": 3,
           "note": "Scene tooling and runtime host for the simulation."
@@ -146,7 +164,7 @@
           "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
           "name": "C#",
           "slug": "csharp",
-          "category": "Languages",
+          "category": "Backend, Game Dev",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
           "proficiency": 4,
           "note": "Separation, cohesion and alignment steering with tunable weights."
@@ -155,7 +173,7 @@
           "id": "019ed57f-e0dd-71f3-97a4-c9c18c8368d2",
           "name": "Unity",
           "slug": "unity",
-          "category": "Game Engine",
+          "category": "Game Dev",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
           "proficiency": 3,
           "note": "2D simulation with a debug view of each boid's vision radius."
@@ -193,7 +211,7 @@
           "id": "019ed57f-e0dd-7d38-bdeb-078574423c3a",
           "name": "Click",
           "slug": "click",
-          "category": "CLI",
+          "category": "Tools",
           "iconUrl": null,
           "proficiency": 3,
           "note": "Interactive fcpdf CLI — new / generate / render / preview commands."
@@ -202,7 +220,7 @@
           "id": "019ed57f-e0dd-737d-a6dc-39037084ba14",
           "name": "ReportLab",
           "slug": "reportlab",
-          "category": "PDF",
+          "category": "Tools",
           "iconUrl": null,
           "proficiency": 3,
           "note": "Print-ready PDF layout and output."
@@ -211,7 +229,7 @@
           "id": "019ed57f-e0dd-77fd-977c-3cc06aaea8de",
           "name": "Python",
           "slug": "python",
-          "category": "Languages",
+          "category": "Backend, Tools",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
           "proficiency": 4,
           "note": "Two-phase pipeline: API data generation, then template-driven rendering."
@@ -220,7 +238,7 @@
           "id": "019ed57f-e0dd-70a9-843a-8ed79ef9b835",
           "name": "Pillow",
           "slug": "pillow",
-          "category": "Imaging",
+          "category": "Graphics, Tools",
           "iconUrl": null,
           "proficiency": 3,
           "note": "Card image processing."
@@ -267,7 +285,7 @@
           "id": "019ed57f-e0dd-7a12-b621-3c01a0e19417",
           "name": "TypeScript",
           "slug": "typescript",
-          "category": "Languages",
+          "category": "Frontend, Backend",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
           "proficiency": 4,
           "note": "End-to-end type safety via an Eden Treaty client generated from the API."
@@ -285,7 +303,7 @@
           "id": "019ed57f-e0dd-737f-bcb7-522f3e44bb12",
           "name": "Bun",
           "slug": "bun",
-          "category": "Runtime",
+          "category": "Backend, Tools",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
           "proficiency": 3,
           "note": "Runtime and package manager across all workspaces."
@@ -294,7 +312,7 @@
           "id": "019ed57f-e0dd-7f23-96dd-5ea3fe21ce17",
           "name": "BullMQ",
           "slug": "bullmq",
-          "category": "Jobs",
+          "category": "Backend",
           "iconUrl": null,
           "proficiency": 3,
           "note": "Background scraping jobs with proxy-pool support."
@@ -312,7 +330,7 @@
           "id": "019ed57f-e0dd-7f05-b885-cca7388e5d3e",
           "name": "Redis",
           "slug": "redis",
-          "category": "Database",
+          "category": "Data, Backend",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
           "proficiency": 3,
           "note": "JSON, Search and TimeSeries modules store skins, prices, and trade-up data."
@@ -343,62 +361,6 @@
       ]
     }
   ],
-  "skills": [
-    {
-      "id": "019ed57f-e0de-7142-9d0c-2c4f6a254105",
-      "name": "Languages",
-      "slug": "languages",
-      "skills": [
-        {
-          "id": "019ed57f-e0de-7eac-a698-1a6480460875",
-          "name": "C#",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0de-7150-af38-f66e48911c06",
-          "name": "TypeScript",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0de-7e61-a6ac-cac667973f33",
-          "name": "Python",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0de-79a7-9d7a-e28607bf87c7",
-          "name": "SQL",
-          "level": 3
-        }
-      ]
-    },
-    {
-      "id": "019ed57f-e0fb-7e64-b99a-2863e722ba03",
-      "name": "Frameworks",
-      "slug": "frameworks",
-      "skills": [
-        {
-          "id": "019ed57f-e0fb-783d-a8f8-4d525356a645",
-          "name": "ASP.NET Core",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0fb-7ce4-85f4-41518de37998",
-          "name": "React",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0fb-7fe4-a471-f765092a92f8",
-          "name": "Vue 3",
-          "level": 4
-        },
-        {
-          "id": "019ed57f-e0fb-7033-ac4e-dfdc5e718c46",
-          "name": "Entity Framework Core",
-          "level": 3
-        }
-      ]
-    }
-  ],
   "technologies": [
     {
       "id": "019ed57f-e0dd-7349-ad69-7a1f5120780d",
@@ -409,6 +371,14 @@
       "proficiency": 4
     },
     {
+      "id": "019ed57f-e0dd-7f23-96dd-5ea3fe21ce17",
+      "name": "BullMQ",
+      "slug": "bullmq",
+      "category": "Backend",
+      "iconUrl": null,
+      "proficiency": 3
+    },
+    {
       "id": "019ed57f-e0dd-7248-ab14-ef3acaaf8367",
       "name": "Elysia",
       "slug": "elysia",
@@ -417,18 +387,34 @@
       "proficiency": 3
     },
     {
-      "id": "019ed57f-e0dd-7d38-bdeb-078574423c3a",
-      "name": "Click",
-      "slug": "click",
-      "category": "CLI",
-      "iconUrl": null,
+      "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
+      "name": "C#",
+      "slug": "csharp",
+      "category": "Backend, Game Dev",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
+      "proficiency": 4
+    },
+    {
+      "id": "019ed57f-e0dd-737f-bcb7-522f3e44bb12",
+      "name": "Bun",
+      "slug": "bun",
+      "category": "Backend, Tools",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
       "proficiency": 3
+    },
+    {
+      "id": "019ed57f-e0dd-77fd-977c-3cc06aaea8de",
+      "name": "Python",
+      "slug": "python",
+      "category": "Backend, Tools",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+      "proficiency": 4
     },
     {
       "id": "019ed57f-e0dd-7377-8959-1f010b7f833b",
       "name": "MS SQL Server",
       "slug": "ms-sql-server",
-      "category": "Database",
+      "category": "Data",
       "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-plain.svg",
       "proficiency": 3
     },
@@ -436,8 +422,16 @@
       "id": "019ed57f-e0dd-7f05-b885-cca7388e5d3e",
       "name": "Redis",
       "slug": "redis",
-      "category": "Database",
+      "category": "Data, Backend",
       "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+      "proficiency": 3
+    },
+    {
+      "id": "019ef021-9810-7a86-b4d9-3a2fafdf51ba",
+      "name": "Azure",
+      "slug": "azure",
+      "category": "DevOps",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg",
       "proficiency": 3
     },
     {
@@ -465,10 +459,18 @@
       "proficiency": 4
     },
     {
+      "id": "019ed57f-e0dd-7a12-b621-3c01a0e19417",
+      "name": "TypeScript",
+      "slug": "typescript",
+      "category": "Frontend, Backend",
+      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+      "proficiency": 4
+    },
+    {
       "id": "019ed57f-e0dd-71f3-97a4-c9c18c8368d2",
       "name": "Unity",
       "slug": "unity",
-      "category": "Game Engine",
+      "category": "Game Dev",
       "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg",
       "proficiency": 3
     },
@@ -476,7 +478,7 @@
       "id": "019ed57f-e0dd-789e-98e6-4709c3f4c6ae",
       "name": "HLSL / Compute Shaders",
       "slug": "hlsl",
-      "category": "Graphics",
+      "category": "Game Dev, Graphics",
       "iconUrl": null,
       "proficiency": 3
     },
@@ -492,56 +494,24 @@
       "id": "019ed57f-e0dd-70a9-843a-8ed79ef9b835",
       "name": "Pillow",
       "slug": "pillow",
-      "category": "Imaging",
+      "category": "Graphics, Tools",
       "iconUrl": null,
       "proficiency": 3
     },
     {
-      "id": "019ed57f-e0dd-7f23-96dd-5ea3fe21ce17",
-      "name": "BullMQ",
-      "slug": "bullmq",
-      "category": "Jobs",
+      "id": "019ed57f-e0dd-7d38-bdeb-078574423c3a",
+      "name": "Click",
+      "slug": "click",
+      "category": "Tools",
       "iconUrl": null,
       "proficiency": 3
-    },
-    {
-      "id": "019ed57f-e0dd-764a-b8ad-4481c9acc54a",
-      "name": "C#",
-      "slug": "csharp",
-      "category": "Languages",
-      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg",
-      "proficiency": 4
-    },
-    {
-      "id": "019ed57f-e0dd-77fd-977c-3cc06aaea8de",
-      "name": "Python",
-      "slug": "python",
-      "category": "Languages",
-      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
-      "proficiency": 4
-    },
-    {
-      "id": "019ed57f-e0dd-7a12-b621-3c01a0e19417",
-      "name": "TypeScript",
-      "slug": "typescript",
-      "category": "Languages",
-      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
-      "proficiency": 4
     },
     {
       "id": "019ed57f-e0dd-737d-a6dc-39037084ba14",
       "name": "ReportLab",
       "slug": "reportlab",
-      "category": "PDF",
+      "category": "Tools",
       "iconUrl": null,
-      "proficiency": 3
-    },
-    {
-      "id": "019ed57f-e0dd-737f-bcb7-522f3e44bb12",
-      "name": "Bun",
-      "slug": "bun",
-      "category": "Runtime",
-      "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bun/bun-original.svg",
       "proficiency": 3
     }
   ],

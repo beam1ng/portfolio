@@ -45,27 +45,6 @@ public sealed class UpsertTechnologyRequestValidator : AbstractValidator<UpsertT
     }
 }
 
-public sealed class UpsertSkillCategoryRequestValidator : AbstractValidator<UpsertSkillCategoryRequest>
-{
-    public UpsertSkillCategoryRequestValidator()
-    {
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Slug).NotEmpty().MaximumLength(100).Matches(SlugRules.Pattern).WithMessage(SlugRules.Message);
-        RuleFor(x => x.SortOrder).GreaterThanOrEqualTo(0);
-    }
-}
-
-public sealed class UpsertSkillRequestValidator : AbstractValidator<UpsertSkillRequest>
-{
-    public UpsertSkillRequestValidator()
-    {
-        RuleFor(x => x.SkillCategoryId).NotEmpty();
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Level).InclusiveBetween(1, 5);
-        RuleFor(x => x.SortOrder).GreaterThanOrEqualTo(0);
-    }
-}
-
 public sealed class UpsertProfileRequestValidator : AbstractValidator<UpsertProfileRequest>
 {
     public UpsertProfileRequestValidator()

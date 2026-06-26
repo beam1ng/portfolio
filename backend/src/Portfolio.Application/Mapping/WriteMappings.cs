@@ -101,37 +101,6 @@ public static class WriteMappings
         target.Proficiency = (ProficiencyLevel)request.Proficiency;
     }
 
-    // ---- SkillCategory ----
-    public static SkillCategory ToEntity(this UpsertSkillCategoryRequest request)
-    {
-        var category = new SkillCategory { Name = request.Name, Slug = request.Slug };
-        request.ApplyTo(category);
-        return category;
-    }
-
-    public static void ApplyTo(this UpsertSkillCategoryRequest request, SkillCategory target)
-    {
-        target.Name = request.Name;
-        target.Slug = request.Slug;
-        target.SortOrder = request.SortOrder;
-    }
-
-    // ---- Skill ----
-    public static Skill ToEntity(this UpsertSkillRequest request)
-    {
-        var skill = new Skill { Name = request.Name };
-        request.ApplyTo(skill);
-        return skill;
-    }
-
-    public static void ApplyTo(this UpsertSkillRequest request, Skill target)
-    {
-        target.Name = request.Name;
-        target.Level = (ProficiencyLevel)request.Level;
-        target.SortOrder = request.SortOrder;
-        target.SkillCategoryId = request.SkillCategoryId;
-    }
-
     // ---- Profile ----
     public static Profile ToEntity(this UpsertProfileRequest request)
     {

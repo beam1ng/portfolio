@@ -8,20 +8,17 @@ export interface ProjectRef {
 }
 
 /**
- * Projects whose technologies include one matching the given name
- * (case-insensitive). Used to link a skill to the projects it appears in,
- * without a stored skill↔project relation. Carries the per-project usage note.
+ * Projects that use the technology with the given slug, each with the
+ * per-project usage note. Backs the Skills page "used in" links via the real
+ * project↔technology relation (no fragile name matching).
  */
-export function projectsUsingSkill(
+export function projectsUsingTech(
   projects: readonly ProjectSummary[],
-  skillName: string,
+  techSlug: string,
 ): ProjectRef[] {
-  const needle = skillName.trim().toLowerCase();
   const refs: ProjectRef[] = [];
   for (const project of projects) {
-    const match = project.technologies.find(
-      (tech) => tech.name.trim().toLowerCase() === needle,
-    );
+    const match = project.technologies.find((tech) => tech.slug === techSlug);
     if (match) {
       refs.push({ slug: project.slug, title: project.title, note: match.note });
     }
@@ -51,21 +48,3 @@ export function techNameForSlug(
   return null;
 }
 
-/**
- * Resolves a skill name to the slug of the technology with the same name, so a
- * skill links to the same "projects using X" view as a project's tech pill.
- * Returns null when no project technology matches the skill name.
- */
-export function techSlugForSkill(
-  projects: readonly ProjectSummary[],
-  skillName: string,
-): string | null {
-  const needle = skillName.trim().toLowerCase();
-  for (const project of projects) {
-    const match = project.technologies.find((tech) => tech.name.trim().toLowerCase() === needle);
-    if (match) {
-      return match.slug;
-    }
-  }
-  return null;
-}

@@ -30,19 +30,6 @@ public sealed record UpsertTechnologyRequest(
     string? IconUrl,
     int Proficiency);
 
-/// <summary>Create/replace payload for a skill category.</summary>
-public sealed record UpsertSkillCategoryRequest(
-    string Name,
-    string Slug,
-    int SortOrder);
-
-/// <summary>Create/replace payload for a skill. <c>Level</c> is 1–5.</summary>
-public sealed record UpsertSkillRequest(
-    Guid SkillCategoryId,
-    string Name,
-    int Level,
-    int SortOrder);
-
 /// <summary>Replace payload for the single profile.</summary>
 public sealed record UpsertProfileRequest(
     string FullName,

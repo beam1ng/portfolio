@@ -7,15 +7,11 @@ import type {
   Profile,
   ProjectDetail,
   ProjectSummary,
-  Skill,
-  SkillCategory,
   Technology,
   UpsertProfileRequest,
   UpsertEducationRequest,
   UpsertExperienceRequest,
   UpsertProjectRequest,
-  UpsertSkillCategoryRequest,
-  UpsertSkillRequest,
   UpsertTechnologyRequest,
 } from './types.js';
 
@@ -42,13 +38,6 @@ export interface AdminClient {
   updateTechnology(id: string, body: UpsertTechnologyRequest): Promise<Technology>;
   deleteTechnology(id: string): Promise<boolean>;
 
-  listSkills(signal?: AbortSignal): Promise<readonly SkillCategory[]>;
-  createSkillCategory(body: UpsertSkillCategoryRequest): Promise<SkillCategory>;
-  updateSkillCategory(id: string, body: UpsertSkillCategoryRequest): Promise<SkillCategory>;
-  deleteSkillCategory(id: string): Promise<boolean>;
-  createSkill(body: UpsertSkillRequest): Promise<Skill>;
-  updateSkill(id: string, body: UpsertSkillRequest): Promise<Skill>;
-  deleteSkill(id: string): Promise<boolean>;
 
   updateProfile(body: UpsertProfileRequest): Promise<Profile>;
 
@@ -79,7 +68,6 @@ export interface PortfolioClient {
   getProfile(signal?: AbortSignal): Promise<Profile>;
   listProjects(featured: boolean, signal?: AbortSignal): Promise<readonly ProjectSummary[]>;
   getProject(slug: string, signal?: AbortSignal): Promise<ProjectDetail>;
-  listSkills(signal?: AbortSignal): Promise<readonly SkillCategory[]>;
   listTechnologies(signal?: AbortSignal): Promise<readonly Technology[]>;
   listExperience(signal?: AbortSignal): Promise<readonly ExperienceItem[]>;
   listEducation(signal?: AbortSignal): Promise<readonly EducationItem[]>;
@@ -179,13 +167,6 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
     updateTechnology: (id, body) => request<Technology>(`${base}/admin/technologies/${id}`, { method: 'PUT', body }),
     deleteTechnology: (id) => request<boolean>(`${base}/admin/technologies/${id}`, { method: 'DELETE' }),
 
-    listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/admin/skills`, { signal }),
-    createSkillCategory: (body) => request<SkillCategory>(`${base}/admin/skill-categories`, { method: 'POST', body }),
-    updateSkillCategory: (id, body) => request<SkillCategory>(`${base}/admin/skill-categories/${id}`, { method: 'PUT', body }),
-    deleteSkillCategory: (id) => request<boolean>(`${base}/admin/skill-categories/${id}`, { method: 'DELETE' }),
-    createSkill: (body) => request<Skill>(`${base}/admin/skills`, { method: 'POST', body }),
-    updateSkill: (id, body) => request<Skill>(`${base}/admin/skills/${id}`, { method: 'PUT', body }),
-    deleteSkill: (id) => request<boolean>(`${base}/admin/skills/${id}`, { method: 'DELETE' }),
 
     updateProfile: (body) => request<Profile>(`${base}/admin/profile`, { method: 'PUT', body }),
 
@@ -218,7 +199,6 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
       request<readonly ProjectSummary[]>(`${base}/projects${featured ? '?featured=true' : ''}`, { signal }),
     getProject: (slug, signal) =>
       request<ProjectDetail>(`${base}/projects/${encodeURIComponent(slug)}`, { signal }),
-    listSkills: (signal) => request<readonly SkillCategory[]>(`${base}/skills`, { signal }),
     listTechnologies: (signal) => request<readonly Technology[]>(`${base}/technologies`, { signal }),
     listExperience: (signal) => request<readonly ExperienceItem[]>(`${base}/experience`, { signal }),
     listEducation: (signal) => request<readonly EducationItem[]>(`${base}/education`, { signal }),

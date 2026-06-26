@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { ProjectImage } from '@portfolio/api-client';
 import './lightbox.css';
 
@@ -39,7 +40,8 @@ export function Lightbox({ images, startIndex, onClose }: LightboxProps) {
   const image = images[index];
   if (!image) return null;
 
-  return (
+  // Portal to <body> so ancestor transforms/filters don't trap position: fixed.
+  return createPortal(
     <div className="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" onClick={onClose}>
       <button type="button" className="lightbox__btn lightbox__close" onClick={onClose} aria-label="Close viewer">
         ✕
@@ -72,6 +74,7 @@ export function Lightbox({ images, startIndex, onClose }: LightboxProps) {
           ›
         </button>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }

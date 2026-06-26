@@ -74,20 +74,6 @@ export interface ProjectDetail {
   images: readonly ProjectImage[];
 }
 
-export interface Skill {
-  id: string;
-  name: string;
-  /** 1–5 proficiency scale. */
-  level: number;
-}
-
-export interface SkillCategory {
-  id: string;
-  name: string;
-  slug: string;
-  skills: readonly Skill[];
-}
-
 /** A work-history entry. */
 export interface ExperienceItem {
   id: string;
@@ -117,7 +103,6 @@ export interface EducationItem {
 export interface PortfolioContent {
   profile: Profile;
   projects: readonly ProjectDetail[];
-  skills: readonly SkillCategory[];
   technologies: readonly Technology[];
   experience: readonly ExperienceItem[];
   education: readonly EducationItem[];
@@ -167,19 +152,6 @@ export interface UpsertTechnologyRequest {
   category: string | null;
   iconUrl: string | null;
   proficiency: number;
-}
-
-export interface UpsertSkillCategoryRequest {
-  name: string;
-  slug: string;
-  sortOrder: number;
-}
-
-export interface UpsertSkillRequest {
-  skillCategoryId: string;
-  name: string;
-  level: number;
-  sortOrder: number;
 }
 
 export interface UpsertProfileRequest {

@@ -71,14 +71,4 @@ public static class PortfolioMappings
             .Select(i => new ProjectImageDto(i.ImageUrl, i.Caption))
             .ToList());
 
-    public static SkillDto ToDto(this Skill skill) => new(skill.Id, skill.Name, (int)skill.Level);
-
-    public static SkillCategoryDto ToDto(this SkillCategory category) => new(
-        category.Id,
-        category.Name,
-        category.Slug,
-        category.Skills
-            .OrderBy(s => s.SortOrder)
-            .Select(s => s.ToDto())
-            .ToList());
 }

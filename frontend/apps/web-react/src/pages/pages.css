@@ -94,10 +94,34 @@
   background: var(--color-surface-raised);
 }
 
+.gallery__zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
 .gallery__item img {
   width: 100%;
   height: auto;
   display: block;
+  transition: transform var(--duration-normal, 300ms) var(--ease-out-expo, ease);
+}
+
+.gallery__zoom:hover img {
+  transform: scale(1.03);
+}
+
+.gallery__zoom:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery__item img { transition: none; }
 }
 
 .gallery__item figcaption {
@@ -155,20 +179,114 @@
 }
 
 /* ---- Skills ---- */
-.skill-groups {
-  display: grid;
-  gap: var(--space-12);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-}
-
-.skill-group__title {
-  margin-bottom: var(--space-6);
-}
-
-.skill-list {
+/* Slash-separated skill-area filter: active highlighted, others dimmed. */
+.skill-filter {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-8);
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+
+.skill-filter__sep {
+  color: var(--color-border);
+  user-select: none;
+}
+
+.skill-filter__item {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  /* Off categories sit dimmer than the muted default. Size hierarchy AND the
+     hover magnifier are expressed only with transform: scale() on a constant
+     font-size and constant font-weight, so layout (and every word's centre)
+     never moves when the selection changes, and glyphs stay crisp. */
+  color: color-mix(in oklch, var(--color-text-muted), transparent 30%);
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: color var(--duration-fast, 150ms) var(--ease-out-expo, ease),
+    transform 120ms var(--ease-out-expo, ease);
+}
+
+/* Scale is driven inline (dock magnification); the hovered name also brightens. */
+.skill-filter__item:hover {
+  color: var(--color-text);
+  z-index: 1;
+}
+
+/* Active filter: white and a touch larger so it clearly reads as selected. */
+.skill-filter__item.is-active {
+  /* White + larger (transform scale) + underline carry the emphasis. Weight is
+     kept equal to the others so the active word never changes layout width. */
+  color: var(--color-text);
+}
+
+/* Animated underline that slides in under the active filter. */
+.skill-filter__item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.28em;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-normal, 300ms) var(--ease-out-expo, ease);
+}
+
+.skill-filter__item.is-active::after {
+  transform: scaleX(1);
+}
+
+.skill-filter__item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.skill-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  gap: var(--space-6) var(--space-10, 2.5rem);
+}
+
+/* Each meter fades/slides up, staggered (delay set inline by index), so a
+   category switch reads as a smooth cascade rather than a hard cut. */
+.skill-grid .skill-meter {
+  animation: skill-item-in 360ms var(--ease-out-expo, ease) both;
+}
+
+@keyframes skill-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-grid .skill-meter {
+    animation: none;
+  }
+  .skill-filter__item {
+    transition: color var(--duration-fast, 150ms) var(--ease-out-expo, ease);
+    transform: none !important;
+  }
+  .skill-filter__item::after {
+    transition: none;
+  }
 }
 
 /* ---- Project detail ---- */

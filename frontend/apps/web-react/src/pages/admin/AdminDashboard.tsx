@@ -4,7 +4,6 @@ import {
   useAdminEducation,
   useAdminExperience,
   useAdminProjects,
-  useAdminSkills,
   useAdminTechnologies,
 } from '../../admin/queries';
 import './admin.css';
@@ -26,20 +25,17 @@ interface Issue {
 export function AdminDashboard() {
   const projects = useAdminProjects();
   const technologies = useAdminTechnologies();
-  const skills = useAdminSkills();
   const experience = useAdminExperience();
   const education = useAdminEducation();
   const profile = useProfile();
 
   const projectList = projects.data ?? [];
-  const skillCount = (skills.data ?? []).reduce((sum, c) => sum + c.skills.length, 0);
   const featuredCount = projectList.filter((p) => p.isFeatured).length;
 
   const stats = [
     { label: 'Projects', value: projects.data?.length, to: '/admin/projects' },
     { label: 'Featured', value: projects.data ? featuredCount : undefined, to: '/admin/projects' },
     { label: 'Technologies', value: technologies.data?.length, to: '/admin/technologies' },
-    { label: 'Skills', value: skills.data ? skillCount : undefined, to: '/admin/skills' },
     { label: 'Experience', value: experience.data?.length, to: '/admin/experience' },
     { label: 'Education', value: education.data?.length, to: '/admin/education' },
   ];

@@ -6,7 +6,6 @@ import { AdminDashboard } from './AdminDashboard';
 import { AdminProjectsPage } from './AdminProjectsPage';
 import { AdminProjectFormPage } from './AdminProjectFormPage';
 import { AdminTechnologiesPage } from './AdminTechnologiesPage';
-import { AdminSkillsPage } from './AdminSkillsPage';
 import { AdminExperiencePage } from './AdminExperiencePage';
 import { AdminEducationPage } from './AdminEducationPage';
 import { AdminProfilePage } from './AdminProfilePage';
@@ -27,7 +26,6 @@ export default function AdminApp() {
           <Route path="projects/new" element={<AdminProjectFormPage />} />
           <Route path="projects/:id" element={<AdminProjectFormPage />} />
           <Route path="technologies" element={<AdminTechnologiesPage />} />
-          <Route path="skills" element={<AdminSkillsPage />} />
           <Route path="experience" element={<AdminExperiencePage />} />
           <Route path="education" element={<AdminEducationPage />} />
           <Route path="profile" element={<AdminProfilePage />} />

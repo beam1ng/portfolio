@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ApiError } from '@portfolio/api-client';
 import { TechTag } from '../components/projects/TechTag';
 import { Markdown } from '../components/ui/Markdown';
+import { Lightbox } from '../components/ui/Lightbox';
 import { useProject } from '../api/queries';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { formatDateRange } from '../lib/format';
@@ -12,6 +14,7 @@ export function ProjectDetailPage() {
   const { slug = '' } = useParams<{ slug: string }>();
   const query = useProject(slug);
   useDocumentTitle(query.data?.title ?? 'Project');
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   if (query.isPending) {
     return <LoadingState label="Loading project…" />;
@@ -95,11 +98,26 @@ export function ProjectDetailPage() {
         <section className="gallery" aria-label="Screenshots">
           {(project.images ?? []).map((image, index) => (
             <figure key={`${image.imageUrl}-${index}`} className="gallery__item">
-              <img src={image.imageUrl} alt={image.caption ?? project.title} loading="lazy" />
+              <button
+                type="button"
+                className="gallery__zoom"
+                onClick={() => setLightboxIndex(index)}
+                aria-label={`View ${image.caption ?? 'screenshot'} full size`}
+              >
+                <img src={image.imageUrl} alt={image.caption ?? project.title} loading="lazy" />
+              </button>
               {image.caption && <figcaption>{image.caption}</figcaption>}
             </figure>
           ))}
         </section>
+      )}
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={project.images}
+          startIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
       )}
 
       <div className="detail__body">

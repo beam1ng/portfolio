@@ -186,34 +186,6 @@ public static class PortfolioSeeder
             ],
         });
 
-        var languages = new SkillCategory
-        {
-            Name = "Languages",
-            Slug = "languages",
-            SortOrder = 0,
-            Skills =
-            [
-                new Skill { Name = "C#", Level = ProficiencyLevel.Advanced, SortOrder = 0 },
-                new Skill { Name = "TypeScript", Level = ProficiencyLevel.Advanced, SortOrder = 1 },
-                new Skill { Name = "Python", Level = ProficiencyLevel.Advanced, SortOrder = 2 },
-                new Skill { Name = "SQL", Level = ProficiencyLevel.Intermediate, SortOrder = 3 },
-            ],
-        };
-        var frameworks = new SkillCategory
-        {
-            Name = "Frameworks",
-            Slug = "frameworks",
-            SortOrder = 1,
-            Skills =
-            [
-                new Skill { Name = "ASP.NET Core", Level = ProficiencyLevel.Advanced, SortOrder = 0 },
-                new Skill { Name = "React", Level = ProficiencyLevel.Advanced, SortOrder = 1 },
-                new Skill { Name = "Vue 3", Level = ProficiencyLevel.Advanced, SortOrder = 2 },
-                new Skill { Name = "Entity Framework Core", Level = ProficiencyLevel.Intermediate, SortOrder = 3 },
-            ],
-        };
-        db.SkillCategories.AddRange(languages, frameworks);
-
         await db.SaveChangesAsync(cancellationToken);
     }
 }

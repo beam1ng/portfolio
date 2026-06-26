@@ -19,7 +19,6 @@ public static class AdminEndpoints
 
         admin.MapProjectAdmin();
         admin.MapTechnologyAdmin();
-        admin.MapSkillAdmin();
         admin.MapProfileAdmin();
         admin.MapExperienceAdmin();
         admin.MapEducationAdmin();
@@ -188,111 +187,6 @@ public static class AdminEndpoints
             await repo.DeleteAsync(id, ct)
                 ? Results.Ok(ApiResponse<bool>.Ok(true))
                 : NotFound<bool>($"Technology {id} not found."));
-    }
-
-    private static void MapSkillAdmin(this RouteGroupBuilder admin)
-    {
-        admin.MapGet("/skills", async (ISkillCategoryRepository repo, CancellationToken ct) =>
-        {
-            var all = await repo.ListWithSkillsAsync(ct);
-            return Results.Ok(ApiResponse<IReadOnlyList<SkillCategoryDto>>.Ok(all.Select(c => c.ToDto()).ToList()));
-        });
-
-        admin.MapPost("/skill-categories", async (UpsertSkillCategoryRequest request, ISkillCategoryRepository repo, CancellationToken ct) =>
-        {
-            var error = new UpsertSkillCategoryRequestValidator().Check(request);
-            if (error is not null)
-            {
-                return BadRequest<SkillCategoryDto>(error);
-            }
-
-            if (await repo.SlugExistsAsync(request.Slug, null, ct))
-            {
-                return Conflict<SkillCategoryDto>($"Slug '{request.Slug}' is already in use.");
-            }
-
-            var category = request.ToEntity();
-            await repo.AddAsync(category, ct);
-            await repo.SaveChangesAsync(ct);
-            return Results.Created("/api/v1/skills", ApiResponse<SkillCategoryDto>.Ok(category.ToDto()));
-        });
-
-        admin.MapPut("/skill-categories/{id:guid}", async (Guid id, UpsertSkillCategoryRequest request, ISkillCategoryRepository repo, CancellationToken ct) =>
-        {
-            var error = new UpsertSkillCategoryRequestValidator().Check(request);
-            if (error is not null)
-            {
-                return BadRequest<SkillCategoryDto>(error);
-            }
-
-            var existing = await repo.GetByIdAsync(id, ct);
-            if (existing is null)
-            {
-                return NotFound<SkillCategoryDto>($"Skill category {id} not found.");
-            }
-
-            if (await repo.SlugExistsAsync(request.Slug, id, ct))
-            {
-                return Conflict<SkillCategoryDto>($"Slug '{request.Slug}' is already in use.");
-            }
-
-            request.ApplyTo(existing);
-            await repo.SaveChangesAsync(ct);
-            return Results.Ok(ApiResponse<SkillCategoryDto>.Ok(existing.ToDto()));
-        });
-
-        admin.MapDelete("/skill-categories/{id:guid}", async (Guid id, ISkillCategoryRepository repo, CancellationToken ct) =>
-            await repo.DeleteAsync(id, ct)
-                ? Results.Ok(ApiResponse<bool>.Ok(true))
-                : NotFound<bool>($"Skill category {id} not found."));
-
-        admin.MapPost("/skills", async (UpsertSkillRequest request, ISkillRepository repo, CancellationToken ct) =>
-        {
-            var error = new UpsertSkillRequestValidator().Check(request);
-            if (error is not null)
-            {
-                return BadRequest<SkillDto>(error);
-            }
-
-            if (!await repo.CategoryExistsAsync(request.SkillCategoryId, ct))
-            {
-                return BadRequest<SkillDto>($"Skill category {request.SkillCategoryId} does not exist.");
-            }
-
-            var skill = request.ToEntity();
-            await repo.AddAsync(skill, ct);
-            await repo.SaveChangesAsync(ct);
-            return Results.Created("/api/v1/skills", ApiResponse<SkillDto>.Ok(skill.ToDto()));
-        });
-
-        admin.MapPut("/skills/{id:guid}", async (Guid id, UpsertSkillRequest request, ISkillRepository repo, CancellationToken ct) =>
-        {
-            var error = new UpsertSkillRequestValidator().Check(request);
-            if (error is not null)
-            {
-                return BadRequest<SkillDto>(error);
-            }
-
-            var existing = await repo.GetByIdAsync(id, ct);
-            if (existing is null)
-            {
-                return NotFound<SkillDto>($"Skill {id} not found.");
-            }
-
-            if (!await repo.CategoryExistsAsync(request.SkillCategoryId, ct))
-            {
-                return BadRequest<SkillDto>($"Skill category {request.SkillCategoryId} does not exist.");
-            }
-
-            request.ApplyTo(existing);
-            await repo.SaveChangesAsync(ct);
-            return Results.Ok(ApiResponse<SkillDto>.Ok(existing.ToDto()));
-        });
-
-        admin.MapDelete("/skills/{id:guid}", async (Guid id, ISkillRepository repo, CancellationToken ct) =>
-            await repo.DeleteAsync(id, ct)
-                ? Results.Ok(ApiResponse<bool>.Ok(true))
-                : NotFound<bool>($"Skill {id} not found."));
     }
 
     private static void MapProfileAdmin(this RouteGroupBuilder admin)

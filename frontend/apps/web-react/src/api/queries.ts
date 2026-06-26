@@ -5,7 +5,6 @@ import type {
   Profile,
   ProjectDetail,
   ProjectSummary,
-  SkillCategory,
   Technology,
 } from '@portfolio/api-client';
 import { api } from '../lib/apiClient';
@@ -15,7 +14,6 @@ export const queryKeys = {
   profile: ['profile'] as const,
   projects: (featured: boolean) => ['projects', { featured }] as const,
   project: (slug: string) => ['project', slug] as const,
-  skills: ['skills'] as const,
   technologies: ['technologies'] as const,
   experience: ['experience'] as const,
   education: ['education'] as const,
@@ -40,13 +38,6 @@ export function useProject(slug: string): UseQueryResult<ProjectDetail> {
     queryKey: queryKeys.project(slug),
     queryFn: ({ signal }) => api.getProject(slug, signal),
     enabled: slug.length > 0,
-  });
-}
-
-export function useSkills(): UseQueryResult<readonly SkillCategory[]> {
-  return useQuery({
-    queryKey: queryKeys.skills,
-    queryFn: ({ signal }) => api.listSkills(signal),
   });
 }
 

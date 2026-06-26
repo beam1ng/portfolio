@@ -16,8 +16,6 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options)
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<Technology> Technologies => Set<Technology>();
     public DbSet<ProjectTechnology> ProjectTechnologies => Set<ProjectTechnology>();
-    public DbSet<SkillCategory> SkillCategories => Set<SkillCategory>();
-    public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<ExperienceItem> ExperienceItems => Set<ExperienceItem>();
     public DbSet<EducationItem> EducationItems => Set<EducationItem>();
 
