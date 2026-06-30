@@ -1,5 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { useIsAdmin } from '../../auth/useAuth';
+import { isStatic } from '../../lib/apiClient';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
@@ -10,6 +12,8 @@ const NAV_ITEMS = [
 ] as const;
 
 export function SiteHeader() {
+  const isAdmin = useIsAdmin();
+
   return (
     <header className="site-header">
       <div className="container site-header__inner">
@@ -25,6 +29,23 @@ export function SiteHeader() {
             </NavLink>
           ))}
           <ThemeToggle />
+          {/* Admin affordances only exist in the full build; the static deploy
+              ships no admin surface, so there is nothing to link to. */}
+          {!isStatic &&
+            (isAdmin ? (
+              <span className="nav__admin">
+                <span className="nav__admin-badge" title="You are signed in as admin">
+                  Admin mode
+                </span>
+                <Link to="/admin" className="nav__link nav__admin-panel">
+                  Panel
+                </Link>
+              </span>
+            ) : (
+              <Link to="/admin/login" className="nav__admin-link" title="Admin login">
+                Admin
+              </Link>
+            ))}
         </nav>
       </div>
     </header>

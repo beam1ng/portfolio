@@ -1,10 +1,12 @@
-import { Fragment, useMemo, useRef, useState, type MouseEvent } from 'react';
+import { Fragment, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import type { Technology } from '@portfolio/api-client';
 import { useProjects, useTechnologies } from '../api/queries';
 import { SkillMeter } from '../components/skills/SkillMeter';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { projectsUsingTech } from '../lib/crossref';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { useSkillNavParams } from '../debug/DebugContext';
+import { compileEasing } from '../debug/easing';
 import './pages.css';
 
 const ALL = 'All';
@@ -39,18 +41,13 @@ export function SkillsPage() {
   const selected = filters.includes(active) ? active : ALL;
 
   // Dock-style magnification driven by the cursor's X position over a generous
-  // zone: the closest inactive filter grows most and the effect tapers off with
+  // zone: the nearest inactive filter grows most and the effect tapers off with
   // distance, so options are easy to aim at even when the cursor is above/below
-  // the text. The active filter is excluded — it stays fixed.
-  const RADIUS = 110; // px on each side of the cursor that the effect reaches
-  const PLATEAU = 55; // within this distance the boost stays at full (flat top)
-  // All sizing is expressed through transform: scale() on a constant font-size,
-  // so glyphs never re-rasterise mid-animation (no jitter).
-  const ACTIVE_SCALE = 1.18; // selected category reads largest
-  const INACTIVE_SCALE = 0.9; // off categories rest a little smaller
-  const MAX_BOOST = 0.22; // hover adds up to this on top of the rest scale
-  const VERT_TOL = 24; // vertical hit tolerance, so the row magnifies even when
-  // the cursor sits above/below the glyphs — but a wrapped second row does not.
+  // the text. The active filter is excluded — it stays fixed. All sizing is via
+  // transform: scale() on a constant font-size (no jitter). Parameters and the
+  // falloff curve are live-tunable from the admin debug sidebar.
+  const params = useSkillNavParams();
+  const easing = useMemo(() => compileEasing(params.easing), [params.easing]);
   type Center = { x: number; y: number };
   const itemRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
   const centers = useRef<Center[]>([]);
@@ -79,17 +76,64 @@ export function SkillsPage() {
   };
 
   const scaleFor = (index: number, filter: string): number => {
-    if (filter === selected) return ACTIVE_SCALE; // never magnified, just largest
-    if (pointer === null) return INACTIVE_SCALE;
+    const { activeScale, inactiveScale, maxBoost, radius, plateau, vertTol } = params;
+    if (filter === selected) return activeScale; // never magnified, just largest
+    if (pointer === null) return inactiveScale;
     const center = centers.current[index];
-    if (!center || !Number.isFinite(center.x)) return INACTIVE_SCALE;
-    if (Math.abs(pointer.y - center.y) > VERT_TOL) return INACTIVE_SCALE; // other row
+    if (!center || !Number.isFinite(center.x)) return inactiveScale;
+    if (Math.abs(pointer.y - center.y) > vertTol) return inactiveScale; // other row
     const distance = Math.abs(pointer.x - center.x);
-    if (distance >= RADIUS) return INACTIVE_SCALE;
-    if (distance <= PLATEAU) return INACTIVE_SCALE + MAX_BOOST; // flat max zone
-    const e = (distance - PLATEAU) / (RADIUS - PLATEAU); // 0..1 past the plateau
-    const fall = 1 - e * e * (3 - 2 * e); // smoothstep falloff to 0
-    return INACTIVE_SCALE + MAX_BOOST * fall;
+    if (distance >= radius) return inactiveScale;
+    if (distance <= plateau) return inactiveScale + maxBoost; // flat max zone
+    const span = Math.max(1, radius - plateau);
+    const x = (distance - plateau) / span; // 0..1 past the plateau
+    const raw = easing.fn(x);
+    const fall = Number.isFinite(raw) ? raw : 0; // guard pathological curves
+    return Math.min(3, Math.max(0.2, inactiveScale + maxBoost * fall)); // clamp sane
+  };
+
+  // The category a click at the cursor would land on: the nearest inactive
+  // centre within the active row and reach. Drives an extra colour cue.
+  // Nearest category centre to a point, within the same row (vertTol) and an
+  // optional max distance. Drives both the colour cue and click-to-nearest.
+  const nearestIndex = (px: number, py: number, maxDistance: number): number => {
+    let best = -1;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    filters.forEach((_filter, index) => {
+      const center = centers.current[index];
+      if (!center || !Number.isFinite(center.x)) return;
+      if (Math.abs(py - center.y) > params.vertTol) return;
+      const distance = Math.abs(px - center.x);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = index;
+      }
+    });
+    return bestDistance <= maxDistance ? best : -1;
+  };
+
+  // The category a click at the cursor would select (the "step" target).
+  const winnerIndex = pointer ? nearestIndex(pointer.x, pointer.y, params.radius) : -1;
+
+  // Brightness blends two signals by a ratio: the shared curve and a step that
+  // is 1 only for the click-target category. colorStepMix is the step's weight.
+  const brightnessFor = (index: number, scale: number): number => {
+    const { inactiveScale, maxBoost, colorStepMix } = params;
+    const curve = maxBoost > 0 ? Math.min(1, Math.max(0, (scale - inactiveScale) / maxBoost)) : 0;
+    const step = index === winnerIndex ? 1 : 0;
+    return Math.min(1, Math.max(0, (1 - colorStepMix) * curve + colorStepMix * step));
+  };
+
+  // Clicking anywhere in the row (gaps and separators included) selects the
+  // nearest category, so the cue's click target is exactly what gets chosen.
+  const onNavClick = (event: MouseEvent<HTMLElement>) => {
+    if ((event.target as HTMLElement).closest('.skill-filter__item')) return; // a button handles its own click
+    measureCenters();
+    const index = nearestIndex(event.clientX, event.clientY, Number.POSITIVE_INFINITY);
+    if (index >= 0) {
+      const filter = filters[index];
+      if (filter) setActive(filter);
+    }
   };
 
   const shown = (selected === ALL ? technologies : technologies.filter((tech) => domainsOf(tech).includes(selected)))
@@ -112,6 +156,8 @@ export function SkillsPage() {
           <nav
             className="skill-filter"
             aria-label="Filter skills by area"
+            style={{ '--skill-tr': `${params.transitionMs}ms` } as CSSProperties}
+            onClick={onNavClick}
             onMouseEnter={measureCenters}
             onMouseMove={onPointerMove}
             onMouseLeave={onPointerLeave}
@@ -119,6 +165,7 @@ export function SkillsPage() {
             {filters.map((filter, index) => {
               const isActive = selected === filter;
               const scale = scaleFor(index, filter);
+              const t = isActive ? 1 : brightnessFor(index, scale);
               return (
                 <Fragment key={filter}>
                   {index > 0 && <span className="skill-filter__sep" aria-hidden="true">/</span>}
@@ -133,7 +180,10 @@ export function SkillsPage() {
                     onClick={() => setActive(filter)}
                     style={{
                       transform: `scale(${scale})`,
-                      color: !isActive && scale > 0.98 ? 'var(--color-text)' : undefined,
+                      color: isActive
+                        ? undefined
+                        : `color-mix(in oklch, var(--color-text), var(--color-text-muted) ${((1 - t) * 100).toFixed(1)}%)`,
+                      opacity: isActive ? undefined : 0.7 + 0.3 * t,
                     }}
                   >
                     {filter}

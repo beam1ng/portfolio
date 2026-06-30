@@ -14,6 +14,7 @@ export type {
   ProjectDetail,
   ExperienceItem,
   EducationItem,
+  Testimonial,
   UpsertProjectTechnology,
   UpsertProjectImage,
   UpsertProjectRequest,
@@ -21,4 +22,5 @@ export type {
   UpsertProfileRequest,
   UpsertExperienceRequest,
   UpsertEducationRequest,
+  UpsertTestimonialRequest,
 } from './types.js';

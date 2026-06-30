@@ -130,6 +130,23 @@ public static class ContentImporter
             });
         }
 
+        var testimonialOrder = 0;
+        foreach (var testimonial in content.Testimonials ?? [])
+        {
+            db.Testimonials.Add(new Testimonial
+            {
+                Author = testimonial.Author,
+                Role = testimonial.Role,
+                Company = testimonial.Company,
+                Relationship = testimonial.Relationship,
+                Quote = testimonial.Quote,
+                AvatarUrl = testimonial.AvatarUrl,
+                SourceUrl = testimonial.SourceUrl,
+                ReceivedDate = ParseDate(testimonial.ReceivedDate),
+                SortOrder = testimonialOrder++,
+            });
+        }
+
         db.Technologies.AddRange(technologies.Values);
         await db.SaveChangesAsync(cancellationToken);
     }
@@ -152,7 +169,8 @@ public static class ContentImporter
         IReadOnlyList<ContentProject>? Projects,
         IReadOnlyList<ContentTechnology>? Technologies,
         IReadOnlyList<ContentExperience>? Experience,
-        IReadOnlyList<ContentEducation>? Education);
+        IReadOnlyList<ContentEducation>? Education,
+        IReadOnlyList<ContentTestimonial>? Testimonials);
 
     private sealed record ContentExperience(
         string Company,
@@ -169,6 +187,16 @@ public static class ContentImporter
         string? StartDate,
         string? EndDate,
         string? Url);
+
+    private sealed record ContentTestimonial(
+        string Author,
+        string? Role,
+        string? Company,
+        string? Relationship,
+        string Quote,
+        string? AvatarUrl,
+        string? SourceUrl,
+        string? ReceivedDate);
 
     private sealed record ContentProfile(
         string FullName,

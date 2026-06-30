@@ -5,11 +5,13 @@ import type {
   ProjectDetail,
   ProjectSummary,
   Technology,
+  Testimonial,
   UpsertEducationRequest,
   UpsertExperienceRequest,
   UpsertProfileRequest,
   UpsertProjectRequest,
   UpsertTechnologyRequest,
+  UpsertTestimonialRequest,
 } from '@portfolio/api-client';
 import { api } from '../lib/apiClient';
 
@@ -19,6 +21,7 @@ export const adminKeys = {
   technologies: ['admin', 'technologies'] as const,
   experience: ['admin', 'experience'] as const,
   education: ['admin', 'education'] as const,
+  testimonials: ['admin', 'testimonials'] as const,
 };
 
 // ---- Queries ----
@@ -36,6 +39,27 @@ export function useAdminProject(id: string): UseQueryResult<ProjectDetail> {
 
 export function useAdminTechnologies(): UseQueryResult<readonly Technology[]> {
   return useQuery({ queryKey: adminKeys.technologies, queryFn: ({ signal }) => api.admin.listTechnologies(signal) });
+}
+
+export function useAdminTestimonials(): UseQueryResult<readonly Testimonial[]> {
+  return useQuery({ queryKey: adminKeys.testimonials, queryFn: ({ signal }) => api.admin.listTestimonials(signal) });
+}
+
+export function useTestimonialMutations() {
+  const invalidate = useInvalidateAll();
+  const create = useMutation({
+    mutationFn: (body: UpsertTestimonialRequest) => api.admin.createTestimonial(body),
+    onSuccess: invalidate,
+  });
+  const update = useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpsertTestimonialRequest }) => api.admin.updateTestimonial(id, body),
+    onSuccess: invalidate,
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => api.admin.deleteTestimonial(id),
+    onSuccess: invalidate,
+  });
+  return { create, update, remove };
 }
 
 

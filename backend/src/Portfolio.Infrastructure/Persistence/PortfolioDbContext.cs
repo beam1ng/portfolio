@@ -18,6 +18,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options)
     public DbSet<ProjectTechnology> ProjectTechnologies => Set<ProjectTechnology>();
     public DbSet<ExperienceItem> ExperienceItems => Set<ExperienceItem>();
     public DbSet<EducationItem> EducationItems => Set<EducationItem>();
+    public DbSet<Testimonial> Testimonials => Set<Testimonial>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

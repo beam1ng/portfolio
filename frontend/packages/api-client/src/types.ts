@@ -98,6 +98,21 @@ export interface EducationItem {
   sortOrder: number;
 }
 
+/** A recommendation / testimonial (e.g. a LinkedIn recommendation). */
+export interface Testimonial {
+  id: string;
+  author: string;
+  role: string | null;
+  company: string | null;
+  relationship: string | null;
+  quote: string;
+  avatarUrl: string | null;
+  sourceUrl: string | null;
+  /** ISO date (yyyy-MM-dd) the recommendation was given, or null. */
+  receivedDate: string | null;
+  sortOrder: number;
+}
+
 // ---- Static hosting ----
 /** The whole portfolio baked into one JSON file for static (no-API) hosting. */
 export interface PortfolioContent {
@@ -106,6 +121,7 @@ export interface PortfolioContent {
   technologies: readonly Technology[];
   experience: readonly ExperienceItem[];
   education: readonly EducationItem[];
+  testimonials: readonly Testimonial[];
 }
 
 // ---- Auth ----
@@ -184,5 +200,17 @@ export interface UpsertEducationRequest {
   startDate: string | null;
   endDate: string | null;
   url: string | null;
+  sortOrder: number;
+}
+
+export interface UpsertTestimonialRequest {
+  author: string;
+  role: string | null;
+  company: string | null;
+  relationship: string | null;
+  quote: string;
+  avatarUrl: string | null;
+  sourceUrl: string | null;
+  receivedDate: string | null;
   sortOrder: number;
 }

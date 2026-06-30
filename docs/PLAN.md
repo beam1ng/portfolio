@@ -147,7 +147,9 @@ Frontend uses **pnpm workspaces** so multiple FE apps share packages.
    coverage; see [`TESTING.md`](TESTING.md).
 8. **UX/UI + content audit** — visual consistency review, responsive QA,
    design-token cleanup, and content-depth analysis for richer case studies and
-   additional portfolio content types.
+   additional portfolio content types. Added so far: experience & education
+   timelines, and a Testimonials content type (LinkedIn-style recommendations)
+   with admin CRUD, a Résumé "Recommendations" section, and content.json export.
 
 ## 12. Open Items
 

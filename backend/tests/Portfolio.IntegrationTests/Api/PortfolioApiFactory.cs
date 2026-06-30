@@ -19,6 +19,7 @@ public sealed class PortfolioApiFactory : WebApplicationFactory<Program>
     public FakeProjectRepository Projects { get; } = new();
     public FakeExperienceRepository Experience { get; } = new();
     public FakeEducationRepository Education { get; } = new();
+    public FakeTestimonialRepository Testimonials { get; } = new();
 
     /// <summary>Throwaway directory the upload endpoint writes to during tests.</summary>
     public string UploadsPath { get; } =
@@ -44,6 +45,7 @@ public sealed class PortfolioApiFactory : WebApplicationFactory<Program>
             services.AddSingleton<IProjectRepository>(Projects);
             services.AddSingleton<IExperienceRepository>(Experience);
             services.AddSingleton<IEducationRepository>(Education);
+            services.AddSingleton<ITestimonialRepository>(Testimonials);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = TestAuthHandler.SchemeName;
@@ -204,6 +206,43 @@ public sealed class FakeEducationRepository : IEducationRepository
         Task.FromResult(_items.FirstOrDefault(e => e.Id == id));
 
     public Task AddAsync(EducationItem item, CancellationToken cancellationToken)
+    {
+        _items.Add(item);
+        return Task.CompletedTask;
+    }
+
+    public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var item = _items.FirstOrDefault(e => e.Id == id);
+        if (item is null)
+        {
+            return Task.FromResult(false);
+        }
+
+        _items.Remove(item);
+        return Task.FromResult(true);
+    }
+
+    public Task SaveChangesAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+}
+
+public sealed class FakeTestimonialRepository : ITestimonialRepository
+{
+    private readonly List<Testimonial> _items = [];
+
+    public void Reset(params Testimonial[] items)
+    {
+        _items.Clear();
+        _items.AddRange(items);
+    }
+
+    public Task<IReadOnlyList<Testimonial>> ListAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<Testimonial>>(_items.OrderBy(e => e.SortOrder).ToList());
+
+    public Task<Testimonial?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
+        Task.FromResult(_items.FirstOrDefault(e => e.Id == id));
+
+    public Task AddAsync(Testimonial item, CancellationToken cancellationToken)
     {
         _items.Add(item);
         return Task.CompletedTask;

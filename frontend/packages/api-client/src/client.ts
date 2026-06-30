@@ -3,6 +3,7 @@ import type {
   AuthUser,
   EducationItem,
   ExperienceItem,
+  Testimonial,
   ImageUploadResult,
   Profile,
   ProjectDetail,
@@ -11,6 +12,7 @@ import type {
   UpsertProfileRequest,
   UpsertEducationRequest,
   UpsertExperienceRequest,
+  UpsertTestimonialRequest,
   UpsertProjectRequest,
   UpsertTechnologyRequest,
 } from './types.js';
@@ -46,6 +48,11 @@ export interface AdminClient {
   updateExperience(id: string, body: UpsertExperienceRequest): Promise<ExperienceItem>;
   deleteExperience(id: string): Promise<boolean>;
 
+  listTestimonials(signal?: AbortSignal): Promise<readonly Testimonial[]>;
+  createTestimonial(body: UpsertTestimonialRequest): Promise<Testimonial>;
+  updateTestimonial(id: string, body: UpsertTestimonialRequest): Promise<Testimonial>;
+  deleteTestimonial(id: string): Promise<boolean>;
+
   listEducation(signal?: AbortSignal): Promise<readonly EducationItem[]>;
   createEducation(body: UpsertEducationRequest): Promise<EducationItem>;
   updateEducation(id: string, body: UpsertEducationRequest): Promise<EducationItem>;
@@ -71,6 +78,7 @@ export interface PortfolioClient {
   listTechnologies(signal?: AbortSignal): Promise<readonly Technology[]>;
   listExperience(signal?: AbortSignal): Promise<readonly ExperienceItem[]>;
   listEducation(signal?: AbortSignal): Promise<readonly EducationItem[]>;
+  listTestimonials(signal?: AbortSignal): Promise<readonly Testimonial[]>;
   readonly auth: AuthClient;
   readonly admin: AdminClient;
 }
@@ -175,6 +183,11 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
     updateExperience: (id, body) => request<ExperienceItem>(`${base}/admin/experience/${id}`, { method: 'PUT', body }),
     deleteExperience: (id) => request<boolean>(`${base}/admin/experience/${id}`, { method: 'DELETE' }),
 
+    listTestimonials: (signal) => request<readonly Testimonial[]>(`${base}/admin/testimonials`, { signal }),
+    createTestimonial: (body) => request<Testimonial>(`${base}/admin/testimonials`, { method: 'POST', body }),
+    updateTestimonial: (id, body) => request<Testimonial>(`${base}/admin/testimonials/${id}`, { method: 'PUT', body }),
+    deleteTestimonial: (id) => request<boolean>(`${base}/admin/testimonials/${id}`, { method: 'DELETE' }),
+
     listEducation: (signal) => request<readonly EducationItem[]>(`${base}/admin/education`, { signal }),
     createEducation: (body) => request<EducationItem>(`${base}/admin/education`, { method: 'POST', body }),
     updateEducation: (id, body) => request<EducationItem>(`${base}/admin/education/${id}`, { method: 'PUT', body }),
@@ -202,6 +215,7 @@ export function createPortfolioClient(baseUrl: string): PortfolioClient {
     listTechnologies: (signal) => request<readonly Technology[]>(`${base}/technologies`, { signal }),
     listExperience: (signal) => request<readonly ExperienceItem[]>(`${base}/experience`, { signal }),
     listEducation: (signal) => request<readonly EducationItem[]>(`${base}/education`, { signal }),
+    listTestimonials: (signal) => request<readonly Testimonial[]>(`${base}/testimonials`, { signal }),
     auth,
     admin,
   };

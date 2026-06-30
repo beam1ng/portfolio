@@ -22,6 +22,7 @@ public static class AdminEndpoints
         admin.MapProfileAdmin();
         admin.MapExperienceAdmin();
         admin.MapEducationAdmin();
+        admin.MapTestimonialAdmin();
         admin.MapUploadAdmin();
 
         return admin;
@@ -309,6 +310,53 @@ public static class AdminEndpoints
     }
 
     // ---- envelope helpers ----
+    private static void MapTestimonialAdmin(this RouteGroupBuilder admin)
+    {
+        admin.MapGet("/testimonials", async (ITestimonialRepository repo, CancellationToken ct) =>
+        {
+            var all = await repo.ListAsync(ct);
+            return Results.Ok(ApiResponse<IReadOnlyList<TestimonialDto>>.Ok(all.Select(e => e.ToDto()).ToList()));
+        });
+
+        admin.MapPost("/testimonials", async (UpsertTestimonialRequest request, ITestimonialRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertTestimonialRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<TestimonialDto>(error);
+            }
+
+            var item = request.ToEntity();
+            await repo.AddAsync(item, ct);
+            await repo.SaveChangesAsync(ct);
+            return Results.Created("/api/v1/testimonials", ApiResponse<TestimonialDto>.Ok(item.ToDto()));
+        });
+
+        admin.MapPut("/testimonials/{id:guid}", async (Guid id, UpsertTestimonialRequest request, ITestimonialRepository repo, CancellationToken ct) =>
+        {
+            var error = new UpsertTestimonialRequestValidator().Check(request);
+            if (error is not null)
+            {
+                return BadRequest<TestimonialDto>(error);
+            }
+
+            var existing = await repo.GetByIdAsync(id, ct);
+            if (existing is null)
+            {
+                return NotFound<TestimonialDto>($"Testimonial {id} not found.");
+            }
+
+            request.ApplyTo(existing);
+            await repo.SaveChangesAsync(ct);
+            return Results.Ok(ApiResponse<TestimonialDto>.Ok(existing.ToDto()));
+        });
+
+        admin.MapDelete("/testimonials/{id:guid}", async (Guid id, ITestimonialRepository repo, CancellationToken ct) =>
+            await repo.DeleteAsync(id, ct)
+                ? Results.Ok(ApiResponse<bool>.Ok(true))
+                : NotFound<bool>($"Testimonial {id} not found."));
+    }
+
     private static IResult BadRequest<T>(string message) =>
         Results.BadRequest(ApiResponse<T>.Fail(message));
 

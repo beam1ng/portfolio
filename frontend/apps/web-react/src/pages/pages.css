@@ -188,6 +188,8 @@
   margin-bottom: var(--space-8);
   font-size: var(--text-lg);
   letter-spacing: -0.01em;
+  /* The whole row is clickable: a click in a gap selects the nearest category. */
+  cursor: pointer;
 }
 
 .skill-filter__sep {
@@ -209,7 +211,8 @@
   cursor: pointer;
   transform-origin: center bottom;
   transition: color var(--duration-fast, 150ms) var(--ease-out-expo, ease),
-    transform 120ms var(--ease-out-expo, ease);
+    opacity var(--duration-fast, 150ms) var(--ease-out-expo, ease),
+    transform var(--skill-tr, 120ms) var(--ease-out-expo, ease);
 }
 
 /* Scale is driven inline (dock magnification); the hovered name also brightens. */
@@ -287,6 +290,53 @@
   .skill-filter__item::after {
     transition: none;
   }
+}
+
+/* ---- Recommendations (résumé) ---- */
+.testimonials {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5, 1.5rem);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 14px);
+}
+.testimonial__quote {
+  margin: 0;
+}
+.testimonial__by {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+.testimonial__avatar {
+  border-radius: 999px;
+  object-fit: cover;
+  flex: none;
+}
+.testimonial__byline {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.testimonial__author {
+  margin: 0;
+  font-weight: 600;
+}
+.testimonial__role,
+.testimonial__rel {
+  margin: 0;
+  font-size: var(--text-sm);
 }
 
 /* ---- Project detail ---- */

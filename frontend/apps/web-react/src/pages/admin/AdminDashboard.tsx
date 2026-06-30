@@ -5,6 +5,7 @@ import {
   useAdminExperience,
   useAdminProjects,
   useAdminTechnologies,
+  useAdminTestimonials,
 } from '../../admin/queries';
 import './admin.css';
 
@@ -27,6 +28,7 @@ export function AdminDashboard() {
   const technologies = useAdminTechnologies();
   const experience = useAdminExperience();
   const education = useAdminEducation();
+  const testimonials = useAdminTestimonials();
   const profile = useProfile();
 
   const projectList = projects.data ?? [];
@@ -38,6 +40,7 @@ export function AdminDashboard() {
     { label: 'Technologies', value: technologies.data?.length, to: '/admin/technologies' },
     { label: 'Experience', value: experience.data?.length, to: '/admin/experience' },
     { label: 'Education', value: education.data?.length, to: '/admin/education' },
+    { label: 'Testimonials', value: testimonials.data?.length, to: '/admin/testimonials' },
   ];
 
   // Content-health checks derived from data already loaded for the stat cards.

@@ -71,6 +71,21 @@ public sealed class UpsertExperienceRequestValidator : AbstractValidator<UpsertE
     }
 }
 
+public sealed class UpsertTestimonialRequestValidator : AbstractValidator<UpsertTestimonialRequest>
+{
+    public UpsertTestimonialRequestValidator()
+    {
+        RuleFor(x => x.Author).NotEmpty().MaximumLength(160);
+        RuleFor(x => x.Role).MaximumLength(160);
+        RuleFor(x => x.Company).MaximumLength(160);
+        RuleFor(x => x.Relationship).MaximumLength(240);
+        RuleFor(x => x.Quote).NotEmpty().MaximumLength(4000);
+        RuleFor(x => x.AvatarUrl).MaximumLength(500);
+        RuleFor(x => x.SourceUrl).MaximumLength(500);
+        RuleFor(x => x.SortOrder).GreaterThanOrEqualTo(0);
+    }
+}
+
 public sealed class UpsertEducationRequestValidator : AbstractValidator<UpsertEducationRequest>
 {
     public UpsertEducationRequestValidator()

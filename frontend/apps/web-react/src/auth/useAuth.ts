@@ -1,20 +1,27 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 import { ApiError, type AuthUser } from '@portfolio/api-client';
-import { api } from '../lib/apiClient';
+import { api, isStatic } from '../lib/apiClient';
 
 const ME_KEY = ['auth', 'me'] as const;
 
 /**
  * Resolves the current admin from the auth cookie. A 401 is an expected
- * "logged out" state, not a retryable error.
+ * "logged out" state, not a retryable error. Disabled in static builds, which
+ * ship no API or admin surface.
  */
 export function useCurrentUser(): UseQueryResult<AuthUser> {
   return useQuery({
     queryKey: ME_KEY,
     queryFn: ({ signal }) => api.auth.me(signal),
+    enabled: !isStatic,
     retry: (_count, error) => !(error instanceof ApiError && error.status === 401),
     staleTime: 60_000,
   });
+}
+
+/** True when an admin is authenticated — gates admin-only UI on the public site. */
+export function useIsAdmin(): boolean {
+  return Boolean(useCurrentUser().data);
 }
 
 export function useLogin() {

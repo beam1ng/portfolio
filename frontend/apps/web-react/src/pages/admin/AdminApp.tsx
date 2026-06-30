@@ -8,6 +8,7 @@ import { AdminProjectFormPage } from './AdminProjectFormPage';
 import { AdminTechnologiesPage } from './AdminTechnologiesPage';
 import { AdminExperiencePage } from './AdminExperiencePage';
 import { AdminEducationPage } from './AdminEducationPage';
+import { AdminTestimonialsPage } from './AdminTestimonialsPage';
 import { AdminProfilePage } from './AdminProfilePage';
 
 /**
@@ -28,6 +29,7 @@ export default function AdminApp() {
           <Route path="technologies" element={<AdminTechnologiesPage />} />
           <Route path="experience" element={<AdminExperiencePage />} />
           <Route path="education" element={<AdminEducationPage />} />
+          <Route path="testimonials" element={<AdminTestimonialsPage />} />
           <Route path="profile" element={<AdminProfilePage />} />
         </Route>
       </Route>

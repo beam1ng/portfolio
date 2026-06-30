@@ -1,0 +1,204 @@
+/* Admin-only debug overlay. Fixed above the app, dockable left/right. */
+.debug-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 86vw;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in oklch, var(--color-surface, #111), transparent 4%);
+  border-inline: 1px solid var(--color-border, #333);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  font-size: 0.82rem;
+  color: var(--color-text, #eee);
+}
+.debug-sidebar--left {
+  left: 0;
+}
+.debug-sidebar--right {
+  right: 0;
+}
+
+.debug-sidebar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2, 8px);
+  padding: var(--space-3, 12px);
+  border-bottom: 1px solid var(--color-border, #333);
+}
+.debug-sidebar__title {
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--color-text-muted, #aaa);
+}
+.debug-sidebar__actions {
+  display: flex;
+  gap: 4px;
+}
+
+.debug-iconbtn,
+.debug-btn {
+  appearance: none;
+  border: 1px solid var(--color-border, #333);
+  background: transparent;
+  color: var(--color-text, #eee);
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  line-height: 1;
+}
+.debug-iconbtn {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+}
+.debug-btn {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+}
+.debug-iconbtn:hover,
+.debug-btn:hover {
+  border-color: var(--color-accent, #6cf);
+}
+
+.debug-sidebar__body {
+  overflow-y: auto;
+  padding: var(--space-3, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+}
+
+.debug-section {
+  border: 1px solid var(--color-border, #333);
+  border-radius: var(--radius-sm, 6px);
+  overflow: hidden;
+}
+.debug-section__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: color-mix(in oklch, var(--color-surface, #111), white 4%);
+  border: 0;
+  color: var(--color-text, #eee);
+  font-weight: 600;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: left;
+}
+.debug-section__chevron {
+  transition: transform 120ms ease;
+}
+.debug-section__chevron.is-open {
+  transform: rotate(90deg);
+}
+.debug-section__body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.debug-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.debug-field__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--color-text-muted, #aaa);
+  font-size: 0.74rem;
+}
+.debug-field__value {
+  color: var(--color-text, #eee);
+  font-variant-numeric: tabular-nums;
+}
+.debug-field input[type='range'] {
+  width: 100%;
+  accent-color: var(--color-accent, #6cf);
+}
+.debug-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  background: color-mix(in oklch, var(--color-surface, #111), black 10%);
+  border: 1px solid var(--color-border, #333);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--color-text, #eee);
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+}
+.debug-input.is-invalid {
+  border-color: #e06c6c;
+}
+
+.debug-hint {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--color-text-muted, #999);
+}
+.debug-hint--error {
+  color: #e89090;
+}
+
+.debug-curve {
+  width: 100%;
+  height: auto;
+  background: color-mix(in oklch, var(--color-surface, #111), black 12%);
+  border: 1px solid var(--color-border, #333);
+  border-radius: var(--radius-sm, 6px);
+}
+.debug-curve__axis {
+  stroke: var(--color-border, #444);
+  stroke-width: 1;
+}
+.debug-curve__line {
+  stroke: var(--color-accent, #6cf);
+  stroke-width: 2;
+}
+
+.debug-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Minimized handle: a small tab on the docked edge. */
+.debug-handle {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  writing-mode: vertical-rl;
+  padding: 12px 6px;
+  background: var(--color-surface, #111);
+  color: var(--color-text-muted, #aaa);
+  border: 1px solid var(--color-border, #333);
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.debug-handle--right {
+  right: 0;
+  border-right: 0;
+  border-radius: var(--radius-sm, 6px) 0 0 var(--radius-sm, 6px);
+}
+.debug-handle--left {
+  left: 0;
+  border-left: 0;
+  border-radius: 0 var(--radius-sm, 6px) var(--radius-sm, 6px) 0;
+}
+.debug-handle:hover {
+  color: var(--color-text, #eee);
+  border-color: var(--color-accent, #6cf);
+}

@@ -34,12 +34,13 @@ async function get(path) {
 async function main() {
   console.log(`Exporting content from ${API_BASE} …`);
 
-  const [profile, summaries, technologies, experience, education] = await Promise.all([
+  const [profile, summaries, technologies, experience, education, testimonials] = await Promise.all([
     get('/profile'),
     get('/projects'),
     get('/technologies'),
     get('/experience'),
     get('/education'),
+    get('/testimonials'),
   ]);
 
   // The list endpoint returns summaries; fetch each project's full detail
@@ -49,7 +50,7 @@ async function main() {
     projects.push(await get(`/projects/${encodeURIComponent(summary.slug)}`));
   }
 
-  const content = { profile, projects, technologies, experience, education };
+  const content = { profile, projects, technologies, experience, education, testimonials };
 
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, `${JSON.stringify(content, null, 2)}\n`, 'utf8');
@@ -57,7 +58,8 @@ async function main() {
   console.log(
     `Wrote ${OUT.replace(ROOT + '\\', '').replace(ROOT + '/', '')} — ` +
       `${projects.length} projects, ${technologies.length} technologies, ` +
-      `${experience.length} experience, ${education.length} education.`,
+      `${experience.length} experience, ${education.length} education, ` +
+      `${testimonials.length} testimonials.`,
   );
 }
 

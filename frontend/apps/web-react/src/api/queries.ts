@@ -3,6 +3,7 @@ import type {
   EducationItem,
   ExperienceItem,
   Profile,
+  Testimonial,
   ProjectDetail,
   ProjectSummary,
   Technology,
@@ -17,6 +18,7 @@ export const queryKeys = {
   technologies: ['technologies'] as const,
   experience: ['experience'] as const,
   education: ['education'] as const,
+  testimonials: ['testimonials'] as const,
 };
 
 export function useProfile(): UseQueryResult<Profile> {
@@ -52,6 +54,13 @@ export function useExperience(): UseQueryResult<readonly ExperienceItem[]> {
   return useQuery({
     queryKey: queryKeys.experience,
     queryFn: ({ signal }) => api.listExperience(signal),
+  });
+}
+
+export function useTestimonials(): UseQueryResult<readonly Testimonial[]> {
+  return useQuery({
+    queryKey: queryKeys.testimonials,
+    queryFn: ({ signal }) => api.listTestimonials(signal),
   });
 }
 

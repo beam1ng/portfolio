@@ -13,6 +13,7 @@ public static class PortfolioEndpoints
         v1.MapProjectEndpoints();
         v1.MapTechnologyEndpoints();
         v1.MapResumeEndpoints();
+        v1.MapTestimonialEndpoints();
 
         v1.MapAuthEndpoints();
         v1.MapAdminEndpoints();

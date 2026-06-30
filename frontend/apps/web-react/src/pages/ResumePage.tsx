@@ -1,4 +1,4 @@
-import { useEducation, useExperience, useProfile } from '../api/queries';
+import { useEducation, useExperience, useProfile, useTestimonials } from '../api/queries';
 import { Markdown } from '../components/ui/Markdown';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
@@ -9,6 +9,7 @@ export function ResumePage() {
   const profile = useProfile();
   const experience = useExperience();
   const education = useEducation();
+  const testimonials = useTestimonials();
   useDocumentTitle('Résumé');
 
   if (profile.isPending || experience.isPending || education.isPending) {
@@ -72,6 +73,41 @@ export function ResumePage() {
               </li>
             ))}
           </ol>
+        </section>
+      )}
+
+      {testimonials.data && testimonials.data.length > 0 && (
+        <section className="container section" aria-labelledby="recommendations-heading">
+          <div className="section-head">
+            <h2 className="section-title" id="recommendations-heading">Recommendations</h2>
+          </div>
+          <ul className="testimonials reveal">
+            {testimonials.data.map((item) => (
+              <li key={item.id} className="testimonial">
+                <Markdown className="testimonial__quote">{item.quote}</Markdown>
+                <div className="testimonial__by">
+                  {item.avatarUrl && (
+                    <img className="testimonial__avatar" src={item.avatarUrl} alt="" width={44} height={44} loading="lazy" />
+                  )}
+                  <div className="testimonial__byline">
+                    <p className="testimonial__author">
+                      {item.sourceUrl ? (
+                        <a className="text-link" href={item.sourceUrl} target="_blank" rel="noreferrer noopener">
+                          {item.author}
+                        </a>
+                      ) : (
+                        item.author
+                      )}
+                    </p>
+                    {(item.role || item.company) && (
+                      <p className="testimonial__role muted">{[item.role, item.company].filter(Boolean).join(' · ')}</p>
+                    )}
+                    {item.relationship && <p className="testimonial__rel muted">{item.relationship}</p>}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
